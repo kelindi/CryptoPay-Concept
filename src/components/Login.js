@@ -7,8 +7,7 @@ class Login extends Component {
         this.state = {
             userName: '',
             password:'',
-            failedAttempt: false,
-            loginDB: {"User":"Test"} // have this be a remote DB called in handleLogin in phase 2
+            failedAttempt: false
             }
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -27,15 +26,20 @@ class Login extends Component {
     }
 
     handleLogin(event){
-
+        event.preventDefault()
         //insert actual data base here in phase 2 to check for password
-        if(this.state.loginDB[this.state.userName]===this.state.password){
-            console.log('Success')
+        if(this.props.backend.loginDB[this.state.userName]===this.state.password){
+            const token = this.props.backend.tokenDB[this.state.userName];
+            const currentUser = this.props.backend.userDB[token];
+            this.props.backend.currentUser = currentUser;
+            window.location.replace("/userDashBoard");
             return
         }
+        
+
         this.setState({failedAttempt: true})
 
-        
+
     }
 
     render() {
@@ -47,7 +51,7 @@ class Login extends Component {
                             <label className="block mt-3 text-2xl text-gray-700 text-center font-semibold">
                                 Login
                             </label>
-                            <form onSubmit={this.handleLogin} className="mt-10">
+                            <form className="mt-10" onSubmit = {(e) => {return false}}>
 
                                 <div>
                                     <input value = {this.state.userName} onChange={this.handleUsernameChange} placeholder="Username" className={"mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " + (this.state.failedAttempt ? "border-red-500 border" : "border-none")}/>
@@ -80,16 +84,16 @@ class Login extends Component {
                                 </div>
                     
                                 <div className="mt-7">
-                                    <input type = "submit" value= "Login" className="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-                                        
-                                    </input>
+                                    <button onClick = {this.handleLogin} className="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                                        Login
+                                    </button>
                                 </div>   
 
 
                                 <div className="mt-7">
                                     <div className="flex justify-center items-center">
                                         <label className="mr-2">Don't have an account?</label>
-                                        <a href="#" className=" text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                                        <a href="/register" className=" text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                             Create an account!
                                         </a>
                                     </div>
