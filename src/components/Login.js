@@ -31,11 +31,11 @@ class Login extends Component {
         if(this.props.backend.loginDB[this.state.userName]===this.state.password){
             const token = this.props.backend.tokenDB[this.state.userName];
             const currentUser = this.props.backend.userDB[token];
-            this.props.backend.currentUser = currentUser;
+            this.props.setCurrentUser(currentUser)
             window.location.replace("/userDashBoard");
             return
         }
-        
+
 
         this.setState({failedAttempt: true})
 
@@ -43,6 +43,7 @@ class Login extends Component {
     }
 
     render() {
+
         return (
             <div className="font-sans">
                 <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-grey">

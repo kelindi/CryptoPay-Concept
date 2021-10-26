@@ -4,15 +4,15 @@ import React, { Component } from 'react';
 class UserDashBoard extends Component {
     constructor(props) {
         super(props);
-        
     }
     
     
 
     render() {
-        console.log(this.props)
+        const {currentUser} = this.props
+        console.log(currentUser)
         return (
-            <div key = {this.props.backend} className="font-sans">
+            <div className="font-sans">
                 
             </div>
           );

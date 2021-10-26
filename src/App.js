@@ -12,16 +12,18 @@ class App extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      backend : new Backend
+      backend : new Backend,
+      currentUser: null
     }
-    this.setCurrentUser = this.setCurrentUser.bind(this)
   }
   
 
 
-  setCurrentUser(user){
-    console.log(this)
-    this.setState({currentUser : user})
+
+  setCurrentUser = (user) => {
+    console.log(user)
+    this.setState({currentUser : user}, () => console.log(this.state.currentUser))
+    
   }
 
   render(){
@@ -30,11 +32,11 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             //render login page
-            <Route exact path='/' render={() =>(<Login backend ={this.state.backend} />)}/>
+            <Route exact path='/' render={() =>(<Login backend ={this.state.backend} setCurrentUser = {this.setCurrentUser} />)}/>
             //render registration page
             <Route exact path='/register' render={() =>(<Register backend ={this.state.backend} />)}/>
             //render UserDashBoard
-            <Route exact path='/userDashBoard' render={() =>(<UserDashBoard key = {this.state.backend} backend ={this.state.backend}/>)}/>
+            <Route exact path='/userDashBoard' render={() =>(<UserDashBoard  currentUser ={this.state.currentUser}/>)}/>
 
           </Switch>
         </BrowserRouter>
