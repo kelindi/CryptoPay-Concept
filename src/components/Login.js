@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Redirect } from 'react-router';
 
 class Login extends Component {
     constructor(props) {
@@ -7,7 +7,8 @@ class Login extends Component {
         this.state = {
             userName: '',
             password:'',
-            failedAttempt: false
+            failedAttempt: false,
+            redirect: false
             }
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -32,7 +33,10 @@ class Login extends Component {
             const token = this.props.backend.tokenDB[this.state.userName];
             const currentUser = this.props.backend.userDB[token];
             this.props.setCurrentUser(currentUser)
-            window.location.replace("/userDashBoard");
+            
+
+            //set the redirect to true to enable the redirect
+            this.setState({redirect: true});
             return
         }
 
@@ -43,6 +47,10 @@ class Login extends Component {
     }
 
     render() {
+        // if this.state.redirect is true, redirect to this path
+        if (this.state.redirect) {
+            return <Redirect push to="/userDashBoard" />;
+       }
 
         return (
             <div className="font-sans">
