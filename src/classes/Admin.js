@@ -1,5 +1,5 @@
 class Admin {
-	constructor(firstName, lastName,userName) {
+	constructor(firstName, lastName) {
 		this.firstName = firstName
 		this.lastName= lastName
         

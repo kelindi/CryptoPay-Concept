@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
+import Admin from '../classes/Admin';
 
 class Login extends Component {
     constructor(props) {
@@ -8,7 +9,8 @@ class Login extends Component {
             userName: '',
             password:'',
             failedAttempt: false,
-            redirect: false
+            redirectUser: false,
+            redirectAdmin: false
             }
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -34,10 +36,18 @@ class Login extends Component {
             const currentUser = this.props.backend.userDB[token];
             this.props.setCurrentUser(currentUser)
             
+            if(currentUser instanceof Admin){
+                this.setState({redirectAdmin: true});
+                return
+            }
 
-            //set the redirect to true to enable the redirect
-            this.setState({redirect: true});
-            return
+            else{
+                //set the redirect to true to enable the redirect
+                this.setState({redirectUser: true});
+                return
+            }
+
+            
         }
 
 
@@ -48,8 +58,11 @@ class Login extends Component {
 
     render() {
         // if this.state.redirect is true, redirect to this path
-        if (this.state.redirect) {
+        if (this.state.redirectUser) {
             return <Redirect push to="/userDashBoard" />;
+       }
+       else if (this.state.redirectAdmin){
+           return <Redirect push to = "/adminDashBoard" />;
        }
 
         return (

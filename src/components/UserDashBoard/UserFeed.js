@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-class UserDashBoard extends Component {
+class UserFeed extends Component {
     constructor(props) {
         super(props);
     }
@@ -9,14 +9,13 @@ class UserDashBoard extends Component {
     
 
     render() {
-        const {currentUser} = this.props
-        console.log(currentUser)
+        
         return (
-            <div className="font-sans">
+            <div className = "h-4/5 bg-yellow-300">
                 
             </div>
           );
     }
 }
  
-export default UserDashBoard;
+export default UserFeed;
