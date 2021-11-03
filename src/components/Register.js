@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Backend, { addUser } from "./../classes/Backend";
 
 class Register extends Component {
     constructor(props) {
@@ -13,7 +13,8 @@ class Register extends Component {
             rePassword: '',
             passwordCheck: 'true',
             failedAttempt: false,
-            loginDB: {"User":"Test"} // have this be a remote DB called in handleLogin in phase 2
+            // loginDB: {"User":"Test"} // have this be a remote DB called in handleLogin in phase 2
+            loginDB: {'user':'user','user2':'user2','user3':'user3','user4':'user4','admin':'admin'}
             }
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -56,15 +57,22 @@ class Register extends Component {
         
         //insert actual data base here in phase 2 to check for password
 
-        if(this.state.password != this.state.repassword){
+        if(this.state.password != this.state.rePassword){
             console.log('bad password')
+            // return
+            this.setState({failedAttempt: true})
+            return
+        }
+        else{
+            this.props.backend.addUser(this.state.firstName, this.state.lastName, this.state.userName, this.state.password)
+            console.log(this.props.backend.loginDB)
             return
         }
 
         // if(this.state.userName in log)
 
 
-        this.setState({failedAttempt: true})
+        
 
         
 
@@ -130,7 +138,7 @@ class Register extends Component {
                     
                                 <div className="mt-7">
                                     <input type = "submit" value= "Register" className="bg-green-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-                                    
+                                    {/* <input type = "button" value= "Register" className="bg-green-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105" onClick={this.handleLogin}> */}
                                     </input>
                                 </div>   
                                 

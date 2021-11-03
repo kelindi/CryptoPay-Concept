@@ -15,11 +15,32 @@ class Backend {
         this.loginDB = {'user':'user','user2':'user2','user3':'user3','user4':'user4','admin':'admin'}
         this.tokenDB = {'user':this.u1,'user2':this.u2,'user3':this.u3,'user4':this.u4,'admin':this.adminID}
         this.userDB = {[this.u1]:this.user1, [this.u2]: this.user2, [this.u3]: this.user3, [this.u4]:this.user4, [this.adminID]:"Not made yet"}
+        console.log(this.loginDB)
     }
-	};
+	;
 
-    
+    addUser = (firstName, lastName, username, password) => {
+        console.log(this.loginDB)
+        let uid = uuid()
+        this.loginDB[username] = password
+        // this.loginDB.push({
+        //     key: username,
+        //     value: password
+        // });
+        this.tokenDB[username] = uid
+        // this.tokenDB.push({
+        //     key: username,
+        //     value: uid
+        // });
+        this.userDB[[uid]] = new User(firstName, lastName, username, 0, '') //keeping default balance as 0 and no default wallet.
+        // this.userDB.push({
+        //     key: [uid],
+        //     value: new User(firstName, lastName, username, 0, '') //keeping default balance as 0 and no default wallet.
+        // });
+        console.log(this.loginDB)
+        
+    }
+    }
 	    
-
 
 export default Backend
