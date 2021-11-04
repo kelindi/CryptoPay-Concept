@@ -30,13 +30,13 @@ class App extends React.Component {
 
         <BrowserRouter>
           <Switch>
-            //render login page}
+            
             <Route exact path='/' render={() =>(<Login backend ={this.state.backend} setCurrentUser = {this.setCurrentUser} />)}/>
-            //render registration page
+            
             <Route exact path='/register' render={() =>(<Register backend ={this.state.backend} />)}/>
-            //render UserDashBoard
+            
             <Route exact path='/userDashBoard' render={() =>(<UserDashBoard backend ={this.state.backend} currentUser ={this.state.currentUser}/>)}/>
-            //render AdminDashBoard
+            
             <Route exact path='/adminDashBoard' render={() =>(<AdminDashBoard backend ={this.state.backend} currentUser ={this.state.currentUser}/>)}/>
           </Switch>
         </BrowserRouter>

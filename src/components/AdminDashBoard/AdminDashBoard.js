@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Transaction from '../../classes/Transaction';
 
 
 class AdminDashBoard extends Component {
@@ -9,10 +10,17 @@ class AdminDashBoard extends Component {
     
 
     render() {
-        const {currentUser} = this.props
+        const {backend} = this.props
+        const transactions = backend.transactions
+        const moneyRequests = backend.moneyRequests
+        
         
         return (
             <div className="font-sans">
+                {transactions.map((transaction) =>
+                    <div key={transaction.id}>
+                    {transaction.date} </div>
+      )}
             </div>
           );
     }

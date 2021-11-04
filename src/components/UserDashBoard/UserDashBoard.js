@@ -5,10 +5,6 @@ import UserHeader from './UserHeader';
 
 
 class UserDashBoard extends Component {
-    constructor(props) {
-        super(props);
-    }
-    
     
 
     render() {

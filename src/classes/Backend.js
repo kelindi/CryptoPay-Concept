@@ -20,7 +20,8 @@ class Backend {
         this.loginDB = {'user':'user','user2':'user2','user3':'user3','user4':'user4','admin':'admin'}
         this.tokenDB = {'user':this.u1,'user2':this.u2,'user3':this.u3,'user4':this.u4,'admin':this.adminID}
         this.userDB = {[this.u1]:this.user1, [this.u2]: this.user2, [this.u3]: this.user3, [this.u4]:this.user4, [this.adminID]:this.admin}
-        
+        this.transactions = []
+        this.moneyRequests = []
         //set profile pictures
         this.user1.profilePicture = "/src/images/profilePictures/pf1.jpg"
         this.user2.profilePicture = "/src/images/profilePictures/pf2.jpg"
@@ -29,17 +30,40 @@ class Backend {
 
 
         // add transactions to user1
-        this.user1.requests.push(new MoneyRequest(this.user1,this.user2,100,"10-01-2021"))
-        this.user1.requests.push(new MoneyRequest(this.user1,this.user3,100,"10-02-2021"))
-        this.user1.transactions.push(new Transaction(this.user1,this.user2,100,'9-02-2021','13:20'))
-        this.user1.transactions.push(new Transaction(this.user1,this.user2,102,'9-14-2021','14:20'))
-        this.user1.transactions.push(new Transaction(this.user1,this.user2,103,'9-17-2021','9:20'))
-        this.user1.transactions.push(new Transaction(this.user1,this.user3,100,'9-18-2021','13:20'))
-        this.user1.transactions.push(new Transaction(this.user1,this.user3,102,'9-19-2021','14:20'))
-        this.user1.transactions.push(new Transaction(this.user1,this.user3,103,'9-20-2021','9:20'))
-        this.user1.transactions.push(new Transaction(this.user2,this.user1,100,'9-21-2021','13:20'))
-        this.user1.transactions.push(new Transaction(this.user2,this.user1,100,'9-22-2021','13:20'))
-        this.user1.transactions.push(new Transaction(this.user2,this.user1,100,'9-23-2021','13:20'))
+        this.tr1 = new Transaction(this.user1,this.user2,100,'9-02-2021','13:20')
+        this.tr2 = new Transaction(this.user1,this.user2,102,'9-14-2021','14:20')
+        this.tr3 = new Transaction(this.user1,this.user2,103,'9-17-2021','9:20')
+        this.tr4 = new Transaction(this.user1,this.user3,100,'9-18-2021','13:20')
+        this.tr5 = new Transaction(this.user1,this.user3,102,'9-19-2021','14:20')
+        this.tr6 = new Transaction(this.user1,this.user3,103,'9-20-2021','9:20')
+        this.tr7 = new Transaction(this.user2,this.user1,100,'9-21-2021','13:20')
+        this.tr8 = new Transaction(this.user2,this.user1,100,'9-22-2021','13:20')
+        this.tr9 = new Transaction(this.user2,this.user1,100,'9-23-2021','13:20')
+        
+
+
+
+
+        this.mr1 = new MoneyRequest(this.user1,this.user2,100,"10-01-2021")
+        this.mr2 = new MoneyRequest(this.user1,this.user3,100,"10-02-2021")
+        
+        
+        this.moneyRequests.push(this.mr1)
+        this.moneyRequests.push(this.mr2)
+
+
+        this.transactions.push(this.tr1)
+        this.transactions.push(this.tr2)
+        this.transactions.push(this.tr3)
+        this.transactions.push(this.tr4)
+        this.transactions.push(this.tr5)
+        this.transactions.push(this.tr6)
+        this.transactions.push(this.tr7)
+        this.transactions.push(this.tr8)
+        this.transactions.push(this.tr9)
+
+
+
         this.user1.friends.push(this.user2)
         this.user1.friends.push(this.user3)
         this.user1.friendRequests.push(this.user4)
