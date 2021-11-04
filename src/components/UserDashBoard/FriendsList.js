@@ -5,6 +5,7 @@ note: please use camelCaseCase
 Classes need to have CapitalNames
 Have descriptive function names like createSomething
 Comment complex code
+Only do work in your file
 
 
 1. Display all of the user's friends

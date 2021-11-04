@@ -1,9 +1,10 @@
-class moneyRequest {
-	constructor(originUserName, destinationUserName,amount,timestamp) {
+class MoneyRequest {
+	constructor(originUserName, destinationUserName,amount,date) {
 		this.originUserName = originUserName
         this.destinationUserName = destinationUserName
         this.amount = amount
-        this.timestamp = timestamp
+        this.date = date
+		
 	}
 
 	acceptRequest() {
@@ -19,4 +20,4 @@ class moneyRequest {
 	}
 }
 
-export default moneyRequest
+export default MoneyRequest

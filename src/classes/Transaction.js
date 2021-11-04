@@ -1,9 +1,10 @@
 class Transaction {
-	constructor(originUserName, destinationUserName,amount,timestamp) {
+	constructor(originUserName, destinationUserName,amount,date, time) {
 		this.originUserName = originUserName
         this.destinationUserName = destinationUserName
         this.amount = amount
-        this.timestamp = timestamp
+        this.date = date
+		this.time = time
 
 	}
 

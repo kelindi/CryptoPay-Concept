@@ -1,10 +1,12 @@
 import User from "./User"
 import { uuid} from 'uuidv4';
 import Admin from "./Admin";
-import moneyRequest from "./moneyRequest";
+import MoneyRequest from "./MoneyRequest";
+import Transaction from "./Transaction";
 
 class Backend {
 	constructor() {
+        //fill hardcoded database
 		this.u1 = uuid()
         this.u2 = uuid()
         this.u3 = uuid()
@@ -19,7 +21,28 @@ class Backend {
         this.tokenDB = {'user':this.u1,'user2':this.u2,'user3':this.u3,'user4':this.u4,'admin':this.adminID}
         this.userDB = {[this.u1]:this.user1, [this.u2]: this.user2, [this.u3]: this.user3, [this.u4]:this.user4, [this.adminID]:this.admin}
         
-        this.user1.requests.push(new moneyRequest(this.user1,this.user2,100,"10-01-2021"))
+        //set profile pictures
+        this.user1.profilePicture = "/src/images/profilePictures/pf1.jpg"
+        this.user2.profilePicture = "/src/images/profilePictures/pf2.jpg"
+        this.user3.profilePicture = "/src/images/profilePictures/pf3.jpg"
+        this.user4.profilePicture = "/src/images/profilePictures/pf4.jpg"
+
+
+        // add transactions to user1
+        this.user1.requests.push(new MoneyRequest(this.user1,this.user2,100,"10-01-2021"))
+        this.user1.requests.push(new MoneyRequest(this.user1,this.user3,100,"10-02-2021"))
+        this.user1.transactions.push(new Transaction(this.user1,this.user2,100,'9-02-2021','13:20'))
+        this.user1.transactions.push(new Transaction(this.user1,this.user2,102,'9-14-2021','14:20'))
+        this.user1.transactions.push(new Transaction(this.user1,this.user2,103,'9-17-2021','9:20'))
+        this.user1.transactions.push(new Transaction(this.user1,this.user3,100,'9-18-2021','13:20'))
+        this.user1.transactions.push(new Transaction(this.user1,this.user3,102,'9-19-2021','14:20'))
+        this.user1.transactions.push(new Transaction(this.user1,this.user3,103,'9-20-2021','9:20'))
+        this.user1.transactions.push(new Transaction(this.user2,this.user1,100,'9-21-2021','13:20'))
+        this.user1.transactions.push(new Transaction(this.user2,this.user1,100,'9-22-2021','13:20'))
+        this.user1.transactions.push(new Transaction(this.user2,this.user1,100,'9-23-2021','13:20'))
+        this.user1.friends.push(this.user2)
+        this.user1.friends.push(this.user3)
+        this.user1.friendRequests.push(this.user4)
     }
 	;
 
