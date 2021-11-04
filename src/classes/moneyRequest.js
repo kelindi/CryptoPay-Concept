@@ -1,4 +1,4 @@
-class Request {
+class moneyRequest {
 	constructor(originUserName, destinationUserName,amount,timestamp) {
 		this.originUserName = originUserName
         this.destinationUserName = destinationUserName
@@ -19,4 +19,4 @@ class Request {
 	}
 }
 
-export default Request
+export default moneyRequest

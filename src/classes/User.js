@@ -9,6 +9,9 @@ class User{
 		// all this cannot be initialized when there is a backend, purely exposed for testing purposes
         this.friends = []
         this.transactions = []
+		this.requests = []
+		this.sentRequests = []
+		this.friendRequests =[]
         this.currentAccountBalance = currentAccountBalance
         this.walletAddress = walletAddress
 		this.profilePicture = '' //change this to image url
