@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Backend, { addUser } from "./../classes/Backend";
+import { Redirect } from 'react-router';
 
 class Register extends Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class Register extends Component {
             passwordCheck: 'true',
             failedAttempt: false,
             // loginDB: {"User":"Test"} // have this be a remote DB called in handleLogin in phase 2
-            loginDB: {'user':'user','user2':'user2','user3':'user3','user4':'user4','admin':'admin'}
+            loginDB: {'user':'user','user2':'user2','user3':'user3','user4':'user4','admin':'admin'},
+            redirectUser: false
             }
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -65,6 +67,8 @@ class Register extends Component {
         }
         else{
             this.props.backend.addUser(this.state.firstName, this.state.lastName, this.state.userName, this.state.password)
+            // setting state to true to enable redirecting to login page
+            this.setState({redirectUser: true})
             console.log(this.props.backend.loginDB)
             return
         }
@@ -80,6 +84,10 @@ class Register extends Component {
     }
 
     render() {
+        //redirecting to login page
+        if (this.state.redirectUser) {
+            return <Redirect push to="/" />;
+        }
         return (
             <div className="font-sans">
                 <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-grey">
