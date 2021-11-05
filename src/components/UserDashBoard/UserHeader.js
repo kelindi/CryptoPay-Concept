@@ -25,8 +25,8 @@ class UserHeader extends Component {
                         - Request
                         - Split*/}
                 {/* <img className='UserProfilePhoto' src={this.state.pF} alt="Profile Photo"/> */}
-                <img className='UserProfilePhoto' src={this.state.pf} alt="Profile Photo"/>
-                <p>{this.state.firstName}</p>
+                <img className='rounded-full h-40 w-40 flex px-4 py-4 items-center justify-center' src={this.state.pf} alt="Profile Photo"/>
+                {/* <p>{this.state.firstName}</p> */}
             </div>
           );
     }
