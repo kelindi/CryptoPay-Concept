@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Transaction from '../../classes/Transaction';
 
-
 class AdminDashBoard extends Component {
     constructor(props) {
         super(props);
@@ -21,28 +20,54 @@ class AdminDashBoard extends Component {
         this.filterDateChange = this.filterAmountChange.bind(this)
         this.filterTimeChange = this.filterAmountChange.bind(this)
         this.filterIDChange = this.filterIDChange.bind(this)
+        this.filter = this.filter.bind(this)
+    }
+    filter(){
+        const filteredTransactions = this.state.masterTransactions.filter(t=>
+            (t.originUser.userName.toString().includes(this.state.filterOrigin.toString()) || this.state.filterOrigin.toString()== '')
+            && 
+            (t.destinationUser.userName.toString().includes(this.state.filterDestination.toString())|| this.state.filterDestination == '')
+            && 
+            (t.amount.toString() == this.state.filterAmount.toString() || this.state.filterAmount == '')
+            && 
+            (t.date.toString().includes(this.state.filterDate.toString())|| this.state.filterDate == '')
+            &&
+            (t.time.toString() == this.state.filterTime.toString()|| this.state.filterTime == '')
+            &&
+            (t.id.toString().includes(this.state.filterID.toString()) || this.state.filterID == '')
+        )
+        this.setState({transactions:filteredTransactions}, () => console.log(this.state.transactions))
     }
 
     filterOriginChange(event){
         this.setState({filterOrigin: event.target.value}, () => {
-            const filteredTransactions = this.state.masterTransactions.filter(transaction => transaction.originUser.userName.toString().includes(this.state.filterOrigin))
-            this.setState({transactions:filteredTransactions})
+            this.filter()
         })
     }
     filterDestinationChange(event){
-        this.setState({filterDestination: event.target.value})
+        this.setState({filterDestination: event.target.value}, () => {
+            this.filter()
+        })
     }
     filterAmountChange(event){
-        this.setState({filterAmount: event.target.value})
+        this.setState({filterAmount: event.target.value}, () => {
+            this.filter()
+        })
     }
     filterDateChange(event){
-        this.setState({filterDate: event.target.value})
+        this.setState({filterDate: event.target.value}, () => {
+            this.filter()
+        })
     }
     filterTimeChange(event){
-        this.setState({filterTime: event.target.value})
+        this.setState({filterTime: event.target.value}, () => {
+            this.filter()
+        })
     }
     filterIDChange(event){
-        this.setState({filterID: event.target.value})
+        this.setState({filterID: event.target.value}, () => {
+            this.filter()
+        })
     }
     
     
