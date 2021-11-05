@@ -17,8 +17,8 @@ class AdminDashBoard extends Component {
         this.filterOriginChange = this.filterOriginChange.bind(this)
         this.filterDestinationChange = this.filterDestinationChange.bind(this)
         this.filterAmountChange = this.filterAmountChange.bind(this)
-        this.filterDateChange = this.filterAmountChange.bind(this)
-        this.filterTimeChange = this.filterAmountChange.bind(this)
+        this.filterDateChange = this.filterDateChange.bind(this)
+        this.filterTimeChange = this.filterTimeChange.bind(this)
         this.filterIDChange = this.filterIDChange.bind(this)
         this.filter = this.filter.bind(this)
     }
@@ -55,7 +55,7 @@ class AdminDashBoard extends Component {
         })
     }
     filterDateChange(event){
-        this.setState({filterDate: event.target.value}, () => {
+        this.setState({filterDate: event.target.value.toString()}, () => {
             this.filter()
         })
     }
@@ -90,7 +90,7 @@ class AdminDashBoard extends Component {
                             <th className = "px-4 py-2 border text-center">Amount
                                 <input value = {this.filterAmount} onChange = {this.filterAmountChange} className = "border rounded-md"></input>
                             </th>
-                            <th className = "px-4 py-2 border text-center">Date
+                            <th className = "px-4 py-2 border text-center">D
                                 <input value = {this.filterDate} onChange = {this.filterDateChange} className = "border rounded-md"></input>
                             </th>
                             <th className = "px-4 py-2 border text-center">Time
