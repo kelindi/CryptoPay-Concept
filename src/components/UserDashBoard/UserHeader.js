@@ -6,7 +6,14 @@ class UserHeader extends Component {
         super(props);
     }
     
-    
+    state = { 
+        firstName: this.props.currentUser.firstName,
+        lastName: this.props.currentUser.lastName,
+        // pF: this.props.currentUser.profilePicture,
+        pF: window.location.origin + "/profilePictures/pf2.jpg",
+        // pf: process.env.PUBLIC_URL,
+        balance: this.props.currentUser.currentAccountBalance
+    }
 
     render() {
         
@@ -19,7 +26,10 @@ class UserHeader extends Component {
                         - Send
                         - Request
                         - Split*/}
-                {console.log(this.props.currentUser)}
+                {/* <img className='UserProfilePhoto' src={this.state.pF} alt="Profile Photo"/> */}
+                <img className='UserProfilePhoto' src={window.location.origin + "/src/images/profilePictures/pf2.jpg"} alt="Profile Photo"/>
+                <p>{this.state.firstName}</p>
+                {console.log(this.props)}
             </div>
           );
     }
