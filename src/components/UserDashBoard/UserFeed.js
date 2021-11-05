@@ -32,9 +32,21 @@ class UserFeed extends Component {
     render() {
         
         return (
-            <div className = "h-4/5 bg-yellow-300">
+            <div className = "relative rounded-lg h-4/5 bg-gray-300 opacity-75">
                 
+                <div className="float-left rounded-lg h-1/3 w-1/2 bg-color bg-blue-200">
+                {/* div for incoming requests */}
+                </div>
+                <div className="float-right rounded-lg h-1/3 w-1/2 bg-color bg-blue-100">
+                {/* div for outgoing requests */}
+                </div>
+                
+                <div className="absolute bottom-0 rounded-lg h-2/3 w-full bg-color bg-blue-300 opacity-60">
+                {/* div for rest of the feed */}
+                
+                </div>
             </div>
+            
           );
     }
 }
