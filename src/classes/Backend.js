@@ -50,8 +50,6 @@ class Backend {
         
         this.moneyRequests.push(this.mr1)
         this.moneyRequests.push(this.mr2)
-
-
         this.transactions.push(this.tr1)
         this.transactions.push(this.tr2)
         this.transactions.push(this.tr3)
@@ -61,6 +59,28 @@ class Backend {
         this.transactions.push(this.tr7)
         this.transactions.push(this.tr8)
         this.transactions.push(this.tr9)
+
+        this.transactions.push(new Transaction(this.user2,this.user3,193,'7-11-2021','7:20'))
+        this.transactions.push(new Transaction(this.user2,this.user1,123,'5-11-2021','8:05'))
+        this.transactions.push(new Transaction(this.user2,this.user4,2003,'7-15-2021','15:09'))
+        this.transactions.push(new Transaction(this.user2,this.user1,3,'4-30-2021','16:08'))
+        this.transactions.push(new Transaction(this.user2,this.user4,21,'4-18-2021','1:20'))
+        this.transactions.push(new Transaction(this.user2,this.user3,900,'5-17-2021','6:50'))
+        
+        this.transactions.push(new Transaction(this.user3,this.user4,193,'7-11-2021','7:20'))
+        this.transactions.push(new Transaction(this.user3,this.user1,123,'5-11-2021','8:05'))
+        this.transactions.push(new Transaction(this.user3,this.user4,2003,'7-15-2021','15:09'))
+        this.transactions.push(new Transaction(this.user3,this.user1,3,'4-30-2021','16:08'))
+        this.transactions.push(new Transaction(this.user3,this.user2,21,'4-18-2021','1:20'))
+        this.transactions.push(new Transaction(this.user3,this.user4,900,'5-17-2021','6:50'))
+
+        this.transactions.push(new Transaction(this.user4,this.user3,193,'7-11-2021','7:20'))
+        this.transactions.push(new Transaction(this.user4,this.user1,123,'5-11-2021','8:05'))
+        this.transactions.push(new Transaction(this.user4,this.user1,2003,'7-15-2021','15:09'))
+        this.transactions.push(new Transaction(this.user4,this.user1,3,'4-30-2021','16:08'))
+        this.transactions.push(new Transaction(this.user4,this.user2,21,'4-18-2021','1:20'))
+        this.transactions.push(new Transaction(this.user4,this.user3,900,'5-17-2021','6:50'))
+
 
 
 
