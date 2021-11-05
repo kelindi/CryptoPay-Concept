@@ -23,10 +23,10 @@ class Backend {
         this.transactions = []
         this.moneyRequests = []
         //set profile pictures
-        this.user1.profilePicture = "/src/images/profilePictures/pf1.jpg"
-        this.user2.profilePicture = "/src/images/profilePictures/pf2.jpg"
-        this.user3.profilePicture = "/src/images/profilePictures/pf3.jpg"
-        this.user4.profilePicture = "/src/images/profilePictures/pf4.jpg"
+        this.user1.profilePicture = "/images/profilePictures/pf1.jpg"
+        this.user2.profilePicture = "/images/profilePictures/pf2.jpg"
+        this.user3.profilePicture = "/images/profilePictures/pf3.jpg"
+        this.user4.profilePicture = "/images/profilePictures/pf4.jpg"
 
 
         // add transactions to user1
