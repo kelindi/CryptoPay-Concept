@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import Admin from '../classes/Admin';
+import { Link } from "react-router-dom";
 
 class Login extends Component {
     constructor(props) {
@@ -115,9 +116,12 @@ class Login extends Component {
                                 <div className="mt-7">
                                     <div className="flex justify-center items-center">
                                         <label className="mr-2">Don't have an account?</label>
-                                        <a href="/register" className=" text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                                        {/* <a href="/register" className=" text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                             Create an account!
-                                        </a>
+                                        </a> */}
+                                        <Link className="text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105" to={"./Register"}>
+                                            Create an account!
+                                        </Link>
                                     </div>
                                 </div>
 
