@@ -22,6 +22,7 @@ class Backend {
         this.userDB = {[this.u1]:this.user1, [this.u2]: this.user2, [this.u3]: this.user3, [this.u4]:this.user4, [this.adminID]:this.admin}
         this.transactions = []
         this.moneyRequests = []
+        this.users = [this.user1,this.user2,this.user3,this.user4]
         //set profile pictures
         this.user1.profilePicture = "/images/pf1.jpeg"
         this.user2.profilePicture = "/images/pf2.jpeg"
