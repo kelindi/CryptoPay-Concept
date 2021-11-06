@@ -6,18 +6,19 @@ import SplitPopUp from './PopUps/SplitPopUp';
 class UserHeader extends Component {
     constructor(props) {
         super(props);
-    }
 
-    state = { 
-        firstName: this.props.currentUser.firstName,
-        lastName: this.props.currentUser.lastName,
-        pf: this.props.currentUser.profilePicture,
-        balance: this.props.currentUser.currentAccountBalance,
-        // used backend.js
-        sendOpen: false,
-        requestOpen: false,
-        splitOpen: false
-    } 
+        this.state = { 
+            firstName: this.props.currentUser.firstName,
+            lastName: this.props.currentUser.lastName,
+            pf: this.props.currentUser.profilePicture,
+            balance: this.props.currentUser.currentAccountBalance,
+            // used backend.js
+            sendOpen: false,
+            requestOpen: false,
+            splitOpen: false,
+        } 
+        this.changeBalance = this.changeBalance.bind(this)
+    }
 
     sendPop = () => {
         this.setState({
@@ -37,10 +38,15 @@ class UserHeader extends Component {
         });
     }
 
+    changeBalance(amount) {
+        this.setState({balance: this.state.balance-amount})
+    }
+
+
     render() {
         
         return (
-            <div className = "grid grid-flow-col auto-cols-min h-1/5 bg-purple-300">
+            <div className = "grid grid-flow-col auto-cols-min h-1/5 bg-blue-100">
                 {/* 1) placeholder profile photo which can be modified by user
                     2) Display Name
                     3) Display Account Balance 
@@ -62,23 +68,19 @@ class UserHeader extends Component {
 
                 <div className='pt-4 ml-72 text-center max-w-xl'>
                     {/* Buttons */}
-                    <button className='bg-blue hover:bg-blue-light text-black font-bold py-2 px-4 border-b-4 border-blue-dark hover:border-blue rounded' 
+                    <button className='w-24 h-10 mb-1 bg-blue-300 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                             onClick={this.sendPop}><b>Send</b></button><br></br>
-                    <button className='bg-blue hover:bg-blue-light text-black font-bold py-2 px-4 border-b-4 border-blue-dark hover:border-blue rounded' 
+                    <button className='w-24 h-10 mb-1 bg-blue-300 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                             onClick={this.reqPop}><b>Request</b></button><br></br>
-                    <button className='bg-blue hover:bg-blue-light text-black font-bold py-2 px-4 border-b-4 border-blue-dark hover:border-blue rounded' 
+                    <button className='w-24 h-10 mb-1 bg-blue-300 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                             onClick={this.splitPop}><b>Split</b></button>
                 </div>
-                {this.state.sendOpen ? <SendPopUp toggle={this.sendPop} /> : null}
+                {this.state.sendOpen ? <SendPopUp updateBalance = {this.changeBalance} toggle={this.sendPop} /> : null}
                 {this.state.requestOpen ? <RequestPopUp toggle={this.reqPop} /> : null}
                 {this.state.splitOpen ? <SplitPopUp toggle={this.splitPop} /> : null}
             </div>
           );
     }
-}
-
-function sayHello() {
-    alert('You clicked me!');
 }
  
 export default UserHeader;
