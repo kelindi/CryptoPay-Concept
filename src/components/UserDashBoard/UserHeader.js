@@ -20,9 +20,15 @@ class UserHeader extends Component {
         this.changeBalance = this.changeBalance.bind(this)
     }
 
-    sendPop = () => {
+    sendPopOn = () => {
         this.setState({
-            sendOpen: !this.state.sendOpen,
+            sendOpen: true,
+        });
+    }
+
+    sendPopOff = () => {
+        this.setState({
+            sendOpen: false,
         });
     }
 
@@ -69,13 +75,13 @@ class UserHeader extends Component {
                 <div className='pt-4 ml-72 text-center max-w-xl'>
                     {/* Buttons */}
                     <button className='w-24 h-10 mb-1 bg-blue-300 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
-                            onClick={this.sendPop}><b>Send</b></button><br></br>
+                            onClick={this.sendPopOn}><b>Send</b></button><br></br>
                     <button className='w-24 h-10 mb-1 bg-blue-300 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                             onClick={this.reqPop}><b>Request</b></button><br></br>
                     <button className='w-24 h-10 mb-1 bg-blue-300 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                             onClick={this.splitPop}><b>Split</b></button>
                 </div>
-                {this.state.sendOpen ? <SendPopUp updateBalance = {this.changeBalance} toggle={this.sendPop} /> : null}
+                {this.state.sendOpen ? <SendPopUp updateBalance = {this.changeBalance} minimizeSend={this.sendPopOff} maximizeSend={this.sendPopOn} /> : null}
                 {this.state.requestOpen ? <RequestPopUp toggle={this.reqPop} /> : null}
                 {this.state.splitOpen ? <SplitPopUp toggle={this.splitPop} /> : null}
             </div>

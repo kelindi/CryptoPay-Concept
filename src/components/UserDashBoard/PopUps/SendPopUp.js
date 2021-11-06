@@ -14,9 +14,13 @@ class SendPopUp extends Component {
         this.sendMoney = this.sendMoney.bind(this)
     }
 
-    handleClick = () => {
-     this.props.toggle();
+    minimizePopUp = () => {
+     this.props.minimizeSend();
     };
+
+    maxmizePopUp = () => {
+        this.props.maximizeSend();
+       };
 
     amountValidation(event){
         const amount = event.target.value
@@ -31,7 +35,7 @@ class SendPopUp extends Component {
 
     sendMoney(){
         this.props.updateBalance(this.state.amount)
-        this.handleClick()
+        this.props.minimizeSend()
     }
 
     render() {
@@ -56,7 +60,7 @@ class SendPopUp extends Component {
                         <button className='bg-green-500 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                         onClick={this.sendMoney}><b>Send</b></button>
                         <button className='ml-1 bg-red-500 hover:bg-red-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
-                        onClick={this.handleClick}><b>Cancel</b></button>
+                        onClick={this.minimizePopUp}><b>Cancel</b></button>
                     </div>
                 </div>
             </div>
