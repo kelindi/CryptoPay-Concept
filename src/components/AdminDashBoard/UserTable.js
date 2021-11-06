@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { uuid } from 'uuidv4';
+import User from '../../classes/User';
 
 class UserTable extends Component {
     constructor(props) {
@@ -8,6 +10,12 @@ class UserTable extends Component {
             filterLastName: '',
             filterUserName:'',
             filterWalletAddress:'',
+            newFirstName:'',
+            newLastName:'',
+            newUserName:'',
+            noFirstName: false,
+            noLastName: false,
+            noUserName: false,
             //retreive all the transactions from the backend
             users: this.props.users,
             masterUsers: this.props.users
@@ -19,16 +27,20 @@ class UserTable extends Component {
         this.filter = this.filter.bind(this)
         this.editMode = this.editMode.bind(this)
         this.saveEdit = this.saveEdit.bind(this)
+        this.newFirstNameChange = this.newFirstNameChange.bind(this)
+        this.newLastNameChange = this.newLastNameChange.bind(this)
+        this.newUserNameChange = this.newUserNameChange.bind(this)
+        this.addNewUser = this.addNewUser.bind(this)
     }
     filter(){
         const filteredUsers = this.state.masterUsers.filter(u=>
-            (u.firstName.toString().includes(this.state.filterFirstName.toString()) || this.state.filterFirstName == '')
+            (u.firstName.toString().includes(this.state.filterFirstName.toString()) || this.state.filterFirstName === '')
             &&
-            (u.lastName.toString().includes(this.state.filterLastName.toString()) || this.state.filterLastName == '')
+            (u.lastName.toString().includes(this.state.filterLastName.toString()) || this.state.filterLastName === '')
             &&
-            (u.userName.toString().includes(this.state.filterUserName.toString()) || this.state.filterUserName == '')
+            (u.userName.toString().includes(this.state.filterUserName.toString()) || this.state.filterUserName === '')
             &&
-            (u.walletAddress.toString().includes(this.state.filterWalletAddress.toString()) || this.state.filterWalletAddress == '')            
+            (u.walletAddress.toString().includes(this.state.filterWalletAddress.toString()) || this.state.filterWalletAddress === '')            
         )
         this.setState({users:filteredUsers})
     }
@@ -41,6 +53,7 @@ class UserTable extends Component {
     }
 
     filterLastNameChange(event){
+        console.log(event)
         this.setState({filterLastName: event.target.value}, () => {
             this.filter()
         })
@@ -93,7 +106,48 @@ class UserTable extends Component {
         user.lastName = divs[1].innerHTML
         user.userName = divs[2].innerHTML
     }
+    newFirstNameChange(event){
+        this.setState({newFirstName: event.target.value})
+    }
+    newLastNameChange(event){
+        this.setState({newLastName: event.target.value})
+    }
+    newUserNameChange(event){
+        this.setState({newUserName: event.target.value})
+    }
     
+    addNewUser(){
+        if(this.state.newFirstName !=='' && this.state.newLastName !=='' && this.state.newUserName !==''){
+            this.state.masterUsers.push(new User(this.state.newFirstName,this.state.newLastName,this.state.newUserName,0,uuid()))
+            this.setState({users:this.state.masterUsers})
+            this.setState({newFirstName:''})
+            this.setState({newLastName:''})
+            this.setState({newUserName:''})
+            this.setState({noFirstName:false})
+            this.setState({noLastName:false})
+            this.setState({noUserName:false})
+        }
+        else{
+            if(this.state.newFirstName ===''){
+                this.setState({noFirstName:true})
+            }
+            else{
+                this.setState({noFirstName:false})
+            }
+            if(this.state.newLastName ===''){
+                this.setState({noLastName:true})
+            }else{
+            this.setState({noLastName:false})
+            }
+            if(this.state.newUserName ===''){
+
+                this.setState({noUserName:true})
+            }
+            else{
+                this.setState({noUserName:false})
+            }
+        }
+    }
     
 
     render() {
@@ -105,16 +159,16 @@ class UserTable extends Component {
                         <tr>
                             <th className = "px-1 py-2 border text-center">Profile Picture</th>
                             <th className = "px-1 py-2 border text-center">First Name
-                                <input value = {this.filterFirstName} onChange = {this.filterFirstNameChange} className = "block m-auto border rounded-md"></input>
+                                <input value = {this.state.filterFirstName} onChange = {this.filterFirstNameChange} className = "block m-auto border rounded-md"></input>
                             </th>
                             <th className = "px-1 py-2 border text-center">Last Name
-                                <input value = {this.filterLastName} onChange = {this.filterLastNameChange} className = "block m-auto border rounded-md"></input>
+                                <input value = {this.state.filterLastName} onChange = {this.filterLastNameChange} className = "block m-auto border rounded-md"></input>
                             </th>
                             <th className = "px-1 py-2 border text-center">Username
-                                <input value = {this.filterUserName} onChange = {this.filterUserNameChange} className = "block m-auto border rounded-md"></input>
+                                <input value = {this.state.filterUserName} onChange = {this.filterUserNameChange} className = "block m-auto border rounded-md"></input>
                             </th>
                             <th className = "px-1 py-2 border text-center">Wallet Address
-                                <input value = {this.filterWalletAddress} onChange = {this.filterWalletAddressChange} className = "block m-auto border rounded-md"></input>
+                                <input value = {this.state.filterWalletAddress} onChange = {this.filterWalletAddressChange} className = "block m-auto border rounded-md"></input>
                             </th>
                             <th className = "px-1 py-2 border text-center"> Account Balance</th>
                             <th className = "px-1 py-2 border text-center">Edit</th>
@@ -131,11 +185,22 @@ class UserTable extends Component {
                             <td className = "px-0.5 py-1 border text-center"><div className = {user.userName.toString()}>{user.userName.toString()}</div></td>
                             <td className = "px-0.5 py-1 border text-center">{user.walletAddress.toString()}</td>
                             <td className = "px-0.5 py-1 border text-center">{ '$'+user.currentAccountBalance.toString()}</td>
-                            <td className = "px-0.5 py-1 border text-center mx-2"><button className ={user.userName.toString()+"editbutton" +" bg-red-500 border border-black rounded-2xl px-2 py-1"} onClick = {(event) => this.editMode(user,event)}>Edit</button> <button onClick = {(event) => this.saveEdit(user,event)} className ={user.userName.toString()+"savebutton" +" hidden bg-green-500 border border-black rounded-2xl px-2 py-1"}> Save </button></td>
+                            <td className = "px-0.5 py-1 border text-center mx-2"><button className ={user.userName.toString()+"editbutton" +" bg-red-500 border  rounded-2xl px-2 py-1"} onClick = {(event) => this.editMode(user,event)}>Edit</button> <button onClick = {(event) => this.saveEdit(user,event)} className ={user.userName.toString()+"savebutton" +" hidden bg-green-500 border border-black rounded-2xl px-2 py-1"}> Save </button></td>
                         </tr>
                         )})}
                     </tbody>
-                </table>    
+                </table>
+                <div className ="flex">
+                    <div className = "my-2 mx-auto">
+                        <input className={(this.state.noFirstName ? "border-red-500" : "boder-black-700")+" border rounded-md mx-1 px-4"} placeholder ="First Name" value = {this.state.newFirstName} onChange ={this.newFirstNameChange}></input>
+                        <input className={(this.state.noLastName ? "border-red-500" : "boder-black-700")+" border rounded-md mx-1 px-4"} placeholder ="Last Name" value = {this.state.newLastName} onChange ={this.newLastNameChange}></input>
+                        <input className={(this.state.noUserName ? "border-red-500" : "boder-black-700")+" border rounded-md mx-1 px-4"} placeholder ="Username" value = {this.state.newUserName} onChange ={this.newUserNameChange}></input>
+                        <button className = "bg-green-500 border rounded-2xl px-2 py-1" onClick = {()=> this.addNewUser()}>Add New User</button>
+                    </div>
+                </div>
+
+
+                
             </div>
           );
     

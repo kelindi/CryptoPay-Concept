@@ -28,13 +28,13 @@ class TransactionTable extends Component {
             && 
             (t.destinationUser.userName.toString().includes(this.state.filterDestination.toString())|| this.state.filterDestination == '')
             && 
-            (t.amount.toString() == this.state.filterAmount.toString() || this.state.filterAmount == '')
+            (t.amount.toString() == this.state.filterAmount.toString() || this.state.filterAmount === '')
             && 
-            (t.date.toString().includes(this.state.filterDate.toString())|| this.state.filterDate == '')
+            (t.date.toString().includes(this.state.filterDate.toString())|| this.state.filterDate === '')
             &&
-            (t.time.toString() == this.state.filterTime.toString()|| this.state.filterTime == '')
+            (t.time.toString() == this.state.filterTime.toString()|| this.state.filterTime === '')
             &&
-            (t.id.toString().includes(this.state.filterID.toString()) || this.state.filterID == '')
+            (t.id.toString().includes(this.state.filterID.toString()) || this.state.filterID === '')
         )
         this.setState({transactions:filteredTransactions}, () => console.log(this.state.transactions))
     }

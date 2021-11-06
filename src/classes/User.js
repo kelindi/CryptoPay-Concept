@@ -14,7 +14,7 @@ class User{
 		this.friendRequests =[]
         this.currentAccountBalance = currentAccountBalance
         this.walletAddress = walletAddress
-		this.profilePicture = '' //change this to image url
+		this.profilePicture = '/images/pfDefault.png' //change this to image url
 
 	}
 
