@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import PopUp from './SendPopUp'; //change PopUp to SendPopUp and duplicate for request and split
+import SendPopUp from './PopUps/SendPopUp'; 
+import RequestPopUp from './PopUps/RequestPopUp';
+import SplitPopUp from './PopUps/SplitPopUp';
 
 class UserHeader extends Component {
     constructor(props) {
@@ -31,7 +33,7 @@ class UserHeader extends Component {
 
     splitPop = () => {
         this.setState({
-            splitOpen: !this.state.sendOpen,
+            splitOpen: !this.state.splitOpen,
         });
     }
 
@@ -67,9 +69,9 @@ class UserHeader extends Component {
                     <button className='bg-blue hover:bg-blue-light text-black font-bold py-2 px-4 border-b-4 border-blue-dark hover:border-blue rounded' 
                             onClick={this.splitPop}><b>Split</b></button>
                 </div>
-                {this.state.sendOpen ? <PopUp toggle={this.sendPop} /> : null}
-                {this.state.requestOpen ? <PopUp toggle={this.reqPop} /> : null}
-                {this.state.splitOpen ? <PopUp toggle={this.splitPop} /> : null}
+                {this.state.sendOpen ? <SendPopUp toggle={this.sendPop} /> : null}
+                {this.state.requestOpen ? <RequestPopUp toggle={this.reqPop} /> : null}
+                {this.state.splitOpen ? <SplitPopUp toggle={this.splitPop} /> : null}
             </div>
           );
     }
