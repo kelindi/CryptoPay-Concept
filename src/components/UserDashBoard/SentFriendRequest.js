@@ -21,7 +21,7 @@ class SentFriendRequest extends Component{
                     {/* <button className="float-right"> Reject</button> */}
                 {/* </div> */}
                 <div className="relative float-right top-2 w-10/12">
-                    <div className="float-left tracking-wide text-center"><b>{this.props.user.firstName}</b> {this.props.user.lastName}</div> <br/>
+                    <div className="float-left tracking-wide text-center"><b>{this.props.user.firstName}</b> {this.props.user.lastName}   <small>({this.props.user.userName})</small></div> <br/>
                     <div className="h-13 w-full bg-blue-800">
                         <button className="float-left bg-green-400 opacity-75 w-1/3 py-1 rounded-2xl">Accept</button>
                         <button className="float-right bg-red-400 opacity-80 rounded-2xl w-1/3 py-1">Rescind</button>
