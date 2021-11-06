@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class FriendRequest extends Component{
+class SentFriendRequest extends Component{
     constructor(props){
         super(props)
     }
@@ -22,9 +22,10 @@ class FriendRequest extends Component{
                 {/* </div> */}
                 <div className="relative float-right top-2 w-10/12">
                     <div className="float-left tracking-wide text-center"><b>{this.props.user.firstName}</b> {this.props.user.lastName}</div> <br/>
-                    <div className="h-13 w-1/2 bg-blue-800">
-                        <button className="float-left bg-green-400 opacity-75 w-1/2 py-1 rounded-2xl">Accept</button>
-                        <button className="float-right bg-red-600 opacity-80 rounded-2xl w-1/2 py-1">Reject</button>
+                    <div className="h-13 w-full bg-blue-800">
+                        <button className="float-left bg-green-400 opacity-75 w-1/3 py-1 rounded-2xl">Accept</button>
+                        <button className="float-right bg-red-400 opacity-80 rounded-2xl w-1/3 py-1">Rescind</button>
+                        <button className="float-right bg-red-600 opacity-80 rounded-2xl w-1/3 py-1">Reject</button>
                     </div>
                     {/* <button className="float-right -left-10">Accept</button> */}
                     {/* <button className="float-right"> Reject</button> */}
@@ -36,4 +37,4 @@ class FriendRequest extends Component{
     }
 }
 
-export default FriendRequest;
+export default SentFriendRequest;
