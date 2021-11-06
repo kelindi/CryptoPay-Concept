@@ -20,6 +20,7 @@ class UserTable extends Component {
       users: this.props.users,
       masterUsers: this.props.users,
       showDeleteConfirm: false,
+      userToDelete: null
     };
     this.filterFirstNameChange = this.filterFirstNameChange.bind(this);
     this.filterLastNameChange = this.filterLastNameChange.bind(this);
@@ -166,21 +167,47 @@ class UserTable extends Component {
     }
   }
 
-  deleteUser(user) {
+  deleteUser() {
     const newUserArray = this.state.masterUsers.filter(
-      (userInArray) => userInArray !== user
+      (user) => user !== this.state.userToDelete
     );
     this.setState({ masterUsers: newUserArray });
     this.setState({ users: newUserArray });
+    this.setState({showDeleteConfirm: false})
   }
 
-  showDeleteUser() {
-    this.setState({ showDeleteConfirm: true });
+
+  showDeleteUser(user) {
+    console.log(user)
+    this.setState({userToDelete: user},this.setState({ showDeleteConfirm: true }))
+    
   }
 
   render() {
     return (
       <div className="font-sans">
+        {this.state.showDeleteConfirm ? (
+          <div className="absolute z-100 bg-black shadow-lg border w-1/6 mx-auto left-0 right-0 top-1/4 rounded-lg bg-opacity-90 text-white">
+            <div className="px-4 backdrop-filter my-4">
+              <div className="text-center backdrop-filter">
+                Are you sure you want to delete <b className = "text-red-500">{this.state.userToDelete.userName}</b> This action cannot be
+                undone!
+              </div>
+              <div className="text-center mt-5 text-black">
+                <button
+                  className="inline bg-red-500 rounded-xl px-2 py-1 mx-1"
+                  onClick={() => this.setState({ showDeleteConfirm: false })}
+                >
+                  CANCEL
+                </button>
+                <button onClick={this.deleteUser} className="inline bg-green-500 rounded-xl px-2 py-1 mx-1">
+                  DELETE USER
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         <div className="border text-center text-2xl">USERS</div>
         <table className="w-full">
           <thead>
@@ -260,7 +287,7 @@ class UserTable extends Component {
                       className={
                         user.userName.toString() +
                         "editbutton" +
-                        " bg-red-500 border  rounded-2xl px-2 py-1"
+                        " bg-gray-400 border  rounded-2xl px-2 py-1"
                       }
                       onClick={(event) => this.editMode(user, event)}
                     >
@@ -292,11 +319,6 @@ class UserTable extends Component {
             })}
           </tbody>
         </table>
-
-        <div className = "absolute z-100">
-
-        </div>
-
         <div className="flex">
           <div className="my-2 mx-auto">
             <input
