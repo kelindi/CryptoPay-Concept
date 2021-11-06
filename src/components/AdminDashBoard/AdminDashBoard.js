@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TransactionTable from './TransactionTable';
+import UserTable from './UserTable';
 
 class AdminDashBoard extends Component {
     constructor(props) {
@@ -10,7 +11,11 @@ class AdminDashBoard extends Component {
     render() {
         
         return (
-            <TransactionTable transactions = {this.props.backend.transactions}></TransactionTable>
+            <div className = "overflow-hidden px-5">
+                <UserTable users = {this.props.backend.users}></UserTable>
+                <TransactionTable transactions = {this.props.backend.transactions}></TransactionTable>
+            </div>
+            
           );
     
 }

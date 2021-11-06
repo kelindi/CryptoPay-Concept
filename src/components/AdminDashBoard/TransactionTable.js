@@ -113,8 +113,7 @@ class TransactionTable extends Component {
                             <td className = "px-4 py-2 border text-center">{transaction.time.toString()}</td>
                             <td className = "px-4 py-2 border text-center">{transaction.id.toString()}</td>
                         </tr>
-                        )
-                        })}
+                        )})}
                     </tbody>
                 </table>    
             </div>

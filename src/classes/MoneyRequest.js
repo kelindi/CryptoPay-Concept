@@ -2,8 +2,8 @@ import { uuid } from "uuidv4"
 
 class MoneyRequest {
 	constructor(originUserName, destinationUserName,amount,date) {
-		this.originUserName = originUserName
-        this.destinationUserName = destinationUserName
+		this.originUser = originUserName
+        this.destinationUser = destinationUserName
         this.amount = amount
         this.date = date
 		this.id = uuid()
