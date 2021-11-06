@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import FriendRequest from "./FriendRequest";
+import { uuid} from 'uuidv4';
 /*
 TODO
 
@@ -25,24 +26,43 @@ Comment complex code
 class UserFeed extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            sentRequests: [],
+            friendRequest: []
+        }
+    
+        
     }
     
     
 
-    render() {
-        
+    render() { 
         return (
             <div className = "relative rounded-lg h-4/5 bg-gray-300 opacity-75">
-                
-                <div className="float-left rounded-lg h-1/3 w-1/2 bg-color bg-blue-200">
-                {/* div for incoming requests */}
+                {/* Container Div */}
+                <div className="float-left border-2 border-blue-300 border-opacity-100 rounded-xl h-1/3 w-1/2 bg-color bg-blue-200 ">
+                    {/* div for incoming requests */}
+                    <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">INCOMING REQUESTS</div>
+                    {/* <FriendRequest user={this.props.currentUser} /> */}
+                    {this.props.currentUser.friendRequests.map(user => (
+                        <FriendRequest 
+                            key = {uuid()}
+                            user={user} />
+                        // console.log(user.firstName)
+                    ))}
+                    {/* {
+                        displayName = (user) =>{
+                        console.log(user)
+                        }
+                    }   */}
+                    
                 </div>
-                <div className="float-right rounded-lg h-1/3 w-1/2 bg-color bg-blue-100">
-                {/* div for outgoing requests */}
+                <div className="float-right border-2 border-blue-300 border-opacity-100 rounded-xl h-1/3 w-1/2 bg-color bg-blue-100">
+                    {/* div for outgoing requests */}
                 </div>
                 
-                <div className="absolute bottom-0 rounded-lg h-2/3 w-full bg-color bg-blue-300 opacity-60">
-                {/* div for rest of the feed */}
+                <div className="absolute border-2 border-blue-300 border-opacity-100 bottom-0 rounded-xl h-2/3 w-full bg-color bg-blue-300 opacity-60">
+                    {/* div for rest of the feed */}
                 
                 </div>
             </div>
