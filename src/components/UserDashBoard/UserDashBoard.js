@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FriendsList from './FriendsList';
+import NotificationBar from './NotificationBar/NotificationBar';
 import UserFeed from './UserFeed/UserFeed';
 import UserHeader from './UserHeader/UserHeader';
 
@@ -69,13 +70,8 @@ class UserDashBoard extends Component {
                 <div className = "flex flex-column h-100">
                     
                     <div className = "w-10/12 h-screen">
-                        <div className = "bg-gray-600 py-4">
-                            <a  className="relative inline-block">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-                                <span className="flex absolute -top-2.5 -right-2 h-4 w-4 bg-red-500 rounded-full items-center justify-center animate-pulse duration-700 text-xs">{this.state.incomingFriendRequests.length}</span>
-                            </a>
-                        </div>
-                        <UserHeader backend ={this.props.backend} currentUser ={this.props.currentUser}></UserHeader>
+                        <NotificationBar global = {this.state} incomingFriendRequests = {this.state.incomingFriendRequests}></NotificationBar>
+                        <UserHeader changeUserBalance = {this.changeUserBalance} global ={this.state} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserHeader>
 
                         <UserFeed changeUserBalance = {this.changeUserBalance} changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserFeed>
                     </div>

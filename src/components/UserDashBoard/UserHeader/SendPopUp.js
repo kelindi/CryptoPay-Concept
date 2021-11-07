@@ -8,8 +8,8 @@ class SendPopUp extends Component {
             moneyReceiver: '',
             validAmount: false,
             currentUser: this.props.currentUser,
-            userFriends: this.props.currentUser.friends,
-            filteredFriends: this.props.userFriends,
+            userFriends: this.props.friendsList,
+            filteredFriends: this.props.friendsList,
             showResults: false,
             nameFilled: false,
         }

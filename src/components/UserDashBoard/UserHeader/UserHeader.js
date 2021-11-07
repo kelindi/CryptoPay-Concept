@@ -8,11 +8,11 @@ class UserHeader extends Component {
         super(props);
 
         this.state = { 
-            firstName: this.props.currentUser.firstName,
-            lastName: this.props.currentUser.lastName,
-            userName: this.props.currentUser.userName,
-            pf: this.props.currentUser.profilePicture,
-            balance: this.props.currentUser.currentAccountBalance,
+            firstName: this.props.global.firstName,
+            lastName: this.props.global.lastName,
+            userName: this.props.global.userName,
+            pf: this.props.global.profilePicture,
+            balance: this.props.global.userBalance,
             currentUser: this.props.currentUser,
             // used backend.js
             sendOpen: false,
@@ -52,14 +52,16 @@ class UserHeader extends Component {
         });
     }
 
-    changeBalance(amount) {
-        this.setState({balance: this.state.balance-amount})
+    changeBalance(deduction) {
+        const newAmount = this.props.global.userBalance - deduction
+        this.props.changeUserBalance(newAmount)
     }
 
 
     render() {
         
         return (
+            
             <div className = "flex flex-row h-1/5 bg-blue-100">
                 {/* 1) placeholder profile photo which can be modified by user
                     2) Display Name
@@ -75,9 +77,9 @@ class UserHeader extends Component {
                 
                 <div className='text-left flex flex-col flex-shrink-0'>
                     {/* Info */}
-                    <div className = "py-2 text-4xl"><b>{this.state.userName}</b></div>
-                    <div className='py-2 text-2xl'>{this.state.firstName} {this.state.lastName}</div>
-                    <div className='py-2 text-xl'><b>Balance:</b>{this.state.balance}</div>
+                    <div className = "py-2 text-4xl"><b>{this.props.global.userName}</b></div>
+                    <div className='py-2 text-2xl'>{this.state.firstName} {this.props.global.lastName}</div>
+                    <div className='py-2 text-xl'><b>Balance:</b>{this.props.global.userBalance}</div>
 
                 </div>
 
@@ -91,6 +93,7 @@ class UserHeader extends Component {
                             onClick={this.splitPopOn}><b>Split</b></button>
                 </div>
                 {this.state.sendOpen ? <SendPopUp currentUser={this.state.currentUser} 
+                                                friendsList = {this.props.global.friendsList}
                                                   updateBalance={this.changeBalance} 
                                                   minimizeSend={this.sendPopOff}
                                                   maximizeSend={this.sendPopOn} /> : null}
