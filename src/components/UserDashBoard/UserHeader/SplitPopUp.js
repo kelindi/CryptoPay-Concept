@@ -5,7 +5,7 @@ class SplitPopUp extends Component {
         super(props);
         this.state = {
             amount: '',
-            moneyReceiver: '',
+            moneyReceiver: [],
             validAmount: false,
             currentUser: this.props.currentUser,
             userFriends: this.props.currentUser.friends,
@@ -26,10 +26,9 @@ class SplitPopUp extends Component {
         this.props.maximizeSplit();
     };
 
-    pasteOption = (event) => {
+    pasteOption = (i, event) => {
         console.log(event.target.value)
-        this.setState(({showResults: false}), this.setState({filteredFriends: []}, this.setState({moneyReceiver: event.target.value},
-            this.setState({nameFilled: true}))))
+        this.setState(({showResults: false}), this.setState({filteredFriends: []}, this.setState({nameFilled: true}, this.setMoneyReceiver(i, event))))
     } 
 
     amountValidation(event){
@@ -39,22 +38,26 @@ class SplitPopUp extends Component {
         }
     }
 
-    setMoneyReceiver = (event)=> {
+    setMoneyReceiver = (i, event)=> {
         // if(event.target.value === ''){
         //     this.setState({moneyReceiver:event.target.value},this.setState({filteredFriends:[]}))
         //     return
         // }
-        this.setState({moneyReceiver: event.target.value}, this.setFilteredFriends)   
+        let receiverList = this.state.moneyReceiver
+        receiverList[i] = event.target.value
+        this.setState({moneyReceiver: receiverList}, this.setFilteredFriends(i))   
+        console.log(event.target.value)
+        console.log(receiverList)
     }
 
-    setFilteredFriends = () => {
-        
-        if(this.state.moneyReceiver === '') {
+    setFilteredFriends = (i) => {
+        console.log('filtering: ', i)
+        if(this.state.moneyReceiver[i] === '') {
             this.setState(({showResults: false}),this.setState({filteredFriends: []}))
             
         }
         else{
-            this.setState({filteredFriends: this.state.userFriends.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver.toString())))}, this.setState({showResults: true}))
+            this.setState({filteredFriends: this.state.userFriends.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver[i].toString())))}, this.setState({showResults: true}))
         }
         
     }
@@ -68,12 +71,12 @@ class SplitPopUp extends Component {
         console.log(this.state.addFriend)
         for(let i=0; i<this.state.friendFieldLen; i++) {
             this.state.friendFields[i] = (
-                // might have to add key for uniqueness
+                // might have to add key for uniqueness, friend deletion
                 <li>
                     <div className='h-1/3 mt-2'>
                         Friend:
-                        <input className="ml-5 pl-2" value={this.state.moneyReceiver}
-                                onChange={this.setMoneyReceiver} placeholder="Friend"/>
+                        <input className="ml-5 pl-2" value={this.state.moneyReceiver[i]}
+                                onChange={(e) => this.setMoneyReceiver(i, e)} placeholder="Friend"/>
                         <button className='mx-3 px-0.5 w-4 h-4' 
                                 onClick={this.newFriendField}>➕</button>
                         {this.state.showResults ? (
@@ -82,7 +85,7 @@ class SplitPopUp extends Component {
                                 {this.state.filteredFriends.map((friend) =>
                                 {
                                     return (
-                                        <li>{friend.userName}</li>
+                                        <li><button onClick={(e)=>this.pasteOption(i,e)} value={friend.userName}>{friend.userName}</button></li>
                                     )
                                 })}
                             </ul>
@@ -107,7 +110,7 @@ class SplitPopUp extends Component {
                 <div className="bg-gray-200 md:text-base text-sm border-b p-2 h-48">
                     <div className='h-2/3'>
                         {/* Searching friends */}
-                        <div className='h-1/3 mt-2' on>
+                        <div className='my-2 flex flex-row' on>
                             {this.displayFriendFields()}
                             <div>
                                 <ul>
