@@ -10,7 +10,7 @@ class SplitPopUp extends Component {
             currentUser: this.props.currentUser,
             userFriends: this.props.currentUser.friends,
             filteredFriends: this.props.userFriends,
-            showResults: false,
+            showResults: [],
             nameFilled: false,
             friendFields: [],
             friendFieldLen: 1,
@@ -28,7 +28,7 @@ class SplitPopUp extends Component {
 
     pasteOption = (i, event) => {
         console.log(event.target.value)
-        this.setState(({showResults: false}), this.setState({filteredFriends: []}, this.setState({nameFilled: true}, this.setMoneyReceiver(i, event))))
+        this.setState((this.setState({filteredFriends: []}, this.setState({nameFilled: true}, this.setMoneyReceiver(i, event)))),  this.setShowResult(i, false))
     } 
 
     amountValidation(event){
@@ -50,14 +50,20 @@ class SplitPopUp extends Component {
         console.log(receiverList)
     }
 
+    setShowResult = (i, val)=> {
+        let results = this.state.showResults
+        results[i] = val
+        this.setState({showResults: results})
+    }
+
     setFilteredFriends = (i) => {
         console.log('filtering: ', i)
         if(this.state.moneyReceiver[i] === '') {
-            this.setState(({showResults: false}),this.setState({filteredFriends: []}))
+            this.setState(this.setState({filteredFriends: []}, this.setShowResult(i, false)))
             
         }
         else{
-            this.setState({filteredFriends: this.state.userFriends.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver[i].toString())))}, this.setState({showResults: true}))
+            this.setState({filteredFriends: this.state.userFriends.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver[i].toString())))},  this.setShowResult(i, true))
         }
         
     }
@@ -75,12 +81,12 @@ class SplitPopUp extends Component {
                 <li>
                     <div className='h-1/3 mt-2'>
                         Friend:
-                        <input className="ml-5 pl-2" value={this.state.moneyReceiver[i]}
+                        <input className="ml-8 w-44 pl-2" value={this.state.moneyReceiver[i]}
                                 onChange={(e) => this.setMoneyReceiver(i, e)} placeholder="Friend"/>
                         <button className='mx-3 px-0.5 w-4 h-4' 
                                 onClick={this.newFriendField}>➕</button>
-                        {this.state.showResults ? (
-                        <div>
+                        {this.state.showResults[i] ? (
+                        <div className='ml-20 w-44 opacity-100 bg-white absolute'>
                             <ul className=''>
                                 {this.state.filteredFriends.map((friend) =>
                                 {
@@ -123,7 +129,7 @@ class SplitPopUp extends Component {
                             <form>
                                 <label>
                                     Amount:
-                                    <input className="ml-2 pl-2" type="text"  value={this.state.amount} onChange={this.amountValidation} placeholder="Amount"/>
+                                    <input className="ml-5 w-44 pl-2" type="text"  value={this.state.amount} onChange={this.amountValidation} placeholder="Amount"/>
                                 </label>                
                             </form>
                         </div>
