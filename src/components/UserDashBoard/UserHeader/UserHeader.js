@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import SendPopUp from './PopUps/SendPopUp'; 
-import RequestPopUp from './PopUps/RequestPopUp';
-import SplitPopUp from './PopUps/SplitPopUp';
+import SendPopUp from './SendPopUp'; 
+import RequestPopUp from './RequestPopUp'
+import SplitPopUp from './SplitPopUp';
 
 class UserHeader extends Component {
     constructor(props) {
