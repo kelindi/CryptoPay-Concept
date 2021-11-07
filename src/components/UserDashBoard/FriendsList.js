@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+import uuid from 'react-uuid'
+
+
 /*
 TODO
 note: please use camelCaseCase
@@ -25,20 +28,67 @@ Only do work in your file
 
 
 class FriendsList extends Component {
+    
     constructor(props) {
         super(props);
     }
+
+    state = {
+        userNameToSearch: "",
+        friends: this.props.currentUser.friends
+    }
     
+
+    allFriendsList(friendsList) {
+        // const [buttonPopup, setButtonPopup] = useState(false)
+
+        return (
+            <div>
+              {
+                  friendsList.map(f => (
+                    <div  key={uuid()}> 
+                        <h1> {f.firstName} </h1>
+                        <h1> {f.lastName} </h1>
+                        <img className='rounded-full h-2/3 w-2/3 m-4 flex items-center justify-center' 
+                             src={f.profilePicture} 
+                             alt="Profile Photo"
+                             onClick = {() => this.friendPop(f)} />
+                    </div>
+                  ))
+              }
+            </div>
+          );        
+    }
     
+
+    friendPop(f){
+        return(
+            <div className = "fixed">
+                <img 
+                             src={f.profilePicture} 
+                             alt="Profile Photo"
+                              />
+                
+            </div>
+        )
+    }
 
     render() {
         
         return (
             <div className = "w-2/12 h-screen bg-blue-300">
-            
+                <h1> Friend List </h1>
+                {this.allFriendsList(this.state.friends)}
+                <button > Add New Friend </button>
             </div>
           );
     }
 }
+
+
+class Pop extends Component{
+
+}
+
  
 export default FriendsList;
