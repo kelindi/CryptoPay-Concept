@@ -5,8 +5,18 @@ class OutgoingMoneyRequest extends Component{
         super(props);
     }
 
+    handleRescind = (request) => {
+        const newRequests = this.props.global.sentMoneyRequests.filter(r => {
+            return r !== request
+        })
+        this.setState({
+            incomingRequests: newRequests
+        })
+        this.props.changeOutgoingMoneyRequests(newRequests)
+    }
+    
     render(){
-        const {request} = this.props
+        const {request, changeOutgoingMoneyRequests, global} = this.props
 
         return(
             <div className="relative rounded-2xl w-full h-20 bg-gray-100 mt-2">
@@ -21,7 +31,8 @@ class OutgoingMoneyRequest extends Component{
                         <div className="px-1 font-light float-right"> Sent on {request.date} </div>
                     </div>
                     <div className="float-right">
-                        <button className="float-left bg-red-600 px-2 py-1 rounded-md">Rescind</button>
+                        <button className="float-left bg-red-600 px-2 py-1 rounded-md"
+                                onClick={() => this.handleRescind(request)}>Rescind</button>
                     </div>
                 
                 </div>
