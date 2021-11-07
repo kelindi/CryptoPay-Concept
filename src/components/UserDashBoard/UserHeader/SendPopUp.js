@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import FriendFinder from './FriendFinder';
  
 class SendPopUp extends Component {
     constructor(props) {
@@ -62,6 +61,11 @@ class SendPopUp extends Component {
         
     }
 
+    pasteOption = (event) => {
+        console.log(event.target.value)
+        this.setState(({showResults: false}), this.setState({filteredFriends: []}, this.setState({moneyReceiver: event.target.value})))
+    } 
+
     
 
     render() {
@@ -77,14 +81,14 @@ class SendPopUp extends Component {
                         {/* Searching friends */}
                         <div className='h-1/3 mt-2'>
                             Friend:
-                            <input className="ml-5 pl-2" value={this.state.moneyReceiver} onChange={this.setMoneyReceiver} placeholder="Friend"/>
+                            <input className="ml-8 w-44 pl-2" value={this.state.moneyReceiver} onChange={this.setMoneyReceiver} placeholder="Friend"/>
                             { this.state.showResults ? (
-                            <div>
+                            <div className='ml-20 w-44 pl-1 opacity-100 bg-white absolute'>
                                 <ul className=''>
                                     {this.state.filteredFriends.map((friend) =>
                                     {
                                         return (
-                                            <li>{friend.userName}</li>
+                                            <li><button onClick={this.pasteOption} value={friend.userName}>{friend.userName}</button></li>
                                         )
                                     })}
                                 </ul>
@@ -98,7 +102,7 @@ class SendPopUp extends Component {
                             <form>
                                 <label>
                                     Amount:
-                                    <input className="ml-2 pl-2" type="text"  value={this.state.amount} onChange={this.amountValidation} placeholder="Amount"/>
+                                    <input className="ml-5 w-44 pl-2" type="text"  value={this.state.amount} onChange={this.amountValidation} placeholder="Amount"/>
                                 </label>                
                             </form>
                         </div>

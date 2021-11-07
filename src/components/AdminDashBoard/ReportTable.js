@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import { uuid } from "uuidv4";
-import User from "../../classes/User";
+import React, {Component} from "react";
 
 class ReportTable extends Component {
   constructor(props) {
@@ -60,7 +58,7 @@ class ReportTable extends Component {
               <div className="text-center mt-5 text-black">
                 <button
                   className="inline bg-red-500 rounded-xl px-2 py-1 mx-1"
-                  onClick={() => this.setState({ showReportPopup: false })}
+                  onClick={() => this.setState({ showReportPopup: false },this.setState({comment:''}))}
                 >
                   CANCEL
                 </button>
@@ -90,7 +88,7 @@ class ReportTable extends Component {
           <tbody>
             {this.state.reports.map((report) => {
               return (
-                <tr key={report.id}>
+                <tr key={report.id.toString()}>
                   <td className="px-4 py-2 border text-center">
                     {report.submitter.userName.toString()}
                   </td>
@@ -132,10 +130,38 @@ class ReportTable extends Component {
               <th className="px-4 py-2 border text-center">Date</th>
               <th className="px-4 py-2 border text-center">Time</th>
               <th className="px-4 py-2 border text-center">ID</th>
-              <th className="px-4 py-2 border text-center">Resolve</th>
+              <th className="px-4 py-2 border text-center">Comment</th>
             </tr>
           </thead>
           <tbody>
+          {this.state.resolvedReports.map((report) => {
+              return (
+                <tr key={report.id.toString()+"resolved"}>
+                  <td className="px-4 py-2 border text-center">
+                    {report.submitter.userName.toString()}
+                  </td>
+                  <td className="px-4 py-2 border text-center">
+                    {report.reportedUser.userName.toString()}
+                  </td>
+                  <td className="px-4 py-2 border text-center">
+                    {report.reason.toString()}
+                  </td>
+                  <td className="px-4 py-2 border text-center">
+                    {report.date.toString()}
+                  </td>
+                  <td className="px-4 py-2 border text-center">
+                    {report.time.toString()}
+                  </td>
+                  <td className="px-4 py-2 border text-center">
+                    {report.id.toString()}
+                  </td>
+                  <td className="px-4 py-2 border text-center">
+                    {report.resolvedComment}
+                  </td>
+                </tr>
+              );
+            })}
+            
             
           </tbody>
         </table>
