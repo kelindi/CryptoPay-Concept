@@ -5,6 +5,7 @@ import { uuid } from 'uuidv4';
 import IncomingMoneyRequest from './TransactionFeed/IncomingMoneyRequest'
 import { acceptRequest } from './FriendRequestResponses'
 import OutgoingMoneyRequest from './TransactionFeed/OutgoingMoneyTransaction';
+import SendPopUp from './UserHeader/SendPopUp'
 /*
 TODO
 
@@ -38,7 +39,8 @@ class UserFeed extends Component {
             userFriendRequests: this.props.currentUser.friendRequests,
             userSentRequests: this.props.currentUser.sentFriendRequests,
             userMoneyRequests: this.props.currentUser.requests,
-            userSentMoneyRequests: this.props.currentUser.sentRequests
+            userSentMoneyRequests: this.props.currentUser.sentRequests,
+            sendOpen: false
         }
         
     }
@@ -90,6 +92,18 @@ class UserFeed extends Component {
         this.setState({
             userSentRequests: newSentRequests
         })
+    }
+
+    sendPopOn = () => {
+        this.setState({
+            sendOpen: true,
+        });
+    }
+
+    sendPopOff = () => {
+        this.setState({
+            sendOpen: false,
+        });
     }
 
 

@@ -1,9 +1,31 @@
 import React, { Component } from 'react';
+import SendPopUp from '../UserHeader/SendPopUp'
 
 class IncomingMoneyRequest extends Component{
     constructor(props){
         super(props);
+        this.state={
+            balance: this.props.request.destinationUser.currentAccountBalance,
+
+        }
     }
+
+    sendPopOn = () => {
+        this.setState({
+            sendOpen: true,
+        });
+    }
+
+    sendPopOff = () => {
+        this.setState({
+            sendOpen: false,
+        });
+    }
+
+    changeBalance(amount) {
+        this.setState({balance: this.state.balance-amount})
+    }
+
 
     render(){
         const {request} = this.props
@@ -21,11 +43,15 @@ class IncomingMoneyRequest extends Component{
                         <div className="px-1 font-light float-right"> Sent on {request.date} </div>
                     </div>
                     <div className="float-right">
-                        <button className="float-left bg-green-400 opacity-75 w-1/2 py-1 rounded-md">Accept</button>
+                        <button className="float-left bg-green-400 opacity-75 w-1/2 py-1 rounded-md"
+                                onClick={this.sendPopOn}>Accept</button>
                         <button className="float-right bg-red-600 opacity-80 rounded-md w-1/2 py-1">Reject</button>
                     </div>
-                
                 </div>
+                {this.state.sendOpen ? <SendPopUp currentUser={request.destinationUser} 
+                                                  updateBalance={this.changeBalance} 
+                                                  minimizeSend={this.sendPopOff}
+                                                  maximizeSend={this.sendPopOn} /> : null}
                 
             </div>
         )

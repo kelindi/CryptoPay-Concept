@@ -20,6 +20,9 @@ class OutgoingMoneyRequest extends Component{
                         <div className="px-1 float-left font-light">Amount:{request.amount} </div>
                         <div className="px-1 font-light float-right"> Sent on {request.date} </div>
                     </div>
+                    <div className="float-right">
+                        <button className="float-left bg-red-600 opacity-75 px-2 py-1 rounded-md">Rescind</button>
+                    </div>
                 
                 </div>
                 
