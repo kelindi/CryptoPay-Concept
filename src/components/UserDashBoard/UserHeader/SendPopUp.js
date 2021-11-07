@@ -8,13 +8,15 @@ class SendPopUp extends Component {
             amount: '',
             moneyReceiver: '',
             validAmount: true,
-            searchOn: false,
             currentUser: this.props.currentUser,
-            userFriends: this.props.currentUser.friends
+            userFriends: this.props.currentUser.friends,
+            filteredFriends: this.props.userFriends,
+            showResults: false,
         }
         this.amountValidation = this.amountValidation.bind(this)
         this.sendMoney = this.sendMoney.bind(this)
-        this.setMoneyReceiver = this.setMoneyReceiver.bind(this)
+        // this.setMoneyReceiver = this.setMoneyReceiver(this)
+        // this.setFilteredFriends = this.setFilteredFriends(this)
     }
 
     minimizePopUp = () => {
@@ -40,11 +42,27 @@ class SendPopUp extends Component {
         this.props.minimizeSend()
     }
 
-    setMoneyReceiver(event) {
-        const searchVal = event.target.value
-        this.setState({moneyReceiver: searchVal})   
-        this.setState({searchOn: true})    
+    setMoneyReceiver = (event)=> {
+        // if(event.target.value === ''){
+        //     this.setState({moneyReceiver:event.target.value},this.setState({filteredFriends:[]}))
+        //     return
+        // }
+        this.setState({moneyReceiver: event.target.value}, this.setFilteredFriends)   
     }
+
+    setFilteredFriends = () => {
+        
+        if(this.state.moneyReceiver === '') {
+            this.setState(({showResults: false}),this.setState({filteredFriends: []}))
+            
+        }
+        else{
+            this.setState({filteredFriends: this.state.userFriends.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver.toString())))}, this.setState({showResults: true}))
+        }
+        
+    }
+
+    
 
     render() {
         return (
@@ -59,9 +77,21 @@ class SendPopUp extends Component {
                         {/* Searching friends */}
                         <div className='h-1/3 mt-2'>
                             Friend:
-                            <input className="ml-5 pl-2" type="text"  value={this.state.moneyReceiver} onChange={this.setMoneyReceiver} placeholder="Friend"/>
-                            {this.state.searchOn ? <FriendFinder nameToSearch={this.state.moneyReceiver}
-                                                                 userFriends={this.state.userFriends}/>:null}
+                            <input className="ml-5 pl-2" value={this.state.moneyReceiver} onChange={this.setMoneyReceiver} placeholder="Friend"/>
+                            { this.state.showResults ? (
+                            <div>
+                                <ul className=''>
+                                    {this.state.filteredFriends.map((friend) =>
+                                    {
+                                        return (
+                                            <li>{friend.userName}</li>
+                                        )
+                                    })}
+                                </ul>
+
+                            </div>
+                            ) : null}
+                            {/* {this.state.searchOn ? <FriendFinder displayHTML={this.state.displayHTML}/>:null} */}
                         </div>
     
                         <div className='h-1/3'>

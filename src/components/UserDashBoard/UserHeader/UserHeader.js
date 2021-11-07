@@ -10,6 +10,7 @@ class UserHeader extends Component {
         this.state = { 
             firstName: this.props.currentUser.firstName,
             lastName: this.props.currentUser.lastName,
+            userName: this.props.currentUser.userName,
             pf: this.props.currentUser.profilePicture,
             balance: this.props.currentUser.currentAccountBalance,
             currentUser: this.props.currentUser,
@@ -53,7 +54,7 @@ class UserHeader extends Component {
     render() {
         
         return (
-            <div className = "grid grid-flow-col auto-cols-min h-1/5 bg-blue-100">
+            <div className = "flex flex-row h-1/5 bg-blue-100">
                 {/* 1) placeholder profile photo which can be modified by user
                     2) Display Name
                     3) Display Account Balance 
@@ -62,24 +63,25 @@ class UserHeader extends Component {
                         - Request
                         - Split*/}
                 {/* <img className='UserProfilePhoto' src={this.state.pF} alt="Profile Photo"/> */}
-                <div className='w-48 h-48 ml-8'>
-                    <img className='rounded-full h-2/3 w-2/3 m-4 flex items-center justify-center' src={this.state.pf} alt="Profile Photo"/>
+                <div className='w-48 h-48 flex-shrink-0'>
+                    <img className='rounded-full h-2/3 w-2/3 m-4' src={this.state.pf} alt="Profile Photo"/>
                 </div>
                 
-                <div className='text-left w-96 mr-32'>
+                <div className='text-left flex flex-col flex-shrink-0'>
                     {/* Info */}
-                    <p className='pt-5 text-3xl'><b>{this.state.firstName} {this.state.lastName}</b></p>
-                    <p className='pt-4 text-xl'><b>Balance:</b></p>
-                    <p className='text-2xl'><b>{this.state.balance}</b></p>
+                    <div className = "py-2 text-4xl"><b>{this.state.userName}</b></div>
+                    <div className='py-2 text-2xl'>{this.state.firstName} {this.state.lastName}</div>
+                    <div className='py-2 text-xl'><b>Balance:</b>{this.state.balance}</div>
+
                 </div>
 
-                <div className='pt-4 ml-72 text-center max-w-xl'>
+                <div className='ml-auto px-10 my-1'>
                     {/* Buttons */}
-                    <button className='w-24 h-10 mb-1 bg-blue-300 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
+                    <button className='w-24 h-10 my-1 bg-blue-300 hover:bg-green-200 text-black font-bold rounded-xl hover:border-blue rounded' 
                             onClick={this.sendPopOn}><b>Send</b></button><br></br>
-                    <button className='w-24 h-10 mb-1 bg-blue-300 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
+                    <button className='w-24 h-10 my-1 bg-blue-300 hover:bg-green-200 text-black font-bold rounded-xl hover:border-blue rounded' 
                             onClick={this.reqPop}><b>Request</b></button><br></br>
-                    <button className='w-24 h-10 mb-1 bg-blue-300 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
+                    <button className='w-24 h-10 my-1 bg-blue-300 hover:bg-green-200 text-black font-bold rounded-xl hover:border-blue rounded' 
                             onClick={this.splitPop}><b>Split</b></button>
                 </div>
                 {this.state.sendOpen ? <SendPopUp currentUser = {this.state.currentUser} 
