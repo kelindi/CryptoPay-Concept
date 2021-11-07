@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import FriendFinder from './FriendFinder';
  
 class SendPopUp extends Component {
     constructor(props) {
@@ -7,11 +8,13 @@ class SendPopUp extends Component {
             amount: '',
             moneyReceiver: '',
             validAmount: true,
-            // currentUser: this.props.currentUser
-            // userBalance: this.props.currentUser.currentAccountBalance
+            searchOn: false,
+            currentUser: this.props.currentUser,
+            userFriends: this.props.currentUser.friends
         }
         this.amountValidation = this.amountValidation.bind(this)
         this.sendMoney = this.sendMoney.bind(this)
+        this.setMoneyReceiver = this.setMoneyReceiver.bind(this)
     }
 
     minimizePopUp = () => {
@@ -20,7 +23,7 @@ class SendPopUp extends Component {
 
     maxmizePopUp = () => {
         this.props.maximizeSend();
-       };
+    };
 
     amountValidation(event){
         const amount = event.target.value
@@ -29,13 +32,18 @@ class SendPopUp extends Component {
         }
         else {
             this.setState({validAmount: false})
-            console.log("NUMBER IBIBI")
         }
     }
 
     sendMoney(){
         this.props.updateBalance(this.state.amount)
         this.props.minimizeSend()
+    }
+
+    setMoneyReceiver(event) {
+        const searchVal = event.target.value
+        this.setState({moneyReceiver: searchVal})   
+        this.setState({searchOn: true})    
     }
 
     render() {
@@ -49,14 +57,23 @@ class SendPopUp extends Component {
                 <div className="bg-gray-200 md:text-base text-sm border-b p-2 h-48">
                     <div className='h-2/3'>
                         {/* Searching friends */}
-                        <form>
-                            <label>
-                                Amount:
-                                <input className="ml-2 pl-2" type="text"  value={this.state.amount} onChange={this.amountValidation} placeholder="Amount"/>
-                            </label>                
-                        </form>
+                        <div className='h-1/3 mt-2'>
+                            Friend:
+                            <input className="ml-5 pl-2" type="text"  value={this.state.moneyReceiver} onChange={this.setMoneyReceiver} placeholder="Friend"/>
+                            {this.state.searchOn ? <FriendFinder nameToSearch={this.state.moneyReceiver}
+                                                                 userFriends={this.state.userFriends}/>:null}
+                        </div>
+    
+                        <div className='h-1/3'>
+                            <form>
+                                <label>
+                                    Amount:
+                                    <input className="ml-2 pl-2" type="text"  value={this.state.amount} onChange={this.amountValidation} placeholder="Amount"/>
+                                </label>                
+                            </form>
+                        </div>
                     </div>
-                    <div className='w-1/1 mt-4 text-right'>
+                    <div className='w-1/1 mt-2 text-right'>
                         <button className='bg-green-500 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                         onClick={this.sendMoney}><b>Send</b></button>
                         <button className='ml-1 bg-red-500 hover:bg-red-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 

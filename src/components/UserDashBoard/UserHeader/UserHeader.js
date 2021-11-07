@@ -12,6 +12,7 @@ class UserHeader extends Component {
             lastName: this.props.currentUser.lastName,
             pf: this.props.currentUser.profilePicture,
             balance: this.props.currentUser.currentAccountBalance,
+            currentUser: this.props.currentUser,
             // used backend.js
             sendOpen: false,
             requestOpen: false,
@@ -81,7 +82,10 @@ class UserHeader extends Component {
                     <button className='w-24 h-10 mb-1 bg-blue-300 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                             onClick={this.splitPop}><b>Split</b></button>
                 </div>
-                {this.state.sendOpen ? <SendPopUp updateBalance = {this.changeBalance} minimizeSend={this.sendPopOff} maximizeSend={this.sendPopOn} /> : null}
+                {this.state.sendOpen ? <SendPopUp currentUser = {this.state.currentUser} 
+                                                  updateBalance = {this.changeBalance} 
+                                                  minimizeSend={this.sendPopOff}
+                                                  maximizeSend={this.sendPopOn} /> : null}
                 {this.state.requestOpen ? <RequestPopUp toggle={this.reqPop} /> : null}
                 {this.state.splitOpen ? <SplitPopUp toggle={this.splitPop} /> : null}
             </div>
