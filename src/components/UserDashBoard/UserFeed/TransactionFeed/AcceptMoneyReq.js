@@ -11,10 +11,10 @@ class AcceptMoneyReq extends Component{
     }
 
     render(){
-        const { request, acceptRequest, cancel } = this.props
+        const { request, acceptRequest, cancel, user} = this.props
 
         return(
-            <div className="bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/4 top-1/3 ">
+            <div className="bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/4 top-1/3">
                 {/* <div className="px-4 backdrop-filter my-4">
                     Hi
                 </div> */}
@@ -29,7 +29,7 @@ class AcceptMoneyReq extends Component{
                         </div>
                         <div className='w-1/1 mt-2 text-center'>
                         <button className='bg-green-400 hover:bg-green-300 text-black font-light py-2 px-4 rounded-xl hover:border-blue rounded'
-                                onClick={() => this.props.acceptRequest(request.amount, request.originUser)}>Yes</button>
+                                onClick={() => this.props.acceptRequest(request.amount, request)}>Yes</button>
                         <button className='ml-1 bg-red-400 hover:bg-red-300 text-black font-light py-2 px-4 rounded-xl hover:border-blue rounded'>No, cancel transaction</button>
                     </div>
                         

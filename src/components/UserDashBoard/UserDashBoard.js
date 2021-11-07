@@ -69,14 +69,14 @@ class UserDashBoard extends Component {
             <div className="font-sans">
                 <div className = "flex flex-column h-100">
                     
-                    <div className = "w-10/12 h-screen">
-                        <NotificationBar global = {this.state} incomingFriendRequests = {this.state.incomingFriendRequests}></NotificationBar>
+                    <div className = "w-10/12 h-screen flex-shrink-0">
+                        <NotificationBar changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} global = {this.state}></NotificationBar>
                         <UserHeader changeUserBalance = {this.changeUserBalance} global ={this.state} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserHeader>
 
-                        <UserFeed changeIncomingMoneyRequests = {this.changeIncomingMoneyRequests} changeUserBalance = {this.changeUserBalance} changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserFeed>
+                        <UserFeed global = {this.state} changeOutgoingMoneyRequests= {this.changeSentMoneyRequests} changeIncomingMoneyRequests = {this.changeIncomingMoneyRequests} changeUserBalance = {this.changeUserBalance} changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserFeed>
                     </div>
                     
-                    <FriendsList backend ={this.props.backend} currentUser ={this.props.currentUser}></FriendsList>
+                    <FriendsList className = "w-2/12 flex-shrink-0" backend ={this.props.backend} currentUser ={this.props.currentUser}></FriendsList>
                 </div>
                 
             </div>
