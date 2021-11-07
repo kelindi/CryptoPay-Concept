@@ -4,6 +4,7 @@ import SentFriendRequest from "./SentFriendRequest"
 import { uuid } from 'uuidv4';
 import IncomingMoneyRequest from './TransactionFeed/IncomingMoneyRequest'
 import { acceptRequest } from './FriendRequestResponses'
+import OutgoingMoneyRequest from './TransactionFeed/OutgoingMoneyTransaction';
 /*
 TODO
 
@@ -158,6 +159,12 @@ class UserFeed extends Component {
                     </div>
                     <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100 opacity-90">
                         <div className="font-sans text-blue-800 text-xl font-light tracking-widest text-center">OUTGOING MONEY REQUESTS</div>
+                        {this.state.userSentMoneyRequests.map(request => (
+                            <OutgoingMoneyRequest
+                                key={uuid()}
+                                request={request}    
+                            />
+                        ))}
                     </div>
                     {/* div for rest of the feed */}
 
