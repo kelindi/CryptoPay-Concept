@@ -32,11 +32,12 @@ class ReportTable extends Component {
     const newReportsArray = this.state.reports.filter(
       (r) => r !== this.state.reportToResolve
     );
-    const newResolvedReports = this.state.resolvedReports
-    this.state.reportToResolve.resolvedComment = this.state.comment.toString()
-    newResolvedReports.push(this.state.reportToResolve)
-    console.log(newResolvedReports)
-    this.setState({resolvedReports:newResolvedReports},console.log(this.state.resolvedReport));
+    const newResolvedReports = this.state.resolvedReports;
+    this.state.reportToResolve.resolvedComment = this.state.comment.toString();
+    newResolvedReports.push(this.state.reportToResolve);
+    this.setState(
+      { resolvedReports: newResolvedReports }
+    );
     this.setState({ reports: newReportsArray });
     this.setState({ showReportPopup: false });
   }
@@ -48,8 +49,13 @@ class ReportTable extends Component {
           <div className="absolute z-100 bg-black shadow-lg border w-2/6 h-auto mx-auto left-0 right-0 top-1/4 rounded-lg bg-opacity-90 text-white">
             <div className="relative px-4 backdrop-filter my-4">
               <div className="text-center backdrop-filter ">
-                <label className = "block">Comments:</label>
-                <textarea type = "text" className = "text-black px-2 rounded-md w-96 h-32" value={this.state.comment} onChange={(e) => this.updateComment(e)}></textarea>
+                <label className="block">Comments:</label>
+                <textarea
+                  type="text"
+                  className="text-black px-2 rounded-md w-96 h-32"
+                  value={this.state.comment}
+                  onChange={(e) => this.updateComment(e)}
+                ></textarea>
               </div>
               <div className="text-center mt-5 text-black">
                 <button
@@ -130,9 +136,7 @@ class ReportTable extends Component {
             </tr>
           </thead>
           <tbody>
-            { 
-            console.log("k")
-            }
+            
           </tbody>
         </table>
       </div>
