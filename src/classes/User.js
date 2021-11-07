@@ -11,6 +11,7 @@ class User{
         this.transactions = []
 		this.requests = []
 		this.sentRequests = []
+		this.sentFriendRequests =[]
 		this.friendRequests =[]
         this.currentAccountBalance = currentAccountBalance
         this.walletAddress = walletAddress
