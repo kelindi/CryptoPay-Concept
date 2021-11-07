@@ -34,6 +34,8 @@ class IncomingMoneyRequest extends Component{
                 incomingRequests: newRequests
             })
             )
+        this.props.changeIncomingMoneyRequests(newRequests)
+        this.props.changeUserBalance(newBalance)
     }
     // changeBalance(amount) {
     //     this.setState({balance: this.state.balance-amount})
@@ -49,7 +51,7 @@ class IncomingMoneyRequest extends Component{
     */
 
     render(){
-        const {request} = this.props
+        const {request, changeIncomingMoneyRequests, changeUserBalance} = this.props
 
         return(
             <div className="relative rounded-2xl w-full h-20 bg-gray-100 mt-2">
@@ -70,7 +72,7 @@ class IncomingMoneyRequest extends Component{
                     </div>
                 </div>
                 {this.state.sendOpen ? <AcceptMoneyReq request={request} 
-                                                       acceptRequest={this.handleAccept} 
+                                                       acceptRequest={this.handleAccept}
                                                        minimizeSend={this.sendPopOff} /> : null}
                 
             </div>
