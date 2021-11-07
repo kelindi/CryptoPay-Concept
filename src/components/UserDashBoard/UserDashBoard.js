@@ -22,7 +22,7 @@ class UserDashBoard extends Component {
         };
     }
 
-
+    //comment
     changeUserBalance = (x) => {
         this.setState({userBalance:x})
     }
