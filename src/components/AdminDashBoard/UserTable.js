@@ -86,7 +86,7 @@ class UserTable extends Component {
     let divs = document.querySelectorAll("." + user.userName.toString());
     divs.forEach((div) => {
       div.setAttribute("contenteditable", "true");
-      div.classList.add("border", "border-black-500", "rounded-md", "mx-2");
+      div.classList.add("border", "border-gray-500", "rounded-md", "mx-2","animate-pulse");
     });
 
     //show the save button
@@ -103,7 +103,7 @@ class UserTable extends Component {
     let divs = document.querySelectorAll("." + user.userName.toString());
     divs.forEach((div) => {
       div.setAttribute("contenteditable", "false");
-      div.classList.remove("border", "border-black-500", "rounded-md", "mx-2");
+      div.classList.remove("border", "border-gray-500", "rounded-md", "mx-2",'animate-pulse');
     });
 
     //show edit button
@@ -190,7 +190,7 @@ class UserTable extends Component {
         {this.state.showDeleteConfirm ? (
           <div className="absolute z-100 bg-black shadow-lg border w-1/6 mx-auto left-0 right-0 top-1/4 rounded-lg bg-opacity-90 text-white">
             <div className="px-4 backdrop-filter my-4">
-              <div className="text-center backdrop-filter">
+              <div className="text-center">
                 Are you sure you want to delete{" "}
                 <b className="text-red-500">
                   {this.state.userToDelete.userName}
@@ -253,7 +253,7 @@ class UserTable extends Component {
                 ></input>
               </th>
               <th className="px-1 py-2 border text-center"> Account Balance</th>
-              <th className="px-1 py-2 border text-center">Edit</th>
+              <th className="px-1 py-2 border text-center ">Edit</th>
               <th className="px-1 py-2 border text-center">Delete User</th>
             </tr>
           </thead>
@@ -261,7 +261,7 @@ class UserTable extends Component {
           <tbody>
             {this.state.users.map((user) => {
               return (
-                <tr key={user.userName}>
+                <tr key={user.userName.toString()}>
                   <td className="px-0.5 py-1 border text-center">
                     <img
                       className="m-auto w-10 h-10 rounded-full flex items-center justify-center"
@@ -294,7 +294,7 @@ class UserTable extends Component {
                       className={
                         user.userName.toString() +
                         "editbutton" +
-                        " bg-gray-400 border  rounded-2xl px-2 py-1"
+                        " bg-gray-400 border  rounded-2xl px-2 py-1 transform hover:scale-110 transition duration-500 ease-in-out"
                       }
                       onClick={(event) => this.editMode(user, event)}
                     >
@@ -305,7 +305,7 @@ class UserTable extends Component {
                       className={
                         user.userName.toString() +
                         "savebutton" +
-                        " hidden bg-green-500 border border-black rounded-2xl px-2 py-1"
+                        " hidden bg-green-500 border border-black rounded-2xl px-2 py-1 transform hover:scale-110 transition duration-500 ease-in-out"
                       }
                     >
                       Save
@@ -313,7 +313,7 @@ class UserTable extends Component {
                   </td>
                   <td className="px-0.5 py-1 border text-center mx-2">
                     <button
-                      className={" bg-red-500 border  rounded-2xl px-2 py-1"}
+                      className={" bg-red-500 border  rounded-2xl px-2 py-1 transform hover:scale-110 transition duration-500 ease-in-out"}
                       onClick={() => this.showDeleteUser(user)}
                     >
                       {" "}

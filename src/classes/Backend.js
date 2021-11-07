@@ -20,7 +20,7 @@ class Backend {
     this.user5 = new User("firstName5", "lastName5", "user5", 5005, uuid());
     this.user6 = new User("firstName6", "lastName6", "user6", 6006, uuid());
     this.user7 = new User("firstName7", "lastName7", "user7", 7007, uuid());
-    this.user8 = new User("firstName8", "lastName8", "user6", 8000, uuid());
+    this.user8 = new User("firstName8", "lastName8", "user8", 8000, uuid());
     this.user9 = new User("firstName9", "lastName9", "user9", 9000, uuid());
     this.user10 = new User("firstName10", "lastName10", "user10", 10006, uuid());
 
@@ -131,12 +131,28 @@ class Backend {
 
     this.mr1 = new MoneyRequest(this.user1, this.user2, 100, "10-01-2021");
     this.mr2 = new MoneyRequest(this.user1, this.user3, 100, "10-02-2021");
+    // ============================Incoming money requests for user1==========================================
+    this.mr3 = new MoneyRequest(this.user2, this.user1, 200, "10-01-2021");
+    this.mr4 = new MoneyRequest(this.user3, this.user1, 30, "10-02-2021");
+    this.mr5 = new MoneyRequest(this.user3, this.user1, 300, "10-01-2021");
+    //========================================================================================================
 
     this.user1.sentRequests.push(this.mr1)
     this.user2.sentRequests.push(this.mr2)
 
+    // ==============================incoming mrs pushed for user1===========================================
+    this.user1.requests.push(this.mr3)
+    this.user1.requests.push(this.mr4)
+    this.user1.requests.push(this.mr5)
+    // ======================================================================================================
+
     this.moneyRequests.push(this.mr1);
     this.moneyRequests.push(this.mr2);
+    // ================================ MRs for incoming requests for user1==================================
+    this.moneyRequests.push(this.mr3)
+    this.moneyRequests.push(this.mr4)
+    this.moneyRequests.push(this.mr5)
+    // =====================================================================================================
     this.transactions.push(this.tr1);
     this.transactions.push(this.tr2);
     this.transactions.push(this.tr3);

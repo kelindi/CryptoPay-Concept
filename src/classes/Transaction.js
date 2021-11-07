@@ -1,9 +1,9 @@
 import { uuid } from "uuidv4"
 
 class Transaction {
-	constructor(originUserName, destinationUserName,amount,date, time) {
-		this.originUser = originUserName
-        this.destinationUser = destinationUserName
+	constructor(originUser, destinationUser,amount,date, time) {
+		this.originUser = originUser
+        this.destinationUser = destinationUser
         this.amount = amount
         this.date = date
 		this.time = time
