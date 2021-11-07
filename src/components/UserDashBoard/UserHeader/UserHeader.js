@@ -101,6 +101,7 @@ class UserHeader extends Component {
                 {this.state.splitOpen ? <SplitPopUp currentUser={this.state.currentUser} 
                                                 //   updateBalance={this.changeBalance} 
                                                   minimizeSplit={this.splitPopOff}
+                                                  updateBalance={this.changeBalance}
                                                   maximizeSplit={this.splitPopOn} /> : null}
             </div>
           );
