@@ -6,6 +6,7 @@ class SplitPopUp extends Component {
         this.state = {
             amount: '',
             moneyReceiver: [],
+            percentages: [],
             validAmount: false,
             currentUser: this.props.currentUser,
             userFriends: this.props.currentUser.friends,
@@ -27,13 +28,20 @@ class SplitPopUp extends Component {
     };
 
     pasteOption = (i, event) => {
-        console.log(event.target.value)
+        // console.log(event.target.value)
         this.setState((this.setState({filteredFriends: []}, this.setState({nameFilled: true}, this.setMoneyReceiver(i, event)))),  this.setShowResult(i, false))
     } 
 
     splitMoney = () => {
-        if(this.state.validAmount && this.state.nameFilled){
-            this.props.updateBalance(this.state.amount) //CHANGE THIS LATER TO SPLIT AMOUNT
+        let validPercent = false
+        let sum = this.state.percentages.reduce((a, b) => a + b, 0)
+        console.log(this.state.percentages.length)
+        console.log(this.state.friendFieldLen)
+        if(sum <= 100 && this.state.percentages.length == this.state.friendFieldLen) {     
+            validPercent = true
+        }
+        if(this.state.validAmount && this.state.nameFilled && validPercent){
+            this.props.updateBalance(this.state.amount*(100-sum)/100) //CHANGE THIS LATER TO SPLIT AMOUNT
             this.props.minimizeSplit()
         }  
     }
@@ -45,6 +53,16 @@ class SplitPopUp extends Component {
         }
     }
 
+    percentValidation = (i, event) => {
+        const percent = event.target.value
+        let percentVal = +percent
+        if(!isNaN(percentVal)) {
+            let percentages = this.state.percentages
+            percentages[i] = percentVal
+            this.setState({percentages: percentages})
+        }
+    }
+
     setMoneyReceiver = (i, event)=> {
         // if(event.target.value === ''){
         //     this.setState({moneyReceiver:event.target.value},this.setState({filteredFriends:[]}))
@@ -53,8 +71,8 @@ class SplitPopUp extends Component {
         let receiverList = this.state.moneyReceiver
         receiverList[i] = event.target.value
         this.setState({moneyReceiver: receiverList}, this.setFilteredFriends(i))   
-        console.log(event.target.value)
-        console.log(receiverList)
+        // console.log(event.target.value)
+        // console.log(receiverList)
     }
 
     setShowResult = (i, val)=> {
@@ -79,33 +97,50 @@ class SplitPopUp extends Component {
         this.setState({friendFieldLen: this.state.friendFieldLen + 1})
     }
 
+    deleteFriendField = () => {
+        alert("TO DO!")
+    }
+
     displayFriendFields = () => {
-        console.log(this.state.friendFieldLen)
-        console.log(this.state.addFriend)
+        // console.log(this.state.friendFieldLen)
+        // console.log(this.state.addFriend)
         for(let i=0; i<this.state.friendFieldLen; i++) {
             this.state.friendFields[i] = (
                 // might have to add key for uniqueness, friend deletion
-                <li>
-                    <div className='h-1/3 mb-2'>
-                        Friend:
-                        <input className="ml-8 w-44 pl-2" value={this.state.moneyReceiver[i]}
-                                onChange={(e) => this.setMoneyReceiver(i, e)} placeholder="Friend"/>
-                                <button className='mx-3 px-0.5 w-4 h-4' 
-                                    onClick={this.newFriendField}></button>
-                        {this.state.showResults[i] ? (
-                        <div className='ml-20 w-44 opacity-100 bg-white absolute'>
-                            <ul className=''>
-                                {this.state.filteredFriends.map((friend) =>
-                                {
-                                    return (
-                                        <li><button onClick={(e)=>this.pasteOption(i,e)} value={friend.userName}>{friend.userName}</button></li>
-                                    )
-                                })}
-                            </ul>
+                <li key={i}>
+                    <div className='h-1/3 mb-2 flex flex-row'>
+                        <div>
+                            Friend:
+                            <input className="ml-8 w-44 pl-2" value={this.state.moneyReceiver[i]}
+                                    onChange={(e) => this.setMoneyReceiver(i, e)} placeholder="Friend"/>
+                                {this.state.friendFieldLen>1? (
+                                    <button className='mx-3 px-0.5 w-4 h-4' value={i} onClick={this.deleteFriendField}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+                                            <path d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/>
+                                        </svg>
+                                    </button>
+                                ): null}
+                            {this.state.showResults[i] ? (
+                            <div className='ml-20 w-44 opacity-100 bg-white absolute'>
+                                <ul className=''>
+                                    {this.state.filteredFriends.map((friend) =>
+                                    {
+                                        return (
+                                            <li><button onClick={(e)=>this.pasteOption(i,e)} value={friend.userName}>{friend.userName}</button></li>
+                                        )
+                                    })}
+                                </ul>
 
+                            </div>
+                            ):null}
                         </div>
-                        ):null}
-                        {/* {this.state.searchOn ? <FriendFinder displayHTML={this.state.displayHTML}/>:null} */}
+                        <div className = 'mx-4'>
+                            Percent:
+                            <input className = 'w-16 ml-2 pl-2' value={this.state.percentages[i]} placeholder='0.0'
+                            onChange={(e) => this.percentValidation(i, e)}>
+                            </input>
+                        </div>
                     </div>         
                 </li>
             )
@@ -132,7 +167,12 @@ class SplitPopUp extends Component {
                             </div>
                         </div> 
                         <div>
-                        <button className='mx-3 px-0.5 w-4 h-4' onClick={this.newFriendField}>➕</button>
+                        <button className='mx-3 px-0.5 w-4 h-4' onClick={this.newFriendField}>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+                                <path d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                            </svg>
+                        </button>
                         </div>
                         <div className='h-1/3'>
                             <form>
