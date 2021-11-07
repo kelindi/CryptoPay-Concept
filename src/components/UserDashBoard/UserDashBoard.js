@@ -77,7 +77,7 @@ class UserDashBoard extends Component {
                         </div>
                         <UserHeader backend ={this.props.backend} currentUser ={this.props.currentUser}></UserHeader>
 
-                        <UserFeed backend ={this.props.backend} currentUser ={this.props.currentUser}></UserFeed>
+                        <UserFeed changeUserBalance = {this.changeUserBalance} changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserFeed>
                     </div>
                     
                     <FriendsList backend ={this.props.backend} currentUser ={this.props.currentUser}></FriendsList>

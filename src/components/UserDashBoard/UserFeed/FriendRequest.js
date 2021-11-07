@@ -9,61 +9,7 @@ class FriendRequest extends Component{
         }
     }
 
-    // handleAccept(event){
-    //     event.preventDefault()
-    //     console.log(this.state.requestor)
-    //     const tempUserFriends = this.state.userFriends
-    //     tempUserFriends.push(this.state.requestor)
-    //     this.setState({
-    //         userFriends: tempUserFriends
-    //     }, // backend call to change friends list of user 
-    //     // this.state.user.setState({
-    //     //     friends: tempUserFriends
-    //     // }, 
-    //     () => {
-    //         console.log(this.state.user.friendRequests)
-    //         const newRequests = this.state.userFriendRequests.filter(r => {
-    //             return r !== this.state.requestor
-    //         })
-    //         this.setState({
-    //             userFriendRequests: newRequests
-    //         })
-    //         // backend call to change friends requests of user 
-    //         // this.state.user.setState({
-    //         //     friendRequests: newRequests
-    //         // })
-    //         console.log(this.friendRequests)
-    //         console.log(this.state.user.friends)
-    //         console.log(this.state.requestor.friends)
-    //     }
-    //     ) 
-
-        // this is backend remove from this phase
-        // const tempSenderFriends = this.state.requestor.friends
-        // tempSenderFriends.push(this.state.user)
-        // this.state.requestor.setState({
-        //     friends: tempSenderFriends
-        // })
-
-        // console.log(this.state.user.friendRequests)
-        // const newRequests = this.state.user.friendRequests.filter(r => {
-        //     return r !== this.state.requestor
-        // })
-        // this.state.user.setState({
-        //     friendRequests: newRequests
-        // })
-        // console.log(this.state.user.friendRequests)
-        // console.log(this.state.user.friends)
-        // console.log(this.state.requestor.friends)
-        
-        // this is backend, we will take care of this in phase 2
-        // const newSenderRequests = this.state.requestor.sentRequests.filter(s => {
-        //     return s !== this.state.user
-        // })
-        // this.state.requestor.setState({
-        //     sentRequests: newSenderRequests
-        // })
-    // }
+    
 
     render(){
         // const { user,requestor, acceptRequest } = this.props;

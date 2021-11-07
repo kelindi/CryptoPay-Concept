@@ -32,8 +32,6 @@ class UserFeed extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // sentRequests: [],
-            // friendRequest: []
             user: this.props.currentUser,
             userFriends: this.props.currentUser.friends,
             userFriendRequests: this.props.currentUser.friendRequests,
@@ -57,15 +55,18 @@ class UserFeed extends Component {
         }, // backend call to change friends list of user 
             // this.state.user.setState({
             //     friends: tempUserFriends
-            // }, 
+            // },
             this.setState({
                 userFriendRequests: newRequests
             })
+            
             // backend call to change friends requests of user 
             // this.state.user.setState({
             //     friendRequests: newRequests
             // })
         )
+        this.props.changeFriendsList(tempUserFriends)
+        this.props.changeIncomingFriendRequests(newRequests)
     }
 
     handleReject = requestor => {
