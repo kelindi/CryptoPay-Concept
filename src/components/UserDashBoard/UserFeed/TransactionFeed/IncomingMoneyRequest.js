@@ -5,8 +5,11 @@ class IncomingMoneyRequest extends Component{
     constructor(props){
         super(props)   
         this.state = {
-            balance: this.props.request.destinationUser.currentAccountBalance,
-            incomingRequests: this.props.request.destinationUser.requests
+            // balance: this.props.request.destinationUser.currentAccountBalance,
+            // incomingRequests: this.props.request.destinationUser.requests
+            incomingRequests: this.props.user.requests,
+            balance: this.props.global.userBalance,
+            user:this.props.user
         }
     }
 
@@ -22,11 +25,11 @@ class IncomingMoneyRequest extends Component{
         });
     }
 
-    handleAccept = (amount, requestee) => {
-        const newRequests = this.state.incomingRequests.filter(r => {
-            return r !== requestee
+    handleAccept = (amount, request) => {
+        const newRequests = this.props.global.incomingMoneyRequests.filter(r => {
+            return r !== request
         })
-        const newBalance = this.state.balance - amount
+        const newBalance = this.props.global.userBalance - amount
         this.setState({
             balance: newBalance
         },
@@ -36,6 +39,16 @@ class IncomingMoneyRequest extends Component{
             )
         this.props.changeIncomingMoneyRequests(newRequests)
         this.props.changeUserBalance(newBalance)
+    }
+
+    handleReject = (request) => {
+        const newRequests = this.props.global.incomingMoneyRequests.filter(r => {
+            return r !== request
+        })
+        this.setState({
+            incomingRequests: newRequests
+        })
+        this.props.changeIncomingMoneyRequests(newRequests)
     }
     // changeBalance(amount) {
     //     this.setState({balance: this.state.balance-amount})
@@ -51,7 +64,7 @@ class IncomingMoneyRequest extends Component{
     */
 
     render(){
-        const {request, changeIncomingMoneyRequests, changeUserBalance} = this.props
+        const {request, user, global, balance, changeIncomingMoneyRequests, changeUserBalance} = this.props
 
         return(
             <div className="relative rounded-2xl w-full h-20 bg-gray-100 mt-2">
@@ -68,10 +81,12 @@ class IncomingMoneyRequest extends Component{
                     <div className="float-right">
                         <button className="float-left bg-green-400 opacity-75 w-1/2 py-1 rounded-md"
                                 onClick={this.sendPopOn}>Accept</button>
-                        <button className="float-right bg-red-600 opacity-80 rounded-md w-1/2 py-1">Reject</button>
+                        <button className="float-right bg-red-600 opacity-80 rounded-md w-1/2 py-1"
+                                onClick={() => this.handleReject(request)}>Reject</button>
                     </div>
                 </div>
                 {this.state.sendOpen ? <AcceptMoneyReq request={request} 
+                                                       user={user}
                                                        acceptRequest={this.handleAccept}
                                                        minimizeSend={this.sendPopOff} /> : null}
                 

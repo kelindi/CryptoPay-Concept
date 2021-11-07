@@ -110,7 +110,7 @@ class UserFeed extends Component {
 
 
     render() {
-        const { changeIncomingMoneyRequests, changeUserBalance } = this.props
+        const { global, changeIncomingMoneyRequests, changeUserBalance } = this.props
         return (
             <div className="relative rounded-lg h-4/5 bg-gray-300">
                 {/* Container Div */}
@@ -166,18 +166,21 @@ class UserFeed extends Component {
                 <div className="absolute border-2 border-blue-300 border-opacity-100 bottom-0 rounded-xl h-5/6 w-full bg-color bg-blue-300">
                     <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100">
                         <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">INCOMING MONEY REQUESTS</div>
-                        {this.state.userMoneyRequests.map(request => (
+                        {this.props.global.incomingMoneyRequests.map(request => (
                             <IncomingMoneyRequest
                                 key={uuid()}
                                 request={request}
-                                changeIncomingMoneyRequests={changeIncomingMoneyRequests}
-                                changeUserBalance={changeUserBalance}
+                                user={this.state.user}
+                                global={this.props.global}
+                                balance={this.props.currentUser.currentAccountBalance}
+                                changeIncomingMoneyRequests={this.props.changeIncomingMoneyRequests}
+                                changeUserBalance={this.props.changeUserBalance}
                             />
                         ))}
                     </div>
                     <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100">
                         <div className="font-sans text-blue-800 text-xl font-light tracking-widest text-center">OUTGOING MONEY REQUESTS</div>
-                        {this.state.userSentMoneyRequests.map(request => (
+                        {global.sentMoneyRequests.map(request => (
                             <OutgoingMoneyRequest
                                 key={uuid()}
                                 request={request}    
