@@ -42,37 +42,56 @@ class FriendsList extends Component {
     const target = event.target;
     const value = target.value;
     // this.setState({searchContent: value})
-    const filteredUsers = this.state.allUsers.filter((u) =>
-      u.userName.includes(value)
+    const filteredUsers = this.state.allUsers.filter(
+      (u) => u.userName.includes(value) && value !== ""
     );
     this.setState({ usersFound: filteredUsers, searchContent: value });
-    console.log(this.state.searchContent);
-    console.log(this.state.usersFound);
+    // console.log(this.state.searchContent);
+    // console.log(this.state.usersFound);
   };
 
   render() {
     return (
       <div className="w-full flex flex-row ">
         {this.state.showFriendPopUp ? (
-          <div className=" ">
-            <button
-              onClick={() => {
-                this.setState({ showFriendPopUp: false });
-              }}
-            >
-              {" "}
-              <p>' X '</p>{" "}
-            </button>
-            {this.state.selectedFriend.firstName}
-            {this.state.selectedFriend.lastName}
-            <img src={this.state.selectedFriend.profilePicture}></img>
-            <button> Send </button>
-            <button> Request </button>
+          <div className=" bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/3 top-1/3 ">
+            <div>
+              <button
+                onClick={() => {
+                  this.setState({ showFriendPopUp: false });
+                }}
+              >
+                <p> X </p>
+              </button>
+            </div>
+
+            <div className="flex items-center px-4 py-3 border-b hover:bg-gray-100">
+              <img
+                className="h-8 w-8 rounded-full object-cover mx-1"
+                src={this.state.selectedFriend.profilePicture}
+              />
+              <p className="text-gray-600 text-sm mx-2">
+                <span className="font-bold block">
+                  {this.state.selectedFriend.userName}
+                </span>
+                <span>{this.state.selectedFriend.firstName}</span>{" "}
+                <span>{this.state.selectedFriend.lastName}</span>
+              </p>
+              <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white">
+                {" "}
+                Send{" "}
+              </button>
+              <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white">
+                {" "}
+                Request{" "}
+              </button>
+            </div>
+
           </div>
         ) : null}
 
         {this.state.showAddFriends ? (
-          <div className="bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/4 top-1/3">
+          <div className="bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/3 top-1/3">
             <button
               onClick={() => {
                 this.setState({ showAddFriends: false });
@@ -88,16 +107,23 @@ class FriendsList extends Component {
               placeholder="UserName"
             />
             {this.state.usersFound.map((u) => (
-              <div key={uuid()}>
-                <h1> {u.firstName} </h1>
-                <h1> {u.lastName} </h1>
+              <div
+                className="flex items-center px-4 py-3 border-b hover:bg-gray-100"
+                key={uuid()}
+              >
                 <img
-                  className="rounded-full h-2/3 w-2/3 m-4 flex items-center justify-center"
+                  className="h-8 w-8 rounded-full object-cover mx-1"
                   src={u.profilePicture}
-                  alt="Profile Photo"
                 />
+                <p className="text-gray-600 text-sm mx-2">
+                  <span className="font-bold block">{u.userName}</span>
+                  <span>{u.firstName}</span> <span>{u.lastName}</span>
+                </p>
+
                 {!this.state.friends.includes(u) ? (
-                  <button> Send Friend Request </button>
+                  <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white">
+                    Send Friend Request{" "}
+                  </button>
                 ) : null}
               </div>
             ))}
@@ -126,7 +152,7 @@ class FriendsList extends Component {
         </div>
         <div className="absolute bottom-0 flex flex-col justify-center text-center">
           <button
-            className="bg-blue-500 rounded-3xl text-white w-auto items-center"
+            className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
             onClick={() => {
               this.setState({ showAddFriends: true });
             }}
@@ -139,6 +165,6 @@ class FriendsList extends Component {
   }
 }
 
-class Pop extends Component {}
+
 
 export default FriendsList;
