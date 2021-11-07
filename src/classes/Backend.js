@@ -131,27 +131,30 @@ class Backend {
 
     this.mr1 = new MoneyRequest(this.user1, this.user2, 100, "10-01-2021");
     this.mr2 = new MoneyRequest(this.user1, this.user3, 100, "10-02-2021");
-    // ============================Incoming money requests for user1==========================================
+    // ============================Incoming and outgoing money requests for user1==========================================
     this.mr3 = new MoneyRequest(this.user2, this.user1, 200, "10-01-2021");
     this.mr4 = new MoneyRequest(this.user3, this.user1, 30, "10-02-2021");
     this.mr5 = new MoneyRequest(this.user3, this.user1, 300, "10-01-2021");
+    this.mr6 = new MoneyRequest(this.user1, this.user4, 200, "10-03-2021")
     //========================================================================================================
 
     this.user1.sentRequests.push(this.mr1)
     this.user2.sentRequests.push(this.mr2)
 
-    // ==============================incoming mrs pushed for user1===========================================
+    // ==============================incoming and outgoing mrs pushed for user1===========================================
     this.user1.requests.push(this.mr3)
     this.user1.requests.push(this.mr4)
     this.user1.requests.push(this.mr5)
+    this.user1.sentRequests.push(this.mr6)
     // ======================================================================================================
 
     this.moneyRequests.push(this.mr1);
     this.moneyRequests.push(this.mr2);
-    // ================================ MRs for incoming requests for user1==================================
+    // ================================ MRs for incoming and outgoing requests for user1==================================
     this.moneyRequests.push(this.mr3)
     this.moneyRequests.push(this.mr4)
     this.moneyRequests.push(this.mr5)
+    this.moneyRequests.push(this.mr6)
     // =====================================================================================================
     this.transactions.push(this.tr1);
     this.transactions.push(this.tr2);
