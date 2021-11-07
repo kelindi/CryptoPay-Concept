@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import FriendFinder from './FriendFinder';
  
 class SendPopUp extends Component {
     constructor(props) {
