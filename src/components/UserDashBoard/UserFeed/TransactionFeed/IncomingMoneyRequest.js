@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SendPopUp from '../UserHeader/SendPopUp'
+import SendPopUp from '../../UserHeader/SendPopUp'
 
 class IncomingMoneyRequest extends Component{
     constructor(props){

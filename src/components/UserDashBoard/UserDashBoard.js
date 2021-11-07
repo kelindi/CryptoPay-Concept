@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import FriendsList from './FriendsList';
-import UserFeed from './UserFeed';
+import UserFeed from './UserFeed/UserFeed';
 import UserHeader from './UserHeader/UserHeader';
 
 

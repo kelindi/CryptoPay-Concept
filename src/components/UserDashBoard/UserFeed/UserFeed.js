@@ -5,7 +5,7 @@ import { uuid } from 'uuidv4';
 import IncomingMoneyRequest from './TransactionFeed/IncomingMoneyRequest'
 import { acceptRequest } from './FriendRequestResponses'
 import OutgoingMoneyRequest from './TransactionFeed/OutgoingMoneyTransaction';
-import SendPopUp from './UserHeader/SendPopUp'
+
 /*
 TODO
 
