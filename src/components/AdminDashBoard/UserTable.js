@@ -186,7 +186,7 @@ class UserTable extends Component {
 
   render() {
     return (
-      <div className="font-sans">
+      <div className="font-mono">
         {this.state.showDeleteConfirm ? (
           <div className="absolute z-100 bg-black shadow-lg border w-1/6 mx-auto left-0 right-0 top-1/4 rounded-lg bg-opacity-90 text-white">
             <div className="px-4 backdrop-filter my-4">
@@ -199,14 +199,14 @@ class UserTable extends Component {
               </div>
               <div className="text-center mt-5 text-black">
                 <button
-                  className="inline bg-red-500 rounded-xl px-2 py-1 mx-1"
+                  className="inline bg-red-500 rounded-xl px-2 py-1 mx-1 transform hover:scale-110 transition duration-500 ease-in-out"
                   onClick={() => this.setState({ showDeleteConfirm: false })}
                 >
                   CANCEL
                 </button>
                 <button
                   onClick={this.deleteUser}
-                  className="inline bg-green-500 rounded-xl px-2 py-1 mx-1"
+                  className="inline bg-green-500 rounded-xl px-2 py-1 mx-1 transform hover:scale-110 transition duration-500 ease-in-out"
                 >
                   DELETE USER
                 </button>
@@ -215,7 +215,7 @@ class UserTable extends Component {
           </div>
         ) : null}
 
-        <div className="border text-center text-2xl">USERS</div>
+        <div className="border text-center text-3xl py-4">USERS</div>
         <table className="w-full">
           <thead>
             <tr>
@@ -356,7 +356,7 @@ class UserTable extends Component {
               onChange={this.newUserNameChange}
             ></input>
             <button
-              className="bg-green-500 border rounded-2xl px-2 py-1"
+              className="bg-green-500 border rounded-2xl px-2 py-1 transform hover:scale-110 transition duration-500 ease-in-out"
               onClick={() => this.addNewUser()}
             >
               Add New User
