@@ -73,7 +73,7 @@ class UserDashBoard extends Component {
                         <NotificationBar global = {this.state} incomingFriendRequests = {this.state.incomingFriendRequests}></NotificationBar>
                         <UserHeader changeUserBalance = {this.changeUserBalance} global ={this.state} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserHeader>
 
-                        <UserFeed changeUserBalance = {this.changeUserBalance} changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserFeed>
+                        <UserFeed changeIncomingMoneyRequests = {this.changeIncomingMoneyRequests} changeUserBalance = {this.changeUserBalance} changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserFeed>
                     </div>
                     
                     <FriendsList backend ={this.props.backend} currentUser ={this.props.currentUser}></FriendsList>
