@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FriendsList from './FriendsList';
 import UserFeed from './UserFeed';
-import UserHeader from './UserHeader';
+import UserHeader from './UserHeader/UserHeader';
 
 
 class UserDashBoard extends Component {
