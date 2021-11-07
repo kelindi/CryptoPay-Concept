@@ -14,7 +14,7 @@ class AcceptMoneyReq extends Component{
         const { request, acceptRequest, cancel } = this.props
 
         return(
-            <div className="bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/4 top-1/3 ">
+            <div className="bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/4 top-1/3">
                 {/* <div className="px-4 backdrop-filter my-4">
                     Hi
                 </div> */}
