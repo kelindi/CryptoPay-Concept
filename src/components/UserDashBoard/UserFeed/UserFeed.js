@@ -110,7 +110,7 @@ class UserFeed extends Component {
 
 
     render() {
-        const { global, changeIncomingMoneyRequests, changeUserBalance } = this.props
+        const { global, changeOutgoingMoneyRequests, changeIncomingMoneyRequests, changeUserBalance } = this.props
         return (
             <div className="relative rounded-lg h-4/5 bg-gray-300">
                 {/* Container Div */}
@@ -184,6 +184,8 @@ class UserFeed extends Component {
                             <OutgoingMoneyRequest
                                 key={uuid()}
                                 request={request}    
+                                global={this.props.global}
+                                changeOutgoingMoneyRequests={this.props.changeOutgoingMoneyRequests}
                             />
                         ))}
                     </div>
