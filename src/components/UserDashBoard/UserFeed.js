@@ -100,7 +100,7 @@ class UserFeed extends Component {
                 {/* Container Div */}
                 <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/6 w-1/2 bg-color bg-blue-200 ">
                     {/* div for incoming requests */}
-                    <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">INCOMING REQUESTS</div>
+                    <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">INCOMING FRIEND REQUESTS</div>
                     {/* <FriendRequest user={this.props.currentUser} /> */}
                     {this.state.userFriendRequests.map(requestor => (
                        
@@ -136,7 +136,7 @@ class UserFeed extends Component {
                 </div>
                 <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/6 w-1/2 bg-color bg-blue-100">
                     {/* div for outgoing requests */}
-                    <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">OUTGOING REQUESTS</div>
+                    <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">OUTGOING FRIEND REQUESTS</div>
                     {this.state.userSentRequests.map(requestee => (
                         <SentFriendRequest
                             key={uuid()}
