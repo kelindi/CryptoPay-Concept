@@ -40,9 +40,15 @@ class UserHeader extends Component {
         });
     }
 
-    splitPop = () => {
+    splitPopOn = () => {
         this.setState({
-            splitOpen: !this.state.splitOpen,
+            splitOpen: true,
+        });
+    }
+
+    splitPopOff = () => {
+        this.setState({
+            splitOpen: false,
         });
     }
 
@@ -82,14 +88,17 @@ class UserHeader extends Component {
                     <button className='w-24 h-10 my-1 bg-blue-300 hover:bg-green-200 text-black font-bold rounded-xl hover:border-blue rounded' 
                             onClick={this.reqPop}><b>Request</b></button><br></br>
                     <button className='w-24 h-10 my-1 bg-blue-300 hover:bg-green-200 text-black font-bold rounded-xl hover:border-blue rounded' 
-                            onClick={this.splitPop}><b>Split</b></button>
+                            onClick={this.splitPopOn}><b>Split</b></button>
                 </div>
-                {this.state.sendOpen ? <SendPopUp currentUser = {this.state.currentUser} 
-                                                  updateBalance = {this.changeBalance} 
+                {this.state.sendOpen ? <SendPopUp currentUser={this.state.currentUser} 
+                                                  updateBalance={this.changeBalance} 
                                                   minimizeSend={this.sendPopOff}
                                                   maximizeSend={this.sendPopOn} /> : null}
                 {this.state.requestOpen ? <RequestPopUp toggle={this.reqPop} /> : null}
-                {this.state.splitOpen ? <SplitPopUp toggle={this.splitPop} /> : null}
+                {this.state.splitOpen ? <SplitPopUp currentUser={this.state.currentUser} 
+                                                //   updateBalance={this.changeBalance} 
+                                                  minimizeSplit={this.splitPopOff}
+                                                  maximizeSplit={this.splitPopOn} /> : null}
             </div>
           );
     }
