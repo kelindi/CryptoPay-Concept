@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import FriendRequest from "./FriendRequest";
 import SentFriendRequest from "./SentFriendRequest"
-import { uuid} from 'uuidv4';
+import { uuid } from 'uuidv4';
+import { acceptRequest } from './FriendRequestResponses'
 /*
 TODO
 
@@ -28,55 +29,98 @@ class UserFeed extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sentRequests: [],
-            friendRequest: []
+            // sentRequests: [],
+            // friendRequest: []
+            user: this.props.currentUser,
+            userFriends: this.props.currentUser.friends,
+            userFriendRequests: this.props.currentUser.friendRequests
         }
-    
         
     }
-    
-    
 
-    render() { 
+    handleAccept = requestor => {
+        // event.preventDefault()
+        const tempUserFriends = this.state.userFriends
+        tempUserFriends.push(requestor)
+        const newRequests = this.state.userFriendRequests.filter(r => {
+            return r !== requestor
+        })
+        this.setState({
+            userFriends: tempUserFriends
+        }, // backend call to change friends list of user 
+            // this.state.user.setState({
+            //     friends: tempUserFriends
+            // }, 
+            this.setState({
+                userFriendRequests: newRequests
+            })
+            // backend call to change friends requests of user 
+            // this.state.user.setState({
+            //     friendRequests: newRequests
+            // })
+        )
+    }
+
+
+
+    render() {
         return (
-            <div className = "relative rounded-lg h-4/5 bg-gray-300 opacity-75">
+            <div className="relative rounded-lg h-4/5 bg-gray-300 opacity-75">
                 {/* Container Div */}
-                <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-visible rounded-xl h-1/3 w-1/2 bg-color bg-blue-200 ">
+                <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-200 ">
                     {/* div for incoming requests */}
                     <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">INCOMING REQUESTS</div>
                     {/* <FriendRequest user={this.props.currentUser} /> */}
-                    {this.props.currentUser.friendRequests.map(user => (
-                        <FriendRequest 
-                            key = {uuid()}
-                            user={user} />
+                    {this.state.userFriendRequests.map(requestor => (
+                        <FriendRequest
+                            key={uuid()}
+                            user={this.state.user}
+                            requestor={requestor}
+                            acceptRequest={this.handleAccept}
+                        />
                         // console.log(user.firstName)
                     ))}
+
+                    {/* For testing */}
+                    {/* <FriendRequest
+                        key={uuid()}
+                        user={this.props.currentUser.friendRequests[0]}/>
+                    
+                    <FriendRequest
+                        key={uuid()}
+                        user={this.props.currentUser.friendRequests[0]}/>
+                    
+                    <FriendRequest
+                        key={uuid()}
+                        user={this.props.currentUser.friendRequests[0]}/> */}
+
+
                     {/* {
                         displayName = (user) =>{
                         console.log(user)
                         }
                     }   */}
-                    
+
                 </div>
-                <div className="float-right border-2 border-blue-300 border-opacity-100 rounded-xl h-1/3 w-1/2 bg-color bg-blue-100">
+                <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100">
                     {/* div for outgoing requests */}
                     <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">OUTGOING REQUESTS</div>
                     {this.props.currentUser.sentRequests.map(user => (
-                        <SentFriendRequest 
-                            key = {uuid()}
+                        <SentFriendRequest
+                            key={uuid()}
                             user={user} />
                         // console.log(user.firstName)
                     ))}
                 </div>
-                
+
                 <div className="absolute border-2 border-blue-300 border-opacity-100 bottom-0 rounded-xl h-2/3 w-full bg-color bg-blue-300 opacity-60">
                     {/* div for rest of the feed */}
-                
+
                 </div>
             </div>
-            
-          );
+
+        );
     }
 }
- 
+
 export default UserFeed;

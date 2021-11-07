@@ -7,7 +7,7 @@ class SentFriendRequest extends Component{
 
     render(){
         return(
-            <div className="relative rounded-2xl w-full h-20 bg-gray-100">
+            <div className="relative rounded-2xl w-full h-20 bg-gray-100 mt-2">
                 <div className="absolute float-left rounded-full h-20 w-20">
                     <img className="float-left absolute rounded-full h-20 w-20 flex px-3 py-3 items-center
                     justify-center" src={this.props.user.profilePicture}></img>
