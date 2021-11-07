@@ -21,7 +21,7 @@ class MoneyRequestsTable extends Component {
   
     render() {
       return (
-        <div className="font-sans">
+        <div className="font-mono">
           {this.state.showDeletePopup ? (
             <div className="absolute z-100 bg-black shadow-lg border w-2/6 h-auto mx-auto left-0 right-0 top-1/4 rounded-lg bg-opacity-90 text-white">
               <div className="relative px-4 backdrop-filter my-4">
@@ -34,22 +34,22 @@ class MoneyRequestsTable extends Component {
               </div>
                 <div className="text-center mt-5 text-black">
                   <button
-                    className="inline bg-red-500 rounded-xl px-2 py-1 mx-1"
+                    className="inline bg-red-500 rounded-xl px-2 py-1 mx-1 transform hover:scale-110 transition duration-500 ease-in-out"
                     onClick={() => this.setState({ showDeletePopup: false })}
                   >
                     CANCEL
                   </button>
                   <button
                     onClick={() => this.deleteRequest()}
-                    className="inline bg-green-500 rounded-xl px-2 py-1 mx-1"
+                    className="inline bg-green-500 rounded-xl px-2 py-1 mx-1 transform hover:scale-110 transition duration-500 ease-in-out"
                   >
-                    Delete
+                    DELETE
                   </button>
                 </div>
               </div>
             </div>
           ) : null}
-          <div className="border text-center text-2xl">MONEY REQUESTS</div>
+          <div className="border text-center text-3xl py-4">MONEY REQUESTS</div>
           <table className="table-auto w-full">
             <thead>
               <tr>
@@ -82,10 +82,10 @@ class MoneyRequestsTable extends Component {
                     </td>
                     <td className="px-4 py-2 border text-center">
                       <button
-                        className={" bg-red-500 border  rounded-2xl px-2 py-1"}
+                        className={" bg-red-500 border  rounded-2xl px-2 py-1 transform hover:scale-110 transition duration-500 ease-in-out"}
                         onClick={() => this.setState({requestToDelete:request},this.setShowDeletePopup)}
                       >
-                        Delete
+                        DELETE
                       </button>
                     </td>
                   </tr>

@@ -80,8 +80,8 @@ class TransactionTable extends Component {
 
   render() {
     return (
-      <div className="font-sans">
-        <div className="border text-center text-2xl">TRANSACTIONS</div>
+      <div className="font-mono">
+        <div className="border text-center text-3xl py-4">TRANSACTIONS</div>
         <table className="table-auto w-full">
           <thead>
             <tr>

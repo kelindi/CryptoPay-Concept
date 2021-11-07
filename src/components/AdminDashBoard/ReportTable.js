@@ -42,7 +42,7 @@ class ReportTable extends Component {
 
   render() {
     return (
-      <div className="font-sans">
+      <div className="font-mono">
         {this.state.showReportPopup ? (
           <div className="absolute z-100 bg-black shadow-lg border w-2/6 h-auto mx-auto left-0 right-0 top-1/4 rounded-lg bg-opacity-90 text-white">
             <div className="relative px-4 backdrop-filter my-4">
@@ -72,7 +72,7 @@ class ReportTable extends Component {
             </div>
           </div>
         ) : null}
-        <div className="border text-center text-2xl">REPORTS</div>
+        <div className="border text-center text-3xl py-4">REPORTS</div>
         <table className="table-auto w-full">
           <thead>
             <tr>
@@ -120,7 +120,7 @@ class ReportTable extends Component {
             })}
           </tbody>
         </table>
-        <div className="border text-center text-2xl">RESOLVED REPORTS</div>
+        <div className="border text-center text-3xl py-4">RESOLVED REPORTS</div>
         <table className="table-auto w-full">
           <thead>
             <tr>
