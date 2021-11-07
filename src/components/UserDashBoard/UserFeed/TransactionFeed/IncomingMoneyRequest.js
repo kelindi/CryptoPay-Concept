@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import SendPopUp from '../../UserHeader/SendPopUp'
+import AcceptMoneyReq from '../TransactionFeed/AcceptMoneyReq'
 
 class IncomingMoneyRequest extends Component{
     constructor(props){
-        super(props);
-        this.state={
+        super(props)   
+        this.state = {
             balance: this.props.request.destinationUser.currentAccountBalance,
-
+            incomingRequests: this.props.request.destinationUser.requests
         }
     }
 
@@ -22,10 +22,31 @@ class IncomingMoneyRequest extends Component{
         });
     }
 
-    changeBalance(amount) {
-        this.setState({balance: this.state.balance-amount})
+    handleAccept = (amount, requestee) => {
+        const newRequests = this.state.incomingRequests.filter(r => {
+            return r !== requestee
+        })
+        const newBalance = this.state.balance - amount
+        this.setState({
+            balance: newBalance
+        },
+            this.setState({
+                incomingRequests: newRequests
+            })
+            )
     }
+    // changeBalance(amount) {
+    //     this.setState({balance: this.state.balance-amount})
+    // }
 
+    /*
+        On accept, 
+            set state for curr accepted req
+            Set state for showing pop up
+            set state for show popup to off
+        On cancel,
+            set state for show popup to off
+    */
 
     render(){
         const {request} = this.props
@@ -48,10 +69,9 @@ class IncomingMoneyRequest extends Component{
                         <button className="float-right bg-red-600 opacity-80 rounded-md w-1/2 py-1">Reject</button>
                     </div>
                 </div>
-                {this.state.sendOpen ? <SendPopUp currentUser={request.destinationUser} 
-                                                  updateBalance={this.changeBalance} 
-                                                  minimizeSend={this.sendPopOff}
-                                                  maximizeSend={this.sendPopOn} /> : null}
+                {this.state.sendOpen ? <AcceptMoneyReq request={request} 
+                                                       acceptRequest={this.handleAccept} 
+                                                       minimizeSend={this.sendPopOff} /> : null}
                 
             </div>
         )

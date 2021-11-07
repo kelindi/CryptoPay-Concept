@@ -111,7 +111,7 @@ class UserFeed extends Component {
 
     render() {
         return (
-            <div className="relative rounded-lg h-4/5 bg-gray-300 opacity-75">
+            <div className="relative rounded-lg h-4/5 bg-gray-300">
                 {/* Container Div */}
                 <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/6 w-1/2 bg-color bg-blue-200 ">
                     {/* div for incoming requests */}
@@ -163,7 +163,7 @@ class UserFeed extends Component {
                 </div>
 
                 <div className="absolute border-2 border-blue-300 border-opacity-100 bottom-0 rounded-xl h-5/6 w-full bg-color bg-blue-300">
-                    <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100 opacity-90">
+                    <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100">
                         <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">INCOMING MONEY REQUESTS</div>
                         {this.state.userMoneyRequests.map(request => (
                             <IncomingMoneyRequest
@@ -172,7 +172,7 @@ class UserFeed extends Component {
                             />
                         ))}
                     </div>
-                    <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100 opacity-90">
+                    <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100">
                         <div className="font-sans text-blue-800 text-xl font-light tracking-widest text-center">OUTGOING MONEY REQUESTS</div>
                         {this.state.userSentMoneyRequests.map(request => (
                             <OutgoingMoneyRequest
