@@ -86,12 +86,11 @@ class FriendsList extends Component {
                 Request{" "}
               </button>
             </div>
-
           </div>
         ) : null}
 
         {this.state.showAddFriends ? (
-          <div className="bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/3 top-1/3">
+          <div className="bg-white rounded md:w-1/3 w-1/3 border shadow-lg fixed z-100 left-1/3 top-1/4">
             <button
               onClick={() => {
                 this.setState({ showAddFriends: false });
@@ -99,34 +98,36 @@ class FriendsList extends Component {
             >
               <span> X </span>
             </button>
-            <p>Search By User Name</p>
-            <input
+            <p>{"      "}</p>
+            <input className = "w-full"
               value={this.state.searchContent}
               onChange={this.userFilter}
               type="text"
-              placeholder="UserName"
+              placeholder="Search By User Name"
             />
-            {this.state.usersFound.map((u) => (
-              <div
-                className="flex items-center px-4 py-3 border-b hover:bg-gray-100"
-                key={uuid()}
-              >
-                <img
-                  className="h-8 w-8 rounded-full object-cover mx-1"
-                  src={u.profilePicture}
-                />
-                <p className="text-gray-600 text-sm mx-2">
-                  <span className="font-bold block">{u.userName}</span>
-                  <span>{u.firstName}</span> <span>{u.lastName}</span>
-                </p>
+            <div className = "overflow-auto max-h-96">
+              {this.state.usersFound.map((u) => (
+                <div
+                  className="flex items-center px-4 py-3 border-b hover:bg-gray-100"
+                  key={uuid()}
+                >
+                  <img
+                    className="h-8 w-8 rounded-full object-cover mx-1"
+                    src={u.profilePicture}
+                  />
+                  <p className="text-gray-600 text-sm mx-2">
+                    <span className="font-bold block">{u.userName}</span>
+                    <span>{u.firstName}</span> <span>{u.lastName}</span>
+                  </p>
 
-                {!this.state.friends.includes(u) ? (
-                  <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white">
-                    Send Friend Request{" "}
-                  </button>
-                ) : null}
-              </div>
-            ))}
+                  {!this.state.friends.includes(u) ? (
+                    <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white">
+                      Send Friend Request{" "}
+                    </button>
+                  ) : null}
+                </div>
+              ))}
+            </div>
           </div>
         ) : null}
         <div>
@@ -150,21 +151,19 @@ class FriendsList extends Component {
             ))}
           </div>
         </div>
-        <div className="absolute bottom-0 flex flex-col justify-center text-center">
+        <div className="absolute bottom-0 flex flex-auto w-2/12">
           <button
-            className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
+            className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white w-full"
             onClick={() => {
               this.setState({ showAddFriends: true });
             }}
           >
-            Add New Friend
+            <span>{"Add New Friend"}</span>
           </button>
         </div>
       </div>
     );
   }
 }
-
-
 
 export default FriendsList;
