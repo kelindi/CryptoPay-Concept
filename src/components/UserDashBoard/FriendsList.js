@@ -90,22 +90,26 @@ class FriendsList extends Component {
         ) : null}
 
         {this.state.showAddFriends ? (
-          <div className="bg-white rounded md:w-1/3 w-1/3 border shadow-lg fixed z-100 left-1/3 top-1/4">
-            <button
-              onClick={() => {
-                this.setState({ showAddFriends: false });
-              }}
-            >
-              <span> X </span>
-            </button>
-            <p>{"      "}</p>
-            <input className = "w-full"
-              value={this.state.searchContent}
-              onChange={this.userFilter}
-              type="text"
-              placeholder="Search By User Name"
-            />
-            <div className = "overflow-auto max-h-96">
+          <div className="bg-transparent rounded md:w-1/3 w-1/3 border shadow-lg fixed z-100 left-1/3 top-1/4">
+            <div className="flex flex-row">
+              <input
+                className="w-full"
+                value={this.state.searchContent}
+                onChange={this.userFilter}
+                type="text"
+                placeholder="Search By User Name"
+              />
+
+              <button
+                onClick={() => {
+                  this.setState({ showAddFriends: false });
+                }}
+              >
+                <span className = "font-bold"> &nbsp;&nbsp;X </span>
+              </button>
+            </div>
+
+            <div className="overflow-auto max-h-96 bg-white">
               {this.state.usersFound.map((u) => (
                 <div
                   className="flex items-center px-4 py-3 border-b hover:bg-gray-100"
