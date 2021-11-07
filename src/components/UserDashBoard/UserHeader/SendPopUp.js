@@ -6,11 +6,12 @@ class SendPopUp extends Component {
         this.state = {
             amount: '',
             moneyReceiver: '',
-            validAmount: true,
+            validAmount: false,
             currentUser: this.props.currentUser,
             userFriends: this.props.currentUser.friends,
             filteredFriends: this.props.userFriends,
             showResults: false,
+            nameFilled: false,
         }
         this.amountValidation = this.amountValidation.bind(this)
         this.sendMoney = this.sendMoney.bind(this)
@@ -29,16 +30,15 @@ class SendPopUp extends Component {
     amountValidation(event){
         const amount = event.target.value
         if(!isNaN(+amount)) {
-            this.setState({amount: amount})
-        }
-        else {
-            this.setState({validAmount: false})
+            this.setState({amount: amount}, this.setState({validAmount: true}))
         }
     }
 
     sendMoney(){
-        this.props.updateBalance(this.state.amount)
-        this.props.minimizeSend()
+        if(this.state.validAmount && this.state.nameFilled){
+            this.props.updateBalance(this.state.amount)
+            this.props.minimizeSend()
+        }  
     }
 
     setMoneyReceiver = (event)=> {
@@ -63,7 +63,8 @@ class SendPopUp extends Component {
 
     pasteOption = (event) => {
         console.log(event.target.value)
-        this.setState(({showResults: false}), this.setState({filteredFriends: []}, this.setState({moneyReceiver: event.target.value})))
+        this.setState(({showResults: false}), this.setState({filteredFriends: []}, this.setState({moneyReceiver: event.target.value},
+            this.setState({nameFilled: true}))))
     } 
 
     
