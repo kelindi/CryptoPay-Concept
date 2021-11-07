@@ -6,11 +6,13 @@ class SplitPopUp extends Component {
         this.state = {
             amount: '',
             moneyReceiver: '',
-            validAmount: true,
+            validAmount: false,
             currentUser: this.props.currentUser,
             userFriends: this.props.currentUser.friends,
             filteredFriends: this.props.userFriends,
             showResults: false,
+            nameFilled: false,
+            addFriend: false,
         }
     }
 
@@ -22,22 +24,42 @@ class SplitPopUp extends Component {
         this.props.maximizeSplit();
     };
 
+    pasteOption = (event) => {
+        console.log(event.target.value)
+        this.setState(({showResults: false}), this.setState({filteredFriends: []}, this.setState({moneyReceiver: event.target.value},
+            this.setState({nameFilled: true}))))
+    } 
+
+    amountValidation(event){
+        const amount = event.target.value
+        if(!isNaN(+amount)) {
+            this.setState({amount: amount}, this.setState({validAmount: true}))
+        }
+    }
+
+    newFriendField = () => {
+        this.setState({addFriend: true})
+    }
+
     render() {
         return (
-
             <div className="bg-white rounded md:w-1/3 w-1/2 h-1/1 border shadow-lg absolute z-100 left-1/4 top-1/3 ">
                 <div className="rounded-t bg-blue-300 text-black">
                     <div className="relative py-3 px-2 flex">
-                        <span className="font-semibold text-black md:text-base text-sm">Send Money</span> 
+                        <span className="font-semibold text-black md:text-base text-sm">Split Money</span> 
                     </div>
                 </div>
                 <div className="bg-gray-200 md:text-base text-sm border-b p-2 h-48">
                     <div className='h-2/3'>
                         {/* Searching friends */}
+                        {/* Add the div below to another function which re-renders the friends based on plus button usage */}
                         <div className='h-1/3 mt-2'>
                             Friend:
-                            <input className="ml-5 pl-2" value={this.state.moneyReceiver} onChange={this.setMoneyReceiver} placeholder="Friend"/>
-                            { this.state.showResults ? (
+                            <input className="ml-5 pl-2" value={this.state.moneyReceiver}
+                                   onChange={this.setMoneyReceiver} placeholder="Friend"/>
+                            <button className='mx-3 px-0.5 w-4 h-4' 
+                                    onClick={this.newFriendField}>➕</button>
+                            {this.state.showResults ? (
                             <div>
                                 <ul className=''>
                                     {this.state.filteredFriends.map((friend) =>
@@ -49,7 +71,7 @@ class SplitPopUp extends Component {
                                 </ul>
 
                             </div>
-                            ) : null}
+                            ):null}
                             {/* {this.state.searchOn ? <FriendFinder displayHTML={this.state.displayHTML}/>:null} */}
                         </div>
     
