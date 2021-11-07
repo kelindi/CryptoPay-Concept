@@ -132,6 +132,9 @@ class Backend {
     this.mr1 = new MoneyRequest(this.user1, this.user2, 100, "10-01-2021");
     this.mr2 = new MoneyRequest(this.user1, this.user3, 100, "10-02-2021");
 
+    this.user1.sentRequests.push(this.mr1)
+    this.user2.sentRequests.push(this.mr2)
+
     this.moneyRequests.push(this.mr1);
     this.moneyRequests.push(this.mr2);
     this.transactions.push(this.tr1);
@@ -203,7 +206,8 @@ class Backend {
 
     this.user1.friends.push(this.user2);
     this.user1.friends.push(this.user3);
-    this.user1.friendRequests.push(this.user4);
+    this.user1.friendRequests.push(this.user4,this.user5,this.user6);
+    this.user1.sentFriendRequests.push(this.user7,this.user8,this.user9)
   }
   addUser = (firstName, lastName, username, password) => {
     console.log(this.loginDB);
