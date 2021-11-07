@@ -20,7 +20,7 @@ class Backend {
     this.user5 = new User("firstName5", "lastName5", "user5", 5005, uuid());
     this.user6 = new User("firstName6", "lastName6", "user6", 6006, uuid());
     this.user7 = new User("firstName7", "lastName7", "user7", 7007, uuid());
-    this.user8 = new User("firstName8", "lastName8", "user6", 8000, uuid());
+    this.user8 = new User("firstName8", "lastName8", "user8", 8000, uuid());
     this.user9 = new User("firstName9", "lastName9", "user9", 9000, uuid());
     this.user10 = new User("firstName10", "lastName10", "user10", 10006, uuid());
 
