@@ -1,6 +1,5 @@
-import React, { Component, useState } from 'react';
-import { uuid } from 'uuidv4';
-
+import React, { Component, useState } from "react";
+import { uuid } from "uuidv4";
 
 /*
 TODO
@@ -26,69 +25,59 @@ Only do work in your file
 
 */
 
-
 class FriendsList extends Component {
-    
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      userNameToSearch: "",
+      friends: this.props.currentUser.friends,
+      showFriendPopUp: false,
+      selectedFriend: null,
+    };
+    this.friendPop = this.friendPop.bind(this);
+  }
 
-    state = {
-        userNameToSearch: "",
-        friends: this.props.currentUser.friends
-    }
-    
+  friendPop(friend) {
+    this.setState(
+      { selectedFriend: friend },
+      this.setState({ showFriendPopUp: true }),
+      console.log(this.state.showFriendPopUp)
+    );
+  }
 
-    allFriendsList(friendsList) {
-        // const [buttonPopup, setButtonPopup] = useState(false)
-
-        return (
+  render() {
+    return (
+      <div>
+        {this.state.showFriendPopUp ? (
+          <div className="absolute z-100 w-2/6 h-auto mx-auto left-0 right-0 top-1/4">
             <div>
-              {
-                  friendsList.map(f => (
-                    <div  key={uuid()}> 
-                        <h1> {f.firstName} </h1>
-                        <h1> {f.lastName} </h1>
-                        <img className='rounded-full h-2/3 w-2/3 m-4 flex items-center justify-center' 
-                             src={f.profilePicture} 
-                             alt="Profile Photo"
-                             onClick = {() => this.friendPop(f)} />
-                    </div>
-                  ))
-              }
+              HELLO
+              <img src={this.state.selectedFriend.profilePicture}></img>
             </div>
-          );        
-    }
-    
+          </div>
+        ) : null}
 
-    friendPop(f){
-        return(
-            <div className = "fixed">
-                <img 
-                             src={f.profilePicture} 
-                             alt="Profile Photo"
-                              />
-                
+        <h1> Friend List </h1>
+        <div>
+          {this.state.friends.map((friend) => (
+            <div key={uuid()}>
+              <h1> {friend.firstName} </h1>
+              <h1> {friend.lastName} </h1>
+              <img
+                className="rounded-full h-2/3 w-2/3 m-4 flex items-center justify-center"
+                src={friend.profilePicture}
+                alt="Profile Photo"
+                onClick={() => this.friendPop(friend)}
+              />
             </div>
-        )
-    }
-
-    render() {
-        
-        return (
-            <div className = "w-2/12 h-screen bg-blue-300">
-                <h1> Friend List </h1>
-                {this.allFriendsList(this.state.friends)}
-                <button > Add New Friend </button>
-            </div>
-          );
-    }
+          ))}
+        </div>
+        <button> Add New Friend </button>
+      </div>
+    );
+  }
 }
 
+class Pop extends Component {}
 
-class Pop extends Component{
-
-}
-
- 
 export default FriendsList;
