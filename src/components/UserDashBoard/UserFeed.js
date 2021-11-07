@@ -61,24 +61,42 @@ class UserFeed extends Component {
         )
     }
 
+    handleReject = requestor => {
+        const newRequests = this.state.user.friendRequests.filter(r => {
+            return r !== requestor
+        })
+        // user.friendRequests = newRequests
+        this.setState({
+            userFriendRequests: newRequests
+        })
+    
+        // 
+
+        // const newSenderRequests = requestor.sentRequests.filter(s => {
+        //     return s !== user
+        // })
+        // requestor.sentRequests = newSenderRequests
+    }
+
 
 
     render() {
         return (
             <div className="relative rounded-lg h-4/5 bg-gray-300 opacity-75">
                 {/* Container Div */}
-                <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-200 ">
+                <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/6 w-1/2 bg-color bg-blue-200 ">
                     {/* div for incoming requests */}
                     <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">INCOMING REQUESTS</div>
                     {/* <FriendRequest user={this.props.currentUser} /> */}
                     {this.state.userFriendRequests.map(requestor => (
-                        <FriendRequest
-                            key={uuid()}
-                            user={this.state.user}
-                            requestor={requestor}
-                            acceptRequest={this.handleAccept}
-                        />
-                        // console.log(user.firstName)
+                       
+                            <FriendRequest
+                                key={uuid()}
+                                user={this.state.user}
+                                requestor={requestor}
+                                acceptRequest={this.handleAccept}
+                                rejectRequest={this.handleReject}
+                            />
                     ))}
 
                     {/* For testing */}
@@ -102,7 +120,7 @@ class UserFeed extends Component {
                     }   */}
 
                 </div>
-                <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100">
+                <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/6 w-1/2 bg-color bg-blue-100">
                     {/* div for outgoing requests */}
                     <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">OUTGOING REQUESTS</div>
                     {this.props.currentUser.sentRequests.map(user => (
@@ -113,7 +131,7 @@ class UserFeed extends Component {
                     ))}
                 </div>
 
-                <div className="absolute border-2 border-blue-300 border-opacity-100 bottom-0 rounded-xl h-2/3 w-full bg-color bg-blue-300 opacity-60">
+                <div className="absolute border-2 border-blue-300 border-opacity-100 bottom-0 rounded-xl h-5/6 w-full bg-color bg-blue-300 opacity-60">
                     {/* div for rest of the feed */}
 
                 </div>

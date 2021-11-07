@@ -67,7 +67,7 @@ class FriendRequest extends Component{
 
     render(){
         // const { user,requestor, acceptRequest } = this.props;
-        const { user,requestor, acceptRequest } = this.props;
+        const { user,requestor, acceptRequest, rejectRequest } = this.props;
         return(
             <div className="relative rounded-2xl w-full h-20 bg-gray-100 mt-2">
                 <div className="absolute float-left rounded-full h-20 w-20">
@@ -103,7 +103,8 @@ class FriendRequest extends Component{
                                     }}>Accept</button> */}
                         <button className="float-left bg-green-400 opacity-75 w-1/2 py-1 rounded-2xl" 
                                 onClick = {() => this.props.acceptRequest(this.state.requestor)}>Accept</button>
-                        <button className="float-right bg-red-600 opacity-80 rounded-2xl w-1/2 py-1">Reject</button>
+                        <button className="float-right bg-red-600 opacity-80 rounded-2xl w-1/2 py-1"
+                                onClick = {() => this.props.rejectRequest(this.state.requestor)}>Reject</button>
                     </div>
                     {/* <button className="float-right -left-10">Accept</button> */}
                     {/* <button className="float-right"> Reject</button> */}
