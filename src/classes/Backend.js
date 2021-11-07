@@ -3,6 +3,7 @@ import { uuid } from "uuidv4";
 import Admin from "./Admin";
 import MoneyRequest from "./MoneyRequest";
 import Transaction from "./Transaction";
+import Report from "./Report";
 
 class Backend {
   constructor() {
@@ -38,6 +39,8 @@ class Backend {
       [this.u4]: this.user4,
       [this.adminID]: this.admin,
     };
+    this.reports = [];
+    this.resolvedReports = [];
     this.transactions = [];
     this.moneyRequests = [];
     this.users = [this.user1, this.user2, this.user3, this.user4];
@@ -46,6 +49,12 @@ class Backend {
     this.user2.profilePicture = "/images/pf2.jpeg";
     this.user3.profilePicture = "/images/pf3.jpeg";
     this.user4.profilePicture = "/images/pf4.jpeg";
+
+    //create and add reports to reports array
+    this.reports.push(new Report(this.user1,this.user4,"Spammed me with multiple money requests for no reason","10-01-2021",'20:00'))
+    this.reports.push(new Report(this.user2,this.user4,"Sent me money for no reason","10-02-2021",'12:00'))
+    this.reports.push(new Report(this.user3,this.user4,"Tried to scam me","10-03-2021",'8:00'))
+    
 
     // add transactions to user1
     this.tr1 = new Transaction(

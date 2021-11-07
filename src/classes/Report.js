@@ -8,6 +8,7 @@ class Report {
         this.date = date
 		this.time = time
 		this.id = uuid()
+        this.resolvedComment = ''
 
 	}
 }

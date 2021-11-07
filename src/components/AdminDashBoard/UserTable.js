@@ -20,7 +20,7 @@ class UserTable extends Component {
       users: this.props.users,
       masterUsers: this.props.users,
       showDeleteConfirm: false,
-      userToDelete: null
+      userToDelete: null,
     };
     this.filterFirstNameChange = this.filterFirstNameChange.bind(this);
     this.filterLastNameChange = this.filterLastNameChange.bind(this);
@@ -173,14 +173,15 @@ class UserTable extends Component {
     );
     this.setState({ masterUsers: newUserArray });
     this.setState({ users: newUserArray });
-    this.setState({showDeleteConfirm: false})
+    this.setState({ showDeleteConfirm: false });
   }
 
-
   showDeleteUser(user) {
-    console.log(user)
-    this.setState({userToDelete: user},this.setState({ showDeleteConfirm: true }))
-    
+    console.log(user);
+    this.setState(
+      { userToDelete: user },
+      this.setState({ showDeleteConfirm: true })
+    );
   }
 
   render() {
@@ -190,8 +191,11 @@ class UserTable extends Component {
           <div className="absolute z-100 bg-black shadow-lg border w-1/6 mx-auto left-0 right-0 top-1/4 rounded-lg bg-opacity-90 text-white">
             <div className="px-4 backdrop-filter my-4">
               <div className="text-center backdrop-filter">
-                Are you sure you want to delete <b className = "text-red-500">{this.state.userToDelete.userName}</b> This action cannot be
-                undone!
+                Are you sure you want to delete{" "}
+                <b className="text-red-500">
+                  {this.state.userToDelete.userName}
+                </b>{" "}
+                This action cannot be undone!
               </div>
               <div className="text-center mt-5 text-black">
                 <button
@@ -200,7 +204,10 @@ class UserTable extends Component {
                 >
                   CANCEL
                 </button>
-                <button onClick={this.deleteUser} className="inline bg-green-500 rounded-xl px-2 py-1 mx-1">
+                <button
+                  onClick={this.deleteUser}
+                  className="inline bg-green-500 rounded-xl px-2 py-1 mx-1"
+                >
                   DELETE USER
                 </button>
               </div>
@@ -292,7 +299,7 @@ class UserTable extends Component {
                       onClick={(event) => this.editMode(user, event)}
                     >
                       Edit
-                    </button>{" "}
+                    </button>
                     <button
                       onClick={(event) => this.saveEdit(user, event)}
                       className={
@@ -301,8 +308,7 @@ class UserTable extends Component {
                         " hidden bg-green-500 border border-black rounded-2xl px-2 py-1"
                       }
                     >
-                      {" "}
-                      Save{" "}
+                      Save
                     </button>
                   </td>
                   <td className="px-0.5 py-1 border text-center mx-2">

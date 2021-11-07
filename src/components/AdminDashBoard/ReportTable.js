@@ -2,104 +2,142 @@ import React, { Component } from "react";
 import { uuid } from "uuidv4";
 import User from "../../classes/User";
 
-class UserTable extends Component {
+class ReportTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      reports: this.props.reports,
+      resolvedReports: this.props.resolvedReports,
+      showReportPopup: false,
+      reportToResolve: null,
+      comment: "",
     };
-    
+    this.resolveReport = this.resolveReport.bind(this);
+    this.updateComment = this.updateComment.bind(this);
+    this.showResolveReport = this.showResolveReport.bind(this);
   }
-  
+  updateComment(event) {
+    this.setState(
+      { comment: event.target.value },
+      console.log(this.state.comment)
+    );
+  }
+  showResolveReport(report) {
+    this.setState(
+      { showReportPopup: true },
+      this.setState({ reportToResolve: report })
+    );
+  }
+  resolveReport() {
+    const newReportsArray = this.state.reports.filter(
+      (r) => r !== this.state.reportToResolve
+    );
+    const newResolvedReports = this.state.resolvedReports
+    this.state.reportToResolve.resolvedComment = this.state.comment.toString()
+    newResolvedReports.push(this.state.reportToResolve)
+    console.log(newResolvedReports)
+    this.setState({resolvedReports:newResolvedReports},console.log(this.state.resolvedReport));
+    this.setState({ reports: newReportsArray });
+    this.setState({ showReportPopup: false });
+  }
 
   render() {
     return (
-        <div className="font-sans">
-        <div className="border text-center text-2xl">TRANSACTIONS</div>
+      <div className="font-sans">
+        {this.state.showReportPopup ? (
+          <div className="absolute z-100 bg-black shadow-lg border w-2/6 h-auto mx-auto left-0 right-0 top-1/4 rounded-lg bg-opacity-90 text-white">
+            <div className="relative px-4 backdrop-filter my-4">
+              <div className="text-center backdrop-filter ">
+                <label className = "block">Comments:</label>
+                <textarea type = "text" className = "text-black px-2 rounded-md w-96 h-32" value={this.state.comment} onChange={(e) => this.updateComment(e)}></textarea>
+              </div>
+              <div className="text-center mt-5 text-black">
+                <button
+                  className="inline bg-red-500 rounded-xl px-2 py-1 mx-1"
+                  onClick={() => this.setState({ showReportPopup: false })}
+                >
+                  CANCEL
+                </button>
+                <button
+                  onClick={() => this.resolveReport()}
+                  className="inline bg-green-500 rounded-xl px-2 py-1 mx-1"
+                >
+                  Resolve
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
+        <div className="border text-center text-2xl">REPORTS</div>
         <table className="table-auto w-full">
           <thead>
             <tr>
-              <th className="px-4 py-2 border text-center">
-                Origin
-                <input
-                  value={this.filterOrigin}
-                  onChange={this.filterOriginChange}
-                  className="block self-center border rounded-md m-auto"
-                ></input>
-              </th>
-              <th className="px-4 py-2 border text-center">
-                Destination
-                <input
-                  value={this.filterDestination}
-                  onChange={this.filterDestinationChange}
-                  className="block self-center border rounded-md m-auto"
-                ></input>
-              </th>
-              <th className="px-4 py-2 border text-center">
-                Amount
-                <input
-                  value={this.filterAmount}
-                  onChange={this.filterAmountChange}
-                  className="block self-center border rounded-md m-auto"
-                ></input>
-              </th>
-              <th className="px-4 py-2 border text-center">
-                Date
-                <input
-                  value={this.filterDate}
-                  onChange={this.filterDateChange}
-                  className="block self-center border rounded-md m-auto"
-                ></input>
-              </th>
-              <th className="px-4 py-2 border text-center">
-                Time
-                <input
-                  value={this.filterTime}
-                  onChange={this.filterTimeChange}
-                  className="block self-center border rounded-md m-auto"
-                ></input>
-              </th>
-              <th className="px-4 py-2 border text-center">
-                ID
-                <input
-                  value={this.filterID}
-                  onChange={this.filterIDChange}
-                  className="block self-center border rounded-md m-auto"
-                ></input>
-              </th>
+              <th className="px-4 py-2 border text-center">Submitter</th>
+              <th className="px-4 py-2 border text-center">Destination</th>
+              <th className="px-4 py-2 border text-center">Reason</th>
+              <th className="px-4 py-2 border text-center">Date</th>
+              <th className="px-4 py-2 border text-center">Time</th>
+              <th className="px-4 py-2 border text-center">ID</th>
+              <th className="px-4 py-2 border text-center">Resolve</th>
             </tr>
           </thead>
           <tbody>
-            {this.state.transactions.map((transaction) => {
+            {this.state.reports.map((report) => {
               return (
-                <tr key={transaction.id}>
+                <tr key={report.id}>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.originUser.userName.toString()}
+                    {report.submitter.userName.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.destinationUser.userName.toString()}
+                    {report.reportedUser.userName.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {"$" + transaction.amount.toString()}
+                    {report.reason.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.date.toString()}
+                    {report.date.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.time.toString()}
+                    {report.time.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.id.toString()}
+                    {report.id.toString()}
+                  </td>
+                  <td className="px-4 py-2 border text-center">
+                    <button
+                      className={" bg-green-500 border  rounded-2xl px-2 py-1"}
+                      onClick={() => this.showResolveReport(report)}
+                    >
+                      Mark As Resolved
+                    </button>
                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+        <div className="border text-center text-2xl">RESOLVED REPORTS</div>
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="px-4 py-2 border text-center">Submitter</th>
+              <th className="px-4 py-2 border text-center">Destination</th>
+              <th className="px-4 py-2 border text-center">Reason</th>
+              <th className="px-4 py-2 border text-center">Date</th>
+              <th className="px-4 py-2 border text-center">Time</th>
+              <th className="px-4 py-2 border text-center">ID</th>
+              <th className="px-4 py-2 border text-center">Resolve</th>
+            </tr>
+          </thead>
+          <tbody>
+            { 
+            console.log("k")
+            }
+          </tbody>
+        </table>
       </div>
-        
     );
   }
 }
 
-export default UserTable;
+export default ReportTable;
