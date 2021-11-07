@@ -34,7 +34,7 @@ class UserFeed extends Component {
             user: this.props.currentUser,
             userFriends: this.props.currentUser.friends,
             userFriendRequests: this.props.currentUser.friendRequests,
-            userSentRequests: this.props.currentUser.sentRequests
+            userSentRequests: this.props.currentUser.sentFriendRequests
         }
         
     }
@@ -63,7 +63,7 @@ class UserFeed extends Component {
     }
 
     handleReject = requestor => {
-        const newRequests = this.state.user.friendRequests.filter(r => {
+        const newRequests = this.state.userFriendRequests.filter(r => {
             return r !== requestor
         })
         // user.friendRequests = newRequests
@@ -80,8 +80,8 @@ class UserFeed extends Component {
     }
 
     handleRescind = requestee => {
-        const newSentRequests = this.state.user.sentFriendRequests.filter(r => {
-            return r != requestee
+        const newSentRequests = this.state.userSentRequests.filter(r => {
+            return r !== requestee
         })
         this.setState({
             userSentRequests: newSentRequests
@@ -133,7 +133,7 @@ class UserFeed extends Component {
                 <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/6 w-1/2 bg-color bg-blue-100">
                     {/* div for outgoing requests */}
                     <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">OUTGOING REQUESTS</div>
-                    {this.props.currentUser.sentFriendRequests.map(requestee => (
+                    {this.state.userSentRequests.map(requestee => (
                         <SentFriendRequest
                             key={uuid()}
                             user={this.state.user}
