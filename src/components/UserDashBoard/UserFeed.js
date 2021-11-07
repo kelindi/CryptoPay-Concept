@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FriendRequest from "./FriendRequest";
 import SentFriendRequest from "./SentFriendRequest"
 import { uuid } from 'uuidv4';
+import IncomingMoneyRequest from './TransactionFeed/IncomingMoneyRequest'
 import { acceptRequest } from './FriendRequestResponses'
 /*
 TODO
@@ -34,7 +35,9 @@ class UserFeed extends Component {
             user: this.props.currentUser,
             userFriends: this.props.currentUser.friends,
             userFriendRequests: this.props.currentUser.friendRequests,
-            userSentRequests: this.props.currentUser.sentFriendRequests
+            userSentRequests: this.props.currentUser.sentFriendRequests,
+            userMoneyRequests: this.props.currentUser.requests,
+            userSentMoneyRequests: this.props.currentUser.sentRequests
         }
         
     }
@@ -143,7 +146,19 @@ class UserFeed extends Component {
                     ))}
                 </div>
 
-                <div className="absolute border-2 border-blue-300 border-opacity-100 bottom-0 rounded-xl h-5/6 w-full bg-color bg-blue-300 opacity-60">
+                <div className="absolute border-2 border-blue-300 border-opacity-100 bottom-0 rounded-xl h-5/6 w-full bg-color bg-blue-300">
+                    <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100 opacity-90">
+                        <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">INCOMING MONEY REQUESTS</div>
+                        {this.state.userMoneyRequests.map(request => (
+                            <IncomingMoneyRequest
+                                key={uuid()}
+                                request={request}
+                            />
+                        ))}
+                    </div>
+                    <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100 opacity-90">
+                        <div className="font-sans text-blue-800 text-xl font-light tracking-widest text-center">OUTGOING MONEY REQUESTS</div>
+                    </div>
                     {/* div for rest of the feed */}
 
                 </div>
