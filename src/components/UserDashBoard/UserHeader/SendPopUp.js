@@ -71,7 +71,7 @@ class SendPopUp extends Component {
 
     render() {
         return (
-            <div className="bg-white rounded md:w-1/3 w-1/2 h-1/1 border shadow-lg absolute z-100 left-1/4 top-1/3 ">
+            <div className="bg-white rounded md:w-1/3 w-1/2 h-1/1 border shadow-lg fixed z-100 left-1/4 top-1/3 ">
                 <div className="rounded-t bg-blue-300 text-black">
                     <div className="relative py-3 px-2 flex">
                         <span className="font-semibold text-black md:text-base text-sm">Send Money</span> 
