@@ -72,7 +72,7 @@ class FriendRequest extends Component{
             <div className="relative rounded-2xl w-full h-20 bg-gray-100 mt-2">
                 <div className="absolute float-left rounded-full h-20 w-20">
                     <img className="float-left absolute rounded-full h-20 w-20 flex px-3 py-3 items-center
-                    justify-center" src={user.profilePicture}></img>
+                    justify-center" src={requestor.profilePicture}></img>
                 </div>
                 {/* <div className="float-right font-bold tracking-widest text-center top-3">{this.props.user.firstName}</div> */}
                 {/* <div className="relative float-right w-10/12 bg-blue-500">
@@ -83,7 +83,7 @@ class FriendRequest extends Component{
                     {/* <button className="float-right"> Reject</button> */}
                 {/* </div> */}
                 <div className="relative float-right top-2 w-10/12">
-                    <div className="float-left tracking-wide text-center"><b>{user.firstName}</b> {user.lastName}     <small>({user.userName})</small></div> <br/>
+                    <div className="float-left tracking-wide text-center"><b>{requestor.firstName}</b> {requestor.lastName}     <small>({requestor.userName})</small></div> <br/>
                     <div className="h-13 w-1/2 bg-blue-800">
                         {/* <button className="float-left bg-green-400 opacity-75 w-1/2 py-1 rounded-2xl" 
                                 onClick = {(user, requestor) => {

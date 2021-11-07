@@ -33,7 +33,8 @@ class UserFeed extends Component {
             // friendRequest: []
             user: this.props.currentUser,
             userFriends: this.props.currentUser.friends,
-            userFriendRequests: this.props.currentUser.friendRequests
+            userFriendRequests: this.props.currentUser.friendRequests,
+            userSentRequests: this.props.currentUser.sentRequests
         }
         
     }
@@ -76,6 +77,15 @@ class UserFeed extends Component {
         //     return s !== user
         // })
         // requestor.sentRequests = newSenderRequests
+    }
+
+    handleRescind = requestee => {
+        const newSentRequests = this.state.user.sentFriendRequests.filter(r => {
+            return r != requestee
+        })
+        this.setState({
+            userSentRequests: newSentRequests
+        })
     }
 
 
@@ -123,10 +133,12 @@ class UserFeed extends Component {
                 <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/6 w-1/2 bg-color bg-blue-100">
                     {/* div for outgoing requests */}
                     <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">OUTGOING REQUESTS</div>
-                    {this.props.currentUser.sentRequests.map(user => (
+                    {this.props.currentUser.sentFriendRequests.map(requestee => (
                         <SentFriendRequest
                             key={uuid()}
-                            user={user} />
+                            user={this.state.user}
+                            requestee={requestee} 
+                            rescindRequest={this.handleRescind}/>
                         // console.log(user.firstName)
                     ))}
                 </div>
