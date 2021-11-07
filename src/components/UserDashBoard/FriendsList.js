@@ -93,7 +93,7 @@ class FriendsList extends Component {
           <div className="bg-transparent rounded md:w-1/3 w-1/3 border shadow-lg fixed z-100 left-1/3 top-1/4">
             <div className="flex flex-row">
               <input
-                className="w-full"
+                className="rounded-full py-3 px-6 w-full"
                 value={this.state.searchContent}
                 onChange={this.userFilter}
                 type="text"
