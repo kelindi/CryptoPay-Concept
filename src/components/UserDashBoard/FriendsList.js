@@ -106,7 +106,7 @@ class FriendsList extends Component {
                 <span>{this.state.selectedFriend.lastName}</span>
               </p>
               <div className=" text-center flex flex-col">
-              <input className="ml-5 w-44 pl-2" type="text"  value={this.state.amount} onChange={(event) => {this.setState({amount : event.target.value})}} placeholder="Amount"/>
+              <input className="ml-5 w-44 pl-2" type="text"  value={this.state.amount} onChange={(event) => {this.setState({amount : event.target.value})}} placeholder="Amount to send/request"/>
                 <div className="flex flex-row">
                   <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
                           onClick={() => this.handleSend()}>
