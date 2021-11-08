@@ -71,7 +71,7 @@ class UserDashBoard extends Component {
                     
                     <div className = "w-10/12 h-screen flex-shrink-0">
                         <NotificationBar changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} global = {this.state}></NotificationBar>
-                        <UserHeader changeUserBalance = {this.changeUserBalance} global ={this.state} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserHeader>
+                        <UserHeader changeSentMoneyRequests = {this.changeSentMoneyRequests} changeUserBalance = {this.changeUserBalance} global ={this.state} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserHeader>
 
                         <UserFeed global = {this.state} changeOutgoingMoneyRequests= {this.changeSentMoneyRequests} changeIncomingMoneyRequests = {this.changeIncomingMoneyRequests} changeUserBalance = {this.changeUserBalance} changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserFeed>
                     </div>
