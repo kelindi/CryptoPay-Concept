@@ -25,7 +25,6 @@ class FriendsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
       allUsers: this.props.backend.users,
       usersFound: [],
       userNameToSearch: "",
@@ -55,13 +54,12 @@ class FriendsList extends Component {
     // console.log(this.state.usersFound);
   };
 
-
   render() {
-    const { global, changeSentFriendRequests } = this.props
+    const { global, changeSentFriendRequests } = this.props;
     return (
       <div className="w-full flex flex-row ">
         {this.state.showFriendPopUp ? (
-            /* pop-up of show info a certain friend */
+          /* pop-up of show info a certain friend */
           <div className=" bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/3 top-1/3 ">
             <div>
               <button
@@ -75,7 +73,7 @@ class FriendsList extends Component {
             </div>
 
             <div className="flex items-center px-4 py-3 border-b hover:bg-gray-100">
-                {/* show user info and functions */}
+              {/* show user info and functions */}
               <img
                 className="h-8 w-8 rounded-full object-cover mx-1"
                 src={this.state.selectedFriend.profilePicture}
@@ -98,11 +96,11 @@ class FriendsList extends Component {
         ) : null}
 
         {this.state.showAddFriends ? (
-            // pop-up for search and add new friend from database
+          // pop-up for search and add new friend from database
           <div className="bg-transparent rounded md:w-1/3 w-1/3 border shadow-lg fixed z-100 left-1/3 top-1/4">
             <div className="flex flex-row">
               <input
-            //   input box for input username
+                //   input box for input username
                 className="rounded-full py-3 px-6 w-full"
                 value={this.state.searchContent}
                 onChange={this.userFilter}
@@ -115,13 +113,13 @@ class FriendsList extends Component {
                   this.setState({ showAddFriends: false });
                 }}
               >
-                  {/* button to close pop-up */}
-                <span className = "font-bold"> &nbsp;&nbsp;X </span>
+                {/* button to close pop-up */}
+                <span className="font-bold"> &nbsp;&nbsp;X </span>
               </button>
             </div>
 
-            <div className = "overflow-auto max-h-96 bg-white">
-                {/* show all users' info according to input username */}
+            <div className="overflow-auto max-h-96 bg-white">
+              {/* show all users' info according to input username */}
               {this.state.usersFound.map((u) => (
                 <div
                   className="flex items-center px-4 py-3 border-b hover:bg-gray-100"
@@ -139,13 +137,17 @@ class FriendsList extends Component {
 
                   {!this.state.friends.includes(u) ? (
                     //   only friends not in friendlist have "Send Friend Request" Button
-                    <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
-                            onClick={() =>  {
-                                const newFriendRequests = global.sentFriendRequests
-                                
-                                {newFriendRequests.push(u)}
-                                changeSentFriendRequests(newFriendRequests)
-                            }}>
+                    <button
+                      className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
+                      onClick={() => {
+                        // change global sentFriend list
+                        const newFriendRequests = global.sentFriendRequests;
+                        if (!newFriendRequests.includes(u)) {
+                          newFriendRequests.push(u);
+                        }
+                        changeSentFriendRequests(newFriendRequests);
+                      }}
+                    >
                       Send Friend Request{" "}
                     </button>
                   ) : null}
@@ -155,12 +157,12 @@ class FriendsList extends Component {
           </div>
         ) : null}
         <div>
-          <div className = "font-bold">
-              <span className = "">Friend List</span>
+          <div className="font-bold">
+            <span className="">Friend List</span>
           </div>
           <div className="bg-transparent w-full">
             {this.state.friends.map((friend) => (
-                // list all friends
+              // list all friends
               <div
                 className="flex items-center px-4 py-3 border-b   hover:bg-gray-100"
                 onClick={() => this.friendPop(friend)}
@@ -179,19 +181,15 @@ class FriendsList extends Component {
           </div>
         </div>
         <div className="absolute bottom-0 flex flex-auto w-2/12">
-
-
           <button
             className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white w-full"
             onClick={() => {
               this.setState({ showAddFriends: true });
             }}
           >
-              {/* Add new friends botton */}
+            {/* Add new friends botton */}
             <span>{"Add New Friend"}</span>
           </button>
-
-
         </div>
       </div>
     );
