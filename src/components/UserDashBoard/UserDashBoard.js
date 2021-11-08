@@ -18,7 +18,8 @@ class UserDashBoard extends Component {
             incomingFriendRequests: this.props.currentUser.friendRequests,
             sentFriendRequests: this.props.currentUser.sentFriendRequests,
             incomingMoneyRequests: this.props.currentUser.requests,
-            sentMoneyRequests: this.props.currentUser.sentRequests
+            sentMoneyRequests: this.props.currentUser.sentRequests,
+            transactions: this.props.backend.transactions
         };
     }
 

@@ -5,6 +5,7 @@ import { uuid } from "uuidv4";
 import IncomingMoneyRequest from "./TransactionFeed/IncomingMoneyRequest";
 import { acceptRequest } from "./FriendRequestResponses";
 import OutgoingMoneyRequest from "./TransactionFeed/OutgoingMoneyTransaction";
+import UserTransactionTable from "./UserTransactions";
 
 /*
 TODO
@@ -189,6 +190,10 @@ class UserFeed extends Component {
             ))}
           </div>
           {/* div for rest of the feed */}
+        </div>
+
+        <div>
+            <UserTransactionTable global = {this.props.global} ></UserTransactionTable>
         </div>
       </div>
     );
