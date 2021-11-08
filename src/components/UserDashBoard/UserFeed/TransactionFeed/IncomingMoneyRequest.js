@@ -1,60 +1,61 @@
-import React, { Component } from 'react';
-import AcceptMoneyReq from '../TransactionFeed/AcceptMoneyReq'
+import React, { Component } from "react";
+import AcceptMoneyReq from "../TransactionFeed/AcceptMoneyReq";
 
-class IncomingMoneyRequest extends Component{
-    constructor(props){
-        super(props)   
-        this.state = {
-            // balance: this.props.request.destinationUser.currentAccountBalance,
-            // incomingRequests: this.props.request.destinationUser.requests
-            incomingRequests: this.props.user.requests,
-            balance: this.props.global.userBalance,
-            user:this.props.user
-        }
-    }
+class IncomingMoneyRequest extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      // balance: this.props.request.destinationUser.currentAccountBalance,
+      // incomingRequests: this.props.request.destinationUser.requests
+      incomingRequests: this.props.user.requests,
+      balance: this.props.global.userBalance,
+      user: this.props.user,
+    };
+  }
 
-    sendPopOn = () => {
-        this.setState({
-            sendOpen: true,
-        });
-    }
+  sendPopOn = () => {
+    this.setState({
+      sendOpen: true,
+    });
+  };
 
-    sendPopOff = () => {
-        this.setState({
-            sendOpen: false,
-        });
-    }
+  sendPopOff = () => {
+    this.setState({
+      sendOpen: false,
+    });
+  };
 
-    handleAccept = (amount, request) => {
-        const newRequests = this.props.global.incomingMoneyRequests.filter(r => {
-            return r !== request
-        })
-        const newBalance = this.props.global.userBalance - amount
-        this.setState({
-            balance: newBalance
-        },
-            this.setState({
-                incomingRequests: newRequests
-            })
-            )
-        this.props.changeIncomingMoneyRequests(newRequests)
-        this.props.changeUserBalance(newBalance)
-    }
+  handleAccept = (amount, request) => {
+    const newRequests = this.props.global.incomingMoneyRequests.filter((r) => {
+      return r !== request;
+    });
+    const newBalance = this.props.global.userBalance - amount;
+    this.setState(
+      {
+        balance: newBalance,
+      },
+      this.setState({
+        incomingRequests: newRequests,
+      })
+    );
+    this.props.changeIncomingMoneyRequests(newRequests);
+    this.props.changeUserBalance(newBalance);
+  };
 
-    handleReject = (request) => {
-        const newRequests = this.props.global.incomingMoneyRequests.filter(r => {
-            return r !== request
-        })
-        this.setState({
-            incomingRequests: newRequests
-        })
-        this.props.changeIncomingMoneyRequests(newRequests)
-    }
-    // changeBalance(amount) {
-    //     this.setState({balance: this.state.balance-amount})
-    // }
+  handleReject = (request) => {
+    const newRequests = this.props.global.incomingMoneyRequests.filter((r) => {
+      return r !== request;
+    });
+    this.setState({
+      incomingRequests: newRequests,
+    });
+    this.props.changeIncomingMoneyRequests(newRequests);
+  };
+  // changeBalance(amount) {
+  //     this.setState({balance: this.state.balance-amount})
+  // }
 
-    /*
+  /*
         On accept, 
             set state for curr accepted req
             Set state for showing pop up
@@ -63,36 +64,63 @@ class IncomingMoneyRequest extends Component{
             set state for show popup to off
     */
 
-    render(){
-        const {request, user, global, balance, changeIncomingMoneyRequests, changeUserBalance} = this.props
+  render() {
+    const {
+      request,
+      user,
+      global,
+      balance,
+      changeIncomingMoneyRequests,
+      changeUserBalance,
+    } = this.props;
 
-        return(
-            <div className="relative rounded-2xl w-full h-20 bg-gray-100 mt-2">
-                <div className="absolute float-left rounded-full h-20 w-20">
-                    <img className="float-left absolute rounded-full h-20 w-20 flex px-3 py-3 items-center
-                    justify-center" src={request.originUser.profilePicture}></img>
-                </div>
-                <div className="relative float-right top-2 w-10/12">
-                    <div className="float-left tracking-wide text-center"><b>{request.originUser.firstName}</b> {request.originUser.lastName}     <small>({request.originUser.userName})</small></div> <br/>
-                    <div className="float-left">
-                        <div className="px-1 float-left font-light">Amount:{request.amount} </div>
-                        <div className="px-1 font-light float-right"> Sent on {request.date} </div>
-                    </div>
-                    <div className="float-right">
-                        <button className="float-left bg-green-400 opacity-75 w-1/2 py-1 rounded-md"
-                                onClick={this.sendPopOn}>Accept</button>
-                        <button className="float-right bg-red-600 opacity-80 rounded-md w-1/2 py-1"
-                                onClick={() => this.handleReject(request)}>Reject</button>
-                    </div>
-                </div>
-                {this.state.sendOpen ? <AcceptMoneyReq request={request} 
-                                                       user={user}
-                                                       acceptRequest={this.handleAccept}
-                                                       minimizeSend={this.sendPopOff} /> : null}
-                
+    return (
+        <div className="h-12 flex items-center px-4 py-3 border-b bg-gray-100 rounded-xl shadow-md my-2">
+          <img
+            className="h-8 w-8 rounded-full object-cover mx-1"
+            src={request.originUser.profilePicture}
+          />
+          <p className="text-gray-600 text-sm mx-2">
+            <span className="font-bold block">
+            <strong className = "uppercase">({request.originUser.userName}) </strong>
+            <span>{request.originUser.firstName}</span>{" "}
+            <span>{request.originUser.lastName}</span>
+            </span>
+            
+            <div className="px-1 float-left font-light">
+              <strong>Amount:</strong>{request.amount}{" "}
             </div>
-        )
-    }
+            <div className="px-1 font-light float-right">
+              {" "}
+              Sent on {request.date}{" "}
+            </div>
+          </p>
+          <div className="ml-auto text-xs">
+            <button
+              className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white shadow-lg"
+              onClick={this.sendPopOn}
+            >
+              Accept
+            </button>
+            <button
+              className="mx-1 px-2 py-1 bg-red-500 rounded-3xl text-white shadow-lg"
+              onClick={() => this.handleReject(request)}
+            >
+              Reject
+            </button>
+        </div>
+        {this.state.sendOpen ? (
+          <AcceptMoneyReq
+            className = "rounded-xl"
+            request={request}
+            user={user}
+            acceptRequest={this.handleAccept}
+            minimizeSend={this.sendPopOff}
+          />
+        ) : null}
+      </div>
+    );
+  }
 }
 
-export default IncomingMoneyRequest
+export default IncomingMoneyRequest;

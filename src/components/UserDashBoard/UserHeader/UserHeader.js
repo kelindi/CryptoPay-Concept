@@ -40,6 +40,12 @@ class UserHeader extends Component {
         });
     }
 
+    reqPopOff = () => {
+        this.setState({
+            requestOpen: false,
+        });
+    }
+
     splitPopOn = () => {
         this.setState({
             splitOpen: true,
@@ -59,9 +65,9 @@ class UserHeader extends Component {
 
 
     render() {
-        
+        const { changeSentMoneyRequests } = this.props
+
         return (
-            
             <div className = "flex flex-row h-1/5 bg-blue-100">
                 {/* 1) placeholder profile photo which can be modified by user
                     2) Display Name
@@ -97,7 +103,12 @@ class UserHeader extends Component {
                                                   updateBalance={this.changeBalance} 
                                                   minimizeSend={this.sendPopOff}
                                                   maximizeSend={this.sendPopOn} /> : null}
-                {this.state.requestOpen ? <RequestPopUp toggle={this.reqPop} /> : null}
+                {this.state.requestOpen ? <RequestPopUp toggle={this.reqPop} 
+                                                        friendsList = {this.props.global.friendsList} 
+                                                        minimizeSend={this.reqPopOff}
+                                                        maximizeSend={this.sendPopOn}
+                                                        changeSentMoneyRequests={this.props.changeSentMoneyRequests}
+                                                        global={this.props.global}/> : null}
                 {this.state.splitOpen ? <SplitPopUp currentUser={this.state.currentUser} 
                                                 //   updateBalance={this.changeBalance} 
                                                   minimizeSplit={this.splitPopOff}

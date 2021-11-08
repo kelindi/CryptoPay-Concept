@@ -16,9 +16,10 @@ class UserDashBoard extends Component {
             profilePicture: this.props.currentUser.profilePicture,
             friendsList: this.props.currentUser.friends,
             incomingFriendRequests: this.props.currentUser.friendRequests,
-            sentFriendRequests:this.props.currentUser.sentFriendRequests,
+            sentFriendRequests: this.props.currentUser.sentFriendRequests,
             incomingMoneyRequests: this.props.currentUser.requests,
-            sentMoneyRequests: this.props.currentUser.sentRequests
+            sentMoneyRequests: this.props.currentUser.sentRequests,
+            transactions: this.props.backend.transactions
         };
     }
 
@@ -71,12 +72,12 @@ class UserDashBoard extends Component {
                     
                     <div className = "w-10/12 h-screen flex-shrink-0">
                         <NotificationBar changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} global = {this.state}></NotificationBar>
-                        <UserHeader changeUserBalance = {this.changeUserBalance} global ={this.state} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserHeader>
+                        <UserHeader changeSentMoneyRequests = {this.changeSentMoneyRequests} changeUserBalance = {this.changeUserBalance} global = {this.state} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserHeader>
 
-                        <UserFeed global = {this.state} changeOutgoingMoneyRequests= {this.changeSentMoneyRequests} changeIncomingMoneyRequests = {this.changeIncomingMoneyRequests} changeUserBalance = {this.changeUserBalance} changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserFeed>
+                        <UserFeed global = {this.state} changeOutgoingMoneyRequests = {this.changeSentMoneyRequests} changeIncomingMoneyRequests = {this.changeIncomingMoneyRequests} changeUserBalance = {this.changeUserBalance} changeFriendsList = {this.changeFriendsList} changeIncomingFriendRequests = {this.changeIncomingFriendRequests} backend ={this.props.backend} currentUser ={this.props.currentUser}></UserFeed>
                     </div>
                     
-                    <FriendsList className = "w-2/12 flex-shrink-0" backend ={this.props.backend} currentUser ={this.props.currentUser}></FriendsList>
+                    <FriendsList global = {this.state} changeSentMoneyRequests = {this.changeSentMoneyRequests} className = "w-2/12 flex-shrink-0" global = {this.state} changeSentFriendRequests = {this.changeSentFriendRequests} backend ={this.props.backend} currentUser ={this.props.currentUser}></FriendsList>
                 </div>
                 
             </div>

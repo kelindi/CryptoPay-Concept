@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import FriendRequest from "./FriendRequest";
-import SentFriendRequest from "./SentFriendRequest"
-import { uuid } from 'uuidv4';
-import IncomingMoneyRequest from './TransactionFeed/IncomingMoneyRequest'
-import { acceptRequest } from './FriendRequestResponses'
-import OutgoingMoneyRequest from './TransactionFeed/OutgoingMoneyTransaction';
+import SentFriendRequest from "./SentFriendRequest";
+import { uuid } from "uuidv4";
+import IncomingMoneyRequest from "./TransactionFeed/IncomingMoneyRequest";
+import { acceptRequest } from "./FriendRequestResponses";
+import OutgoingMoneyRequest from "./TransactionFeed/OutgoingMoneyTransaction";
+import UserTransactionTable from "./UserTransactions";
 
 /*
 TODO
@@ -27,175 +28,176 @@ Comment complex code
 
 */
 
-
 class UserFeed extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: this.props.currentUser,
-            userFriends: this.props.currentUser.friends,
-            userFriendRequests: this.props.currentUser.friendRequests,
-            userSentRequests: this.props.currentUser.sentFriendRequests,
-            userMoneyRequests: this.props.currentUser.requests,
-            userSentMoneyRequests: this.props.currentUser.sentRequests,
-            sendOpen: false
-        }
-        
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: this.props.currentUser,
+      userFriends: this.props.currentUser.friends,
+      userFriendRequests: this.props.currentUser.friendRequests,
+      userSentRequests: this.props.currentUser.sentFriendRequests,
+      userMoneyRequests: this.props.currentUser.requests,
+      userSentMoneyRequests: this.props.currentUser.sentRequests,
+      sendOpen: false,
+    };
+  }
 
-    handleAccept = requestor => {
-        // event.preventDefault()
-        const tempUserFriends = this.state.userFriends
-        tempUserFriends.push(requestor)
-        const newRequests = this.state.userFriendRequests.filter(r => {
-            return r !== requestor
-        })
-        this.setState({
-            userFriends: tempUserFriends
-        }, // backend call to change friends list of user 
-            // this.state.user.setState({
-            //     friends: tempUserFriends
-            // },
-            this.setState({
-                userFriendRequests: newRequests
-            })
-            
-            // backend call to change friends requests of user 
-            // this.state.user.setState({
-            //     friendRequests: newRequests
-            // })
-        )
-        this.props.changeFriendsList(tempUserFriends)
-        this.props.changeIncomingFriendRequests(newRequests)
-    }
+  handleAccept = (requestor) => {
+    // event.preventDefault()
+    const tempUserFriends = this.state.userFriends;
+    tempUserFriends.push(requestor);
+    const newRequests = this.state.userFriendRequests.filter((r) => {
+      return r !== requestor;
+    });
+    this.setState(
+      {
+        userFriends: tempUserFriends,
+      }, // backend call to change friends list of user
+      // this.state.user.setState({
+      //     friends: tempUserFriends
+      // },
+      this.setState({
+        userFriendRequests: newRequests,
+      })
 
-    handleReject = requestor => {
-        const newRequests = this.state.userFriendRequests.filter(r => {
-            return r !== requestor
-        })
-        // user.friendRequests = newRequests
-        this.setState({
-            userFriendRequests: newRequests
-        })
-    
-        // 
+      // backend call to change friends requests of user
+      // this.state.user.setState({
+      //     friendRequests: newRequests
+      // })
+    );
+    this.props.changeFriendsList(tempUserFriends);
+    this.props.changeIncomingFriendRequests(newRequests);
+  };
 
-        // const newSenderRequests = requestor.sentRequests.filter(s => {
-        //     return s !== user
-        // })
-        // requestor.sentRequests = newSenderRequests
-    }
+  handleReject = (requestor) => {
+    const newRequests = this.state.userFriendRequests.filter((r) => {
+      return r !== requestor;
+    });
+    // user.friendRequests = newRequests
+    this.setState({
+      userFriendRequests: newRequests,
+    });
 
-    handleRescind = requestee => {
-        const newSentRequests = this.state.userSentRequests.filter(r => {
-            return r !== requestee
-        })
-        this.setState({
-            userSentRequests: newSentRequests
-        })
-    }
+    //
 
-    sendPopOn = () => {
-        this.setState({
-            sendOpen: true,
-        });
-    }
+    // const newSenderRequests = requestor.sentRequests.filter(s => {
+    //     return s !== user
+    // })
+    // requestor.sentRequests = newSenderRequests
+  };
 
-    sendPopOff = () => {
-        this.setState({
-            sendOpen: false,
-        });
-    }
+  handleRescind = (requestee) => {
+    const newSentRequests = this.props.global.sentFriendRequests.filter((r) => {
+      return r !== requestee;
+    });
+    this.props.changeSentFriendRequests(newSentRequests)
+  };
 
+  sendPopOn = () => {
+    this.setState({
+      sendOpen: true,
+    });
+  };
 
+  sendPopOff = () => {
+    this.setState({
+      sendOpen: false,
+    });
+  };
 
-    render() {
-        const { global, changeOutgoingMoneyRequests, changeIncomingMoneyRequests, changeUserBalance } = this.props
-        return (
-            <div className="relative rounded-lg h-4/5 bg-gray-300">
-                {/* Container Div */}
-                <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/6 w-1/2 bg-color bg-blue-200 ">
-                    {/* div for incoming requests */}
-                    <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">INCOMING FRIEND REQUESTS</div>
-                    {/* <FriendRequest user={this.props.currentUser} /> */}
-                    {this.state.userFriendRequests.map(requestor => (
-                       
-                            <FriendRequest
-                                key={uuid()}
-                                user={this.state.user}
-                                requestor={requestor}
-                                acceptRequest={this.handleAccept}
-                                rejectRequest={this.handleReject}
-                            />
-                    ))}
+  render() {
+    const {
+      global,
+      changeOutgoingMoneyRequests,
+      changeIncomingMoneyRequests,
+      changeUserBalance,
+    } = this.props;
+    return (
+      <div className="relative rounded-lg h-full bg-white flex flex-col">
+        {/* Container Div */}
+        <div className="bg-white rounded-xl w-auto bg-color m-4 flex flex-col shadow-2xl">
+          {/* div for outgoing requests */}
+          <div className="font-sans text-blue-700 text-xl font-light  tracking-widest text-center">
+            OUTGOING FRIEND REQUESTS
+          </div>
 
-                    {/* For testing */}
-                    {/* <FriendRequest
-                        key={uuid()}
-                        user={this.props.currentUser.friendRequests[0]}/>
-                    
-                    <FriendRequest
-                        key={uuid()}
-                        user={this.props.currentUser.friendRequests[0]}/>
-                    
-                    <FriendRequest
-                        key={uuid()}
-                        user={this.props.currentUser.friendRequests[0]}/> */}
-
-
-                    {/* {
-                        displayName = (user) =>{
-                        console.log(user)
-                        }
-                    }   */}
-
+          <div className={"overflow-y-scroll bg-white rounded-xl mx-5 my-4.5 "+ (global.sentFriendRequests.length > 0 ? "h-32":"")}>
+          
+            {global.sentFriendRequests.map((requestor) => (
+              <div className="h-12 flex items-center px-4 py-3 border-b bg-gray-100 rounded-xl shadow-md my-2">
+                
+                <img
+                  className="h-8 w-8 rounded-full object-cover mx-1"
+                  src={requestor.profilePicture}
+                />
+                <p className="text-gray-600 text-sm mx-2">
+                  <span className="font-bold block">{requestor.userName}</span>
+                  <span>{requestor.firstName}</span>{" "}
+                  <span>{requestor.lastName}</span>
+                </p>
+                <div className="ml-auto text-xs">
+                  <button
+                    onClick={() => this.handleRescind(requestor)}
+                    className="mx-1 px-2 py-1 bg-red-500 rounded-3xl text-white shadow-lg"
+                  >
+                    Cancel Request
+                  </button>
                 </div>
-                <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/6 w-1/2 bg-color bg-blue-100">
-                    {/* div for outgoing requests */}
-                    <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">OUTGOING FRIEND REQUESTS</div>
-                    {this.state.userSentRequests.map(requestee => (
-                        <SentFriendRequest
-                            key={uuid()}
-                            user={this.state.user}
-                            requestee={requestee} 
-                            rescindRequest={this.handleRescind}/>
-                        // console.log(user.firstName)
-                    ))}
-                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-                <div className="absolute border-2 border-blue-300 border-opacity-100 bottom-0 rounded-xl h-5/6 w-full bg-color bg-blue-300">
-                    <div className="float-left border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100">
-                        <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center">INCOMING MONEY REQUESTS</div>
-                        {this.props.global.incomingMoneyRequests.map(request => (
-                            <IncomingMoneyRequest
-                                key={uuid()}
-                                request={request}
-                                user={this.state.user}
-                                global={this.props.global}
-                                balance={this.props.currentUser.currentAccountBalance}
-                                changeIncomingMoneyRequests={this.props.changeIncomingMoneyRequests}
-                                changeUserBalance={this.props.changeUserBalance}
-                            />
-                        ))}
-                    </div>
-                    <div className="float-right border-2 border-blue-300 border-opacity-100 overflow-y-auto rounded-xl h-1/3 w-1/2 bg-color bg-blue-100">
-                        <div className="font-sans text-blue-800 text-xl font-light tracking-widest text-center">OUTGOING MONEY REQUESTS</div>
-                        {global.sentMoneyRequests.map(request => (
-                            <OutgoingMoneyRequest
-                                key={uuid()}
-                                request={request}    
-                                global={this.props.global}
-                                changeOutgoingMoneyRequests={this.props.changeOutgoingMoneyRequests}
-                            />
-                        ))}
-                    </div>
-                    {/* div for rest of the feed */}
-
-                </div>
+        <div className="bg-white rounded-xl w-auto bg-color m-4 flex flex-row shadow-2xl">
+          <div className="overflow-y-auto rounded-xl my-4 mx-2 w-full">
+            <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center ">
+              INCOMING MONEY REQUESTS
             </div>
+            <div className = "bg-white rorounded-xl">
+            {this.props.global.incomingMoneyRequests.map((request) => (
+              <IncomingMoneyRequest
+                key={uuid()}
+                request={request}
+                user={this.state.user}
+                global={this.props.global}
+                balance={this.props.currentUser.currentAccountBalance}
+                changeIncomingMoneyRequests={
+                  this.props.changeIncomingMoneyRequests
+                }
+                changeUserBalance={this.props.changeUserBalance}
+              />
+            
+            ))}
+                
+            </div>
+          </div>
+          
+          
+          
+          <div className=" overflow-y-auto rounded-xl my-4 mx-2 w-full">
+            <div className="font-sans text-blue-800 text-xl font-light tracking-widest text-center">
+              OUTGOING MONEY REQUESTS
+            </div>
+            {global.sentMoneyRequests.map((request) => (
+              <OutgoingMoneyRequest
+                key={uuid()}
+                request={request}
+                global={this.props.global}
+                changeOutgoingMoneyRequests={
+                  this.props.changeOutgoingMoneyRequests
+                }
+              />
+            ))}
+          </div>
+          {/* div for rest of the feed */}
+        </div>
 
-        );
-    }
+        <div>
+            <UserTransactionTable global = {this.props.global} ></UserTransactionTable>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default UserFeed;
