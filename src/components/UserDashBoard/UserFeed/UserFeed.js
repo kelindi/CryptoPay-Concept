@@ -113,18 +113,18 @@ class UserFeed extends Component {
       changeUserBalance,
     } = this.props;
     return (
-      <div className="relative rounded-lg h-full bg-white flex flex-col">
+      <div className="relative h-full bg-white flex flex-col">
         {/* Container Div */}
         <div className="bg-white rounded-xl w-auto bg-color m-4 flex flex-col shadow-2xl">
           {/* div for outgoing requests */}
-          <div className="font-sans text-blue-700 text-xl font-light  tracking-widest text-center">
+          <div className="font-sans text-black text-xl font-light  tracking-widest text-center">
             OUTGOING FRIEND REQUESTS
           </div>
 
           <div className={"overflow-y-scroll bg-white rounded-xl mx-5 my-4.5 "+ (global.sentFriendRequests.length > 0 ? "h-32":"")}>
           
             {global.sentFriendRequests.map((requestor) => (
-              <div className="h-12 flex items-center px-4 py-3 border-b bg-gray-100 rounded-xl shadow-md my-2">
+              <div key = { uuid()} className="h-12 flex items-center px-4 py-3 border-b bg-gray-100 rounded-xl shadow-md my-2">
                 
                 <img
                   className="h-8 w-8 rounded-full object-cover mx-1"
@@ -150,7 +150,7 @@ class UserFeed extends Component {
 
         <div className="bg-white rounded-xl w-auto bg-color m-4 flex flex-row shadow-2xl">
           <div className="overflow-y-auto rounded-xl my-4 mx-2 w-full">
-            <div className="font-sans text-blue-700 text-xl font-light tracking-widest text-center ">
+            <div className="font-sans text-black text-xl font-light tracking-widest text-center ">
               INCOMING MONEY REQUESTS
             </div>
             <div className = "bg-white rorounded-xl">
@@ -175,7 +175,7 @@ class UserFeed extends Component {
           
           
           <div className=" overflow-y-auto rounded-xl my-4 mx-2 w-full">
-            <div className="font-sans text-blue-800 text-xl font-light tracking-widest text-center">
+            <div className="font-sans text-black text-xl font-light tracking-widest text-center">
               OUTGOING MONEY REQUESTS
             </div>
             {global.sentMoneyRequests.map((request) => (
@@ -192,7 +192,7 @@ class UserFeed extends Component {
           {/* div for rest of the feed */}
         </div>
 
-        <div>
+        <div className = "bg-white rounded-xl shadow-2xl m-4">
             <UserTransactionTable global = {this.props.global} ></UserTransactionTable>
         </div>
       </div>

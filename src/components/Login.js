@@ -17,7 +17,6 @@ class Login extends Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this)
 
-        
     }
     
 

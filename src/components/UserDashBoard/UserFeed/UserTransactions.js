@@ -4,7 +4,6 @@ class UserTransactionTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filterOrigin: "",
       filterDestination: "",
       filterAmount: "",
       filterDate: "",
@@ -14,7 +13,6 @@ class UserTransactionTable extends Component {
       transactions: this.props.global.transactions,
       masterTransactions: this.props.global.transactions,
     };
-    this.filterOriginChange = this.filterOriginChange.bind(this);
     this.filterDestinationChange = this.filterDestinationChange.bind(this);
     this.filterAmountChange = this.filterAmountChange.bind(this);
     this.filterDateChange = this.filterDateChange.bind(this);
@@ -22,10 +20,14 @@ class UserTransactionTable extends Component {
     this.filterIDChange = this.filterIDChange.bind(this);
     this.filter = this.filter.bind(this);
   }
+  componentDidMount(){
+    this.filter()
+  }
   filter() {
     const filteredTransactions = this.state.masterTransactions.filter(
       (t) =>
-        (t.originUser.userName.toString() === this.props.global.userName) &&
+        t.originUser.userName.toString() ===
+          this.props.global.userName.toString() &&
         (t.destinationUser.userName
           .toString()
           .includes(this.state.filterDestination.toString()) ||
@@ -44,11 +46,6 @@ class UserTransactionTable extends Component {
     );
   }
 
-  filterOriginChange(event) {
-    this.setState({ filterOrigin: event.target.value }, () => {
-      this.filter();
-    });
-  }
   filterDestinationChange(event) {
     this.setState({ filterDestination: event.target.value }, () => {
       this.filter();
@@ -77,8 +74,8 @@ class UserTransactionTable extends Component {
 
   render() {
     return (
-      <div className="font-mono">
-        <div className="border text-center text-3xl py-4">TRANSACTIONS</div>
+      <div className="font-sans font-light shadow-2xl">
+        <div className="text-center text-3xl py-4">TRANSACTIONS</div>
         <table className="table-auto w-full">
           <thead>
             <tr>
@@ -127,20 +124,20 @@ class UserTransactionTable extends Component {
           <tbody>
             {this.state.transactions.map((transaction) => {
               return (
-                <tr key={transaction.id}>
-                  <td className="px-4 py-2 border text-center">
+                <tr className = "border"key={transaction.id}>
+                  <td className="border px-4 py-2 text-center">
                     {transaction.destinationUser.userName.toString()}
                   </td>
-                  <td className="px-4 py-2 border text-center">
+                  <td className="border px-4 py-2 text-center">
                     {"$" + transaction.amount.toString()}
                   </td>
-                  <td className="px-4 py-2 border text-center">
+                  <td className="border px-4 py-2 text-center">
                     {transaction.date.toString()}
                   </td>
-                  <td className="px-4 py-2 border text-center">
+                  <td className="border px-4 py-2 text-center">
                     {transaction.time.toString()}
                   </td>
-                  <td className="px-4 py-2 border text-center">
+                  <td className="border px-4 py-2 text-center">
                     {transaction.id.toString()}
                   </td>
                 </tr>

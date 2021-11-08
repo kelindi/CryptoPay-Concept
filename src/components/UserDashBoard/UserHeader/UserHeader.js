@@ -68,7 +68,7 @@ class UserHeader extends Component {
         const { changeSentMoneyRequests } = this.props
 
         return (
-            <div className = "flex flex-row h-1/5 bg-blue-100">
+            <div className = "flex flex-row h-1/5 bg-white mt-2 mb-2 rounded-xl shadow-2xl">
                 {/* 1) placeholder profile photo which can be modified by user
                     2) Display Name
                     3) Display Account Balance 
@@ -78,7 +78,7 @@ class UserHeader extends Component {
                         - Split*/}
                 {/* <img className='UserProfilePhoto' src={this.state.pF} alt="Profile Photo"/> */}
                 <div className='w-48 h-48 flex-shrink-0'>
-                    <img className='rounded-full h-2/3 w-2/3 m-4' src={this.state.pf} alt="Profile Photo"/>
+                    <img className='shadow-2xl rounded-full h-2/3 w-2/3 m-4' src={this.state.pf} alt="Profile Photo"/>
                 </div>
                 
                 <div className='text-left flex flex-col flex-shrink-0'>
@@ -89,14 +89,14 @@ class UserHeader extends Component {
 
                 </div>
 
-                <div className='ml-auto px-10 my-1'>
+                <div className='ml-auto px-10 my-1 text-white'>
                     {/* Buttons */}
-                    <button className='w-24 h-10 my-1 bg-blue-300 hover:bg-green-200 text-black font-bold rounded-xl hover:border-blue rounded' 
-                            onClick={this.sendPopOn}><b>Send</b></button><br></br>
-                    <button className='w-24 h-10 my-1 bg-blue-300 hover:bg-green-200 text-black font-bold rounded-xl hover:border-blue rounded' 
-                            onClick={this.reqPop}><b>Request</b></button><br></br>
-                    <button className='w-24 h-10 my-1 bg-blue-300 hover:bg-green-200 text-black font-bold rounded-xl hover:border-blue rounded' 
-                            onClick={this.splitPopOn}><b>Split</b></button>
+                    <button className='w-24 h-10 my-1 bg-blue-500 hover:bg-green-500 rounded-3xl shadow-lg' 
+                            onClick={this.sendPopOn}>Send</button><br></br>
+                    <button className='w-24 h-10 my-1 bg-blue-500 rounded-3xl shadow-lg hover:bg-green-500'
+                            onClick={this.reqPop}>Request</button><br></br>
+                    <button className='w-24 h-10 my-1 bg-blue-500 rounded-3xl shadow-lg hover:bg-green-500'  
+                            onClick={this.splitPopOn}>Split</button>
                 </div>
                 {this.state.sendOpen ? <SendPopUp currentUser={this.state.currentUser} 
                                                 friendsList = {this.props.global.friendsList}
