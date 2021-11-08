@@ -48,3 +48,12 @@ The User can see the outgoing money requests they made with the option to rescin
 The Users cans also see any incoming money requests they have with the options to either accept it or reject it. Accepting it will deduct the balance from their account balance.
 
 Recinding/Rejecting requests removes them from the dashboard.
+
+# Admin Functionality
+On the Admin Page an admin can view reports users have made and resolve them internally, and then mark the reports as resolved along with a comment.
+
+On the users page the admin can edit a user’s name first name and last name
+
+On the money requests page admin can delete pending money requests
+
+On the transactions page admin can view all transactions on the site and view them through filters
