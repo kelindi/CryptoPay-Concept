@@ -33,7 +33,19 @@ class FriendsList extends Component {
       selectedFriend: null,
       showAddFriends: false,
       searchContent: "",
+      amount: '',
+      balance: this.props.currentUser.currentAccountBalance
     };
+  }
+
+  handleSend= () => {
+    //backend call to add money into the reciever's account
+    const newBalance = this.state.balance - this.state.amount
+    console.log(newBalance)
+    this.setState({
+      balance: newBalance
+    })
+    this.props.changeUserBalance(newBalance)
   }
 
   friendPop(friend) {
@@ -54,13 +66,21 @@ class FriendsList extends Component {
     // console.log(this.state.usersFound);
   };
 
+  amountValidation(event){
+    const amt = event.target.value
+    this.setState({
+      amount: amt
+    })
+    
+}
+
   render() {
     const { global, changeSentFriendRequests } = this.props;
     return (
       <div className="w-full flex flex-row ">
         {this.state.showFriendPopUp ? (
           /* pop-up of show info a certain friend */
-          <div className=" bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/3 top-1/3 ">
+          <div className=" bg-white rounded md:w-1/3 w-2/3 border shadow-lg fixed z-100 left-1/3 top-1/3 ">
             <div>
               <button
                 onClick={() => {
@@ -85,12 +105,18 @@ class FriendsList extends Component {
                 <span>{this.state.selectedFriend.firstName}</span>{" "}
                 <span>{this.state.selectedFriend.lastName}</span>
               </p>
-              <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white">
-                Send
-              </button>
-              <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white">
-                Request
-              </button>
+              <div className=" text-center flex flex-col">
+              <input className="ml-5 w-44 pl-2" type="text"  value={this.state.amount} onChange={(event) => {this.setState({amount : event.target.value})}} placeholder="Amount"/>
+                <div className="flex flex-row">
+                  <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
+                          onClick={() => this.handleSend()}>
+                    Send
+                  </button>
+                  <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white">
+                    Request
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         ) : null}
