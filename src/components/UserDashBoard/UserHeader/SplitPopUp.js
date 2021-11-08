@@ -13,7 +13,8 @@ class SplitPopUp extends Component {
             userFriends: this.props.currentUser.friends,
             filteredFriends: this.props.userFriends,
             showResults: {},
-            nameFilled: false,
+            // nameFilled: false,
+            nameFilled: true,
             friendFields: {},
             friendFieldLen: 0,
             addFriend: true,
@@ -207,6 +208,7 @@ class SplitPopUp extends Component {
                     <div className='w-1/1 mt-2 text-right'>
                         <button className='bg-green-500 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                         onClick={this.splitMoney}><b>Send</b></button>
+                        {/* This will trigger multiple backend calls which will reflect changes in transaction history, and user dashboard */}
                         <button className='ml-1 bg-red-500 hover:bg-red-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                         onClick={this.minimizePopUp}><b>Cancel</b></button>
                     </div>
