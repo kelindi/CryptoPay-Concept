@@ -68,7 +68,7 @@ class Login extends Component {
         return (
             <div className="font-sans">
                 <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-grey">
-                    <div className = "text-large">CryptoPay</div>
+                    <div className = "text-8xl font-mono my-4">CryptoPay</div>
                     <div className="relative sm:max-w-sm w-full">
                         <div className="relative w-full rounded-3xl  px-6 py-4 bg-white shadow-md border">
                             <label className="block mt-3 text-2xl text-gray-700 text-center font-semibold">
