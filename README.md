@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+# README    
+In this project, we have created a platform for users to send, request, and split money that they maybe owing or are owed.
+The uniqueness of this platform lies in the fact that the medium of monetary exchange is StableCoin, a one-to-one valuation with US Dollars.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Third Party Linraries Used: Tailwind, React
 
-## Available Scripts
+# User Functionalities
+## Account and Login
+Our platform has a login and a registration page to allow users to have a personal account, using which they can send friend requests to other accounts,
+receive friend requests from other accounts, and manage their wallets, and other profile information.
 
-In the project directory, you can run:
+NOTE:
+User Login Credentials: username = "user", password = "user"
+Admin Login Credentials: username = "admin", password = "admin"
 
-### `npm start`
+## The User Dashboard
+Each user has a dedicated dashboard with the following sections:
+### The User Header:
+The User Header has the profile photo of the user, their information and three key functionalility buttons:
+- The "Send" Button
+- The "Request" Button
+- The "Split" Button
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### The Send Button
+The "Send" button allows the user to enter the username of the person they are sending money to along with the amount.
+It has to be noted that that the user can only send money to their friends. If they wish to send money to others, they need to befriend them first on the application.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The button also deducts (and reflects on the dashboard) the amount sent to the friend from the user's account balance.
 
-### `npm test`
+#### The Request Button
+The "Request" button allows the user to enter the username of the person they are requesting money from along with the amount.
+It has to be noted that the user can only request money from their friends. If they wish to request from others, they need to befriend them on the application first.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The button generates outgoing requests and displays them on the "User Feed" section (explained later).
 
-### `npm run build`
+#### The Split Button
+The "Split" option allows the user to split the money between mulitple users based on percentage they owe the user before sending the money requests to the participating friends.
+The user has an option to add multiple friends to divide the money amongst.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### The User Feed
+The User Feed displays three sections of information for the convenience of the user:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Outgoing Friend Requests: 
+The User can see the outgoing friend requests they made along with the option to rescind it. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Outgoing and Incoming Money Requests:
+The User can see the outgoing money requests they made with the option to rescind it.
+The Users cans also see any incoming money requests they have with the options to either accept it or reject it. Accepting it will deduct the balance from their account balance.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Recinding/Rejecting requests removes them from the dashboard.
