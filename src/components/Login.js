@@ -11,7 +11,8 @@ class Login extends Component {
             password:'',
             failedAttempt: false,
             redirectUser: false,
-            redirectAdmin: false
+            redirectAdmin: false,
+            walletNotConnected:false,
             }
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -28,8 +29,15 @@ class Login extends Component {
         this.setState({password:event.target.value})
     }
 
-    handleLogin(event){
+    handleLogin = async(event) => {
         event.preventDefault()
+        
+        const wallet = await this.props.connectWallet()
+        if (wallet.connectedStatus===false){
+            this.setState({walletNotConnected:true});
+            return
+        }
+        
         //insert actual data base here in phase 2 to check for password
         if(this.props.backend.loginDB[this.state.userName]===this.state.password){
             const token = this.props.backend.tokenDB[this.state.userName];
@@ -63,6 +71,9 @@ class Login extends Component {
        }
        else if (this.state.redirectAdmin){
            return <Redirect push to = "/adminDashBoard" />;
+       }
+       if (this.state.walletNotConnected){
+           return <Redirect push to = "/metamask"/>
        }
 
         return (
