@@ -85,7 +85,7 @@ class UserDashBoard extends Component {
   render() {
     const { currentUser } = this.props;
     return (
-      <div className="font-sans">
+      <div className="font-serif">
         <div className="flex flex-column h-100">
           <div className="w-10/12 h-screen flex-shrink-0">
             <NotificationBar

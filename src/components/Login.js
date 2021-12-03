@@ -77,7 +77,7 @@ class Login extends Component {
        }
 
         return (
-            <div className="font-sans">
+            <div className="font-serif">
                 <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-grey">
                     <div className = "text-8xl font-mono my-4">CryptoPay</div>
                     <div className="relative sm:max-w-sm w-full">

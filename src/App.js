@@ -39,20 +39,20 @@ class App extends React.Component {
           } catch (error) {
               return {
                   connectedStatus: false,
-                  status: "🦊 Connect to Metamask using the button on the top right."
+                  status: "Connect to Metamask using the button on the top right."
               }
           }
           
     } else {
           return {
               connectedStatus: false,
-              status: "🦊 You must install Metamask into your browser: https://metamask.io/download.html"
+              status: "You must install Metamask into your browser: https://metamask.io/download.html"
           }
         } 
   };
 
   render(){
-     if ( true ){
+     
       return (
         <BrowserRouter>
           <Switch>
@@ -68,13 +68,7 @@ class App extends React.Component {
           </Switch>
         </BrowserRouter>
       );
-     }
-     else{
-       return (
-         <div>Please install metamask</div>
-       )
-     }
-    
+     
     }
   }
   
