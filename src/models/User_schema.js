@@ -14,6 +14,11 @@ const UserS = mongoose.model('UserS', {
         minlength: 1,
         trim:true
     },
+    walletAddress:{
+        type: String,
+        required: true,
+        minlength: 1
+    },
     username: {
         type: String,
         required: true,
