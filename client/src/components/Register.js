@@ -56,9 +56,8 @@ class Register extends Component {
     }
 
     handleLogin(event){
-        
         //insert actual data base here in phase 2 to check for password
-
+        
         if(this.state.password != this.state.rePassword){
             console.log('bad password')
             // return

@@ -165,12 +165,12 @@ app.post('/api/Users', mongoChecker, async (req, res) => {
     log(req.body)
 
     // Create a new user
-    const user = new UserS({
+    const user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         walletAddress: req.body.walletAddress,
         userName: req.body.userName,
-        friends: req.body.friends
+        friends: []
     })
 
     try {

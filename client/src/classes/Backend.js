@@ -229,15 +229,13 @@ class Backend {
     this.user1.sentFriendRequests.push(this.user7,this.user8,this.user9)
   }
   addUser = (firstName, lastName, username, password) => {
-    console.log(this.loginDB);
     const url = '/api/Users';
 
     let newUser = {
       firstName: firstName,
       lastName: lastName,
-      walletAddress: '',
-      username: username,
-      friends: []
+      walletAddress: 'asdasdasd',
+      userName: username
     }
 
     const request = new Request(url, {
@@ -248,7 +246,7 @@ class Backend {
         'Content-Type': 'application/json'
       }
     });
-
+    console.log(request)
     fetch(request)
     .then(function(res) {
       if (res.status === 200){
