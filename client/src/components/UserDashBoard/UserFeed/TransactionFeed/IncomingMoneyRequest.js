@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AcceptMoneyReq from "../TransactionFeed/AcceptMoneyReq";
+import AcceptMoneyReq from "./AcceptMoneyReq";
 
 class IncomingMoneyRequest extends Component {
   constructor(props) {

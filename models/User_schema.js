@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-import User from '../classes/User'
+import User from '../client/src/classes/User'
 
 const UserS = mongoose.model('UserS', {
     firstName: {

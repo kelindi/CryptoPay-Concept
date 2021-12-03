@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Backend, { addUser } from "./../classes/Backend";
+import Backend, { addUser } from "../classes/Backend";
 import { Redirect } from 'react-router';
 
 class Register extends Component {
