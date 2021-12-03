@@ -1,14 +1,12 @@
 const mongoose = require('mongoose')
 
-import User from '../classes/User'
-
-const MoneyRequestS = mongoose.model('MoneyRequestS', {
+const MoneyRequest = mongoose.model('MoneyRequest', {
     originUser: {
-        type: User,
+        type: String,
         required: true
     },
     destinationUser: {
-        type: User,
+        type: String,
         required: true
     },
     destinationWallet: {
@@ -25,4 +23,4 @@ const MoneyRequestS = mongoose.model('MoneyRequestS', {
     }
 })
 
-module.exports = { MoneyRequestS }
+module.exports = { MoneyRequest }

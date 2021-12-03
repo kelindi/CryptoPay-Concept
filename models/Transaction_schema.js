@@ -1,14 +1,12 @@
 const mongoose = require('mongoose')
 
-import User from '../classes/User'
-
-const TransactionS = mongoose.model('TransactionS', {
+const Transaction = mongoose.model('Transaction', {
     originUser: {
-        type: User,
+        type: String,
         required: true
     },
     destinationUser: {
-        type: User,
+        type: String,
         required: true
     },
     amount: {
@@ -25,4 +23,4 @@ const TransactionS = mongoose.model('TransactionS', {
     }
 })
 
-module.exports = { TransactionS }
+module.exports = { Transaction }

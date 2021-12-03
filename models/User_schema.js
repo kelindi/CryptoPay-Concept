@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
-import User from '../client/src/classes/User'
 
-const UserS = mongoose.model('UserS', {
+const User = mongoose.model('User', {
     firstName: {
         type: String,
         required: true,
@@ -26,8 +25,8 @@ const UserS = mongoose.model('UserS', {
         trim: true
     },
     friends: [{
-        friend: User
+        friend: String
     }]
 })
 
-module.exports = { UserS }
+module.exports = { User }

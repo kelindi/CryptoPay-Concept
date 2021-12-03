@@ -1,14 +1,12 @@
 const mongoose = require('mongoose')
 
-import User from '../classes/User'
-
-const ReportS = mongoose.model('ReportS', {
+const Report = mongoose.model('Report', {
     submitter: {
-        type: User,
+        type: String,
         required: true
     },
     reportedUser: {
-        type: User,
+        type: String,
         required: true
     },
     reason: {
@@ -26,4 +24,4 @@ const ReportS = mongoose.model('ReportS', {
 
 })
 
-module.exports = { ReportS }
+module.exports = { Report }
