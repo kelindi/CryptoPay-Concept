@@ -230,6 +230,36 @@ class Backend {
   }
   addUser = (firstName, lastName, username, password) => {
     console.log(this.loginDB);
+    const url = '/api/Users';
+
+    let newUser = {
+      firstName: firstName,
+      lastName: lastName,
+      walletAddress: '',
+      username: username,
+      friends: []
+    }
+
+    const request = new Request(url, {
+      method: 'post',
+      body: JSON.stringify(newUser),
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    fetch(request)
+    .then(function(res) {
+      if (res.status === 200){
+        console.log("Added new User")
+      }
+      else{
+        console.log("Could not add user")
+      }
+    }).catch((error) => {
+      console.log(error)
+    })
     let uid = uuid();
     this.loginDB[username] = password;
     // this.loginDB.push({
@@ -248,6 +278,27 @@ class Backend {
     // });
     console.log(this.loginDB);
   };
+
+  // addUser = (firstName, lastName, username, password) => {
+  //   console.log(this.loginDB);
+  //   let uid = uuid();
+  //   this.loginDB[username] = password;
+  //   // this.loginDB.push({
+  //   //     key: username,
+  //   //     value: password
+  //   // });
+  //   this.tokenDB[username] = uid;
+  //   // this.tokenDB.push({
+  //   //     key: username,
+  //   //     value: uid
+  //   // });
+  //   this.userDB[[uid]] = new User(firstName, lastName, username, 0, ""); //keeping default balance as 0 and no default wallet.
+  //   // this.userDB.push({
+  //   //     key: [uid],
+  //   //     value: new User(firstName, lastName, username, 0, '') //keeping default balance as 0 and no default wallet.
+  //   // });
+  //   console.log(this.loginDB);
+  // };
 }
 
 export default Backend;
