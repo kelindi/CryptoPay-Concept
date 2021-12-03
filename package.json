@@ -5,6 +5,8 @@
     "mongoose": "^6.0.14"
   },
   "scripts": {
-    "start": "cd client && npm start"
+    "start": "node server.js && xdg-open localhost:5000",
+    "setup": "npm install && cd client && npm install && cd ..",
+    "build": "cd client && npm run build && cd .. && node server.js"
   }
 }
