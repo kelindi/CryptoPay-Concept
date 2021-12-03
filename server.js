@@ -31,10 +31,10 @@ const { mongoose } = require("./db/mongoose");
 mongoose.set('bufferCommands', false);
 
 // import the mongoose models
-const { UserS } = require("./models/User_schema");
-const { TransactionS } = require("./models/Transaction_schema");
-const { MoneyRequestS } = require("./models/MoneyRequest_schema");
-const { ReportS } = require("./models/Report_schema")
+const { User } = require("./models/User_schema");
+const { Transaction } = require("./models/Transaction_schema");
+const { MoneyRequest } = require("./models/MoneyRequest_schema");
+const { Report } = require("./models/Report_schema")
 
 // to validate object IDs
 // const { ObjectID } = require("mongodb");
