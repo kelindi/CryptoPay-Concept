@@ -228,14 +228,14 @@ class Backend {
     this.user1.friendRequests.push(this.user4,this.user5,this.user6);
     this.user1.sentFriendRequests.push(this.user7,this.user8,this.user9)
   }
-  addUser = (firstName, lastName, username, password) => {
-    const url = '/api/Users';
+  addUser = (firstName, lastName, userName, password) => {
+    const url = '/api/register';
 
     let newUser = {
       firstName: firstName,
       lastName: lastName,
       walletAddress: 'asdasdasd',
-      userName: username
+      userName: userName
     }
 
     const request = new Request(url, {
@@ -259,17 +259,17 @@ class Backend {
       console.log(error)
     })
     let uid = uuid();
-    this.loginDB[username] = password;
+    this.loginDB[userName] = password;
     // this.loginDB.push({
     //     key: username,
     //     value: password
     // });
-    this.tokenDB[username] = uid;
+    this.tokenDB[userName] = uid;
     // this.tokenDB.push({
     //     key: username,
     //     value: uid
     // });
-    this.userDB[[uid]] = new User(firstName, lastName, username, 0, ""); //keeping default balance as 0 and no default wallet.
+    this.userDB[[uid]] = new User(firstName, lastName, userName, 0, ""); //keeping default balance as 0 and no default wallet.
     // this.userDB.push({
     //     key: [uid],
     //     value: new User(firstName, lastName, username, 0, '') //keeping default balance as 0 and no default wallet.

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://CryptoPay:Team42@cluster0.brbjl.mongodb.net'
+const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://CryptoPay:Team42@cluster0.brbjl.mongodb.net/CryptoPay'
 
 mongoose.connect(mongoURI,
     {useNewUrlParser: true, useUnifiedTopology: true})

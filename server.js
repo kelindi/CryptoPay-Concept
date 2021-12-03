@@ -161,7 +161,7 @@ const mongoChecker = (req, res, next) => {
 
 /*** API Routes below ************************************/
 // User API Route
-app.post('/api/Users', mongoChecker, async (req, res) => {
+app.post('/api/register', mongoChecker, async (req, res) => {
     log(req.body)
 
     // Create a new user
@@ -172,7 +172,7 @@ app.post('/api/Users', mongoChecker, async (req, res) => {
         userName: req.body.userName,
         friends: []
     })
-
+    
     try {
         // Save the user
         const newUser = await user.save()
