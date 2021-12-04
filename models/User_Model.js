@@ -55,9 +55,10 @@ UserSchema.pre('save', function(next) {
 })
 UserSchema.statics.findByUserNamePassword = function(userName, password) {
 	const User = this // binds this to the User model
-
+    
 	// First find the user by their userName
 	return User.findOne({ userName: userName.toLowerCase() }).then((user) => {
+        console.log(user)
 		if (!user) {
 			return Promise.reject()  // a rejected promise
 		}

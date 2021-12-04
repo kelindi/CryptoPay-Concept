@@ -90,7 +90,7 @@ class UserHeader extends Component {
             <b>{this.props.global.userName}</b>
           </div>
           <div className="py-2 text-2xl">
-            {this.state.firstName} {this.props.global.lastName}
+            {this.props.global.firstName} {this.props.global.lastName}
           </div>
           <div className="py-2 text-xl">
             <b>Balance:</b>

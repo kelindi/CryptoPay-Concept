@@ -1,151 +1,208 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router';
-import Admin from '../classes/Admin';
+import React, { Component } from "react";
+import { Redirect } from "react-router";
+import Admin from "../classes/Admin";
 import { Link } from "react-router-dom";
 
 class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            userName: '',
-            password:'',
-            failedAttempt: false,
-            redirectUser: false,
-            redirectAdmin: false,
-            walletNotConnected:false,
-            }
-        this.handleUsernameChange = this.handleUsernameChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handleLogin = this.handleLogin.bind(this)
+  constructor(props) {
+    super(props);
+    this.state = {
+      userName: "",
+      password: "",
+      failedAttempt: false,
+      redirectUser: false,
+      redirectAdmin: false,
+      walletNotConnected: false,
+    };
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+  }
 
+  handleUsernameChange(event) {
+    this.setState({ userName: event.target.value });
+  }
+
+  handlePasswordChange(event) {
+    this.setState({ password: event.target.value });
+  }
+
+  handleLogin = async (event) => {
+    event.preventDefault();
+
+    const wallet = await this.props.connectWallet();
+    if (wallet.connectedStatus === false) {
+      this.setState({ walletNotConnected: true });
+      return;
     }
-    
 
-    handleUsernameChange(event) {
-        this.setState({userName: event.target.value});
-    }
+    // //insert actual data base here in phase 2 to check for password
+    // if(this.props.backend.loginDB[this.state.userName]===this.state.password){
+    //     const token = this.props.backend.tokenDB[this.state.userName];
+    //     const currentUser = this.props.backend.userDB[token];
+    //     this.props.setCurrentUser(currentUser)
 
-    handlePasswordChange(event){
-        this.setState({password:event.target.value})
-    }
+    //     if(currentUser instanceof Admin){
+    //         this.setState({redirectAdmin: true});
+    //         return
+    //     }
 
-    handleLogin = async(event) => {
-        event.preventDefault()
-        
-        const wallet = await this.props.connectWallet()
-        if (wallet.connectedStatus===false){
-            this.setState({walletNotConnected:true});
+    //     else{
+    //         //set the redirect to true to enable the redirect
+    //         this.setState({redirectUser: true});
+    //         return
+    //     }
+
+    // }
+    let login = {
+        userName: this.state.userName.toLowerCase(),
+        password:this.state.password
+      };
+    // Create our request constructor with all the parameters we need
+    const request = new Request("/api/login", {
+      method: "post",
+      body: JSON.stringify(login),
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const res = await fetch(request)
+    // Send the request with fetch()
+    if (res.status === 200){
+        const json = await res.json()
+        if (json.currentUser !== undefined){
+            await this.props.setCurrentUser(json.currentUser);
+            this.setState({redirectUser: true});
             return
         }
-        
-        //insert actual data base here in phase 2 to check for password
-        if(this.props.backend.loginDB[this.state.userName]===this.state.password){
-            const token = this.props.backend.tokenDB[this.state.userName];
-            const currentUser = this.props.backend.userDB[token];
-            this.props.setCurrentUser(currentUser)
-            
-            if(currentUser instanceof Admin){
-                this.setState({redirectAdmin: true});
-                return
-            }
-
-            else{
-                //set the redirect to true to enable the redirect
-                this.setState({redirectUser: true});
-                return
-            }
-
-            
-        }
+    }
+    this.setState({ failedAttempt: true });
 
 
-        this.setState({failedAttempt: true})
+  };
 
-
+  render() {
+    // if this.state.redirect is true, redirect to this path
+    if (this.state.redirectUser) {
+      return <Redirect push to="/userDashBoard" />;
+    } else if (this.state.redirectAdmin) {
+      return <Redirect push to="/adminDashBoard" />;
+    }
+    if (this.state.walletNotConnected) {
+      return <Redirect push to="/metamask" />;
     }
 
-    render() {
-        // if this.state.redirect is true, redirect to this path
-        if (this.state.redirectUser) {
-            return <Redirect push to="/userDashBoard" />;
-       }
-       else if (this.state.redirectAdmin){
-           return <Redirect push to = "/adminDashBoard" />;
-       }
-       if (this.state.walletNotConnected){
-           return <Redirect push to = "/metamask"/>
-       }
+    return (
+      <div className="font-serif">
+        <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-grey">
+          <div className="text-8xl font-mono my-4">CryptoPay</div>
+          <div className="relative sm:max-w-sm w-full">
+            <div className="relative w-full rounded-3xl  px-6 py-4 bg-white shadow-md border">
+              <label className="block mt-3 text-2xl text-gray-700 text-center font-semibold">
+                Login
+              </label>
+              <form
+                className="mt-10"
+                onSubmit={(e) => {
+                  return false;
+                }}
+              >
+                <div>
+                  <input
+                    value={this.state.userName}
+                    onChange={this.handleUsernameChange}
+                    placeholder="Username"
+                    className={
+                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " +
+                      (this.state.failedAttempt
+                        ? "border-red-500 border"
+                        : "border-none")
+                    }
+                  />
+                </div>
 
-        return (
-            <div className="font-serif">
-                <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-grey">
-                    <div className = "text-8xl font-mono my-4">CryptoPay</div>
-                    <div className="relative sm:max-w-sm w-full">
-                        <div className="relative w-full rounded-3xl  px-6 py-4 bg-white shadow-md border">
-                            <label className="block mt-3 text-2xl text-gray-700 text-center font-semibold">
-                                Login
-                            </label>
-                            <form className="mt-10" onSubmit = {(e) => {return false}}>
+                <div className="mt-7">
+                  <input
+                    value={this.state.password}
+                    onChange={this.handlePasswordChange}
+                    type="password"
+                    placeholder="Password"
+                    className={
+                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " +
+                      (this.state.failedAttempt
+                        ? "border-red-500 border"
+                        : "border-none")
+                    }
+                  />
+                </div>
 
-                                <div>
-                                    <input value = {this.state.userName} onChange={this.handleUsernameChange} placeholder="Username" className={"mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " + (this.state.failedAttempt ? "border-red-500 border" : "border-none")}/>
-                                </div>
-                    
-                                <div className="mt-7">                
-                                    <input value = {this.state.password} onChange={this.handlePasswordChange} type="password" placeholder="Password" className={"mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " + (this.state.failedAttempt ? "border-red-500 border" : "border-none")}/>                           
-                                </div>
+                <label
+                  className={
+                    "text-red-500 " + (this.state.failedAttempt ? "" : "hidden")
+                  }
+                >
+                  That username or password is incorrect.
+                </label>
 
-                                <label className={"text-red-500 " + (this.state.failedAttempt ? "" : "hidden")}>
-                                That username or password is incorrect.</label>
-                                
+                {/* Add forgot password and remember me later */}
+                <div className="mt-7 flex hidden">
+                  <label
+                    htmlFor="remember_me"
+                    className="inline-flex items-center w-full cursor-pointer"
+                  >
+                    <input
+                      id="remember_me"
+                      type="checkbox"
+                      className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 outline-none"
+                      name="remember"
+                    />
+                    <span className="ml-2 text-sm text-gray-600">
+                      Remember me
+                    </span>
+                  </label>
 
-                                {/* Add forgot password and remember me later */}
-                                <div className="mt-7 flex hidden">
-                                    
-                                    <label htmlFor="remember_me" className="inline-flex items-center w-full cursor-pointer">
-                                        <input id="remember_me" type="checkbox" className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 outline-none" name="remember"/>
-                                        <span className="ml-2 text-sm text-gray-600">
-                                            Remember me
-                                        </span>
-                                    </label>
-                    
-                                    <div className="w-full text-right">     
-                                            <a className="underline text-sm text-gray-600 hover:text-gray-900" href="#">
-                                                forgot password?
-                                            </a>                                  
-                                    </div>
+                  <div className="w-full text-right">
+                    <a
+                      className="underline text-sm text-gray-600 hover:text-gray-900"
+                      href="#"
+                    >
+                      forgot password?
+                    </a>
+                  </div>
+                </div>
 
-                                </div>
-                    
-                                <div className="mt-7">
-                                    <button onClick = {this.handleLogin} className="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-                                        Login
-                                    </button>
-                                </div>   
+                <div className="mt-7">
+                  <button
+                    onClick={this.handleLogin}
+                    className="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105"
+                  >
+                    Login
+                  </button>
+                </div>
 
-
-                                <div className="mt-7">
-                                    <div className="flex justify-center items-center">
-                                        <label className="mr-2">Don't have an account?</label>
-                                        {/* <a href="/register" className=" text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                <div className="mt-7">
+                  <div className="flex justify-center items-center">
+                    <label className="mr-2">Don't have an account?</label>
+                    {/* <a href="/register" className=" text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                             Create an account!
                                         </a> */}
-                                        <Link className="text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105" to={"./Register"}>
-                                            Create an account!
-                                        </Link>
-                                    </div>
-                                </div>
-
-
-                                
-                            </form>
-                        </div>
-                    </div>
+                    <Link
+                      className="text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105"
+                      to={"./Register"}
+                    >
+                      Create an account!
+                    </Link>
+                  </div>
                 </div>
-            
+              </form>
             </div>
-          );
-    }
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
- 
+
 export default Login;

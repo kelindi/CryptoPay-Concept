@@ -9,38 +9,69 @@ class UserDashBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userBalance: this.props.currentUser.currentAccountBalance,
-      userName: this.props.currentUser.userName,
-      firstName: this.props.currentUser.firstName,
-      lastName: this.props.currentUser.lastName,
-      profilePicture: this.props.currentUser.profilePicture,
-      friendsList: this.props.currentUser.friends,
-      incomingFriendRequests: this.props.currentUser.friendRequests,
-      sentFriendRequests: this.props.currentUser.sentFriendRequests,
-      incomingMoneyRequests: this.props.currentUser.requests,
-      sentMoneyRequests: this.props.currentUser.sentRequests,
+      userBalance: this.props.testUser.currentAccountBalance,
+      userName: this.props.testUser.userName,
+      firstName: this.props.testUser.firstName,
+      lastName: this.props.testUser.lastName,
+      profilePicture: this.props.testUser.profilePicture,
+      friendsList: this.props.testUser.friends,
+      incomingFriendRequests: this.props.testUser.friendRequests,
+      sentFriendRequests: this.props.testUser.sentFriendRequests,
+      incomingMoneyRequests: this.props.testUser.requests,
+      sentMoneyRequests: this.props.testUser.sentRequests,
       transactions: this.props.backend.transactions,
       provider: null,
       signer: null,
-      wallet:null,
-
+      wallet: null,
     };
   }
   componentDidMount = () => {
-    this.setUpWeb3()
-    
+    this.setUpWeb3();
+
   };
 
   setUpWeb3 = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const wallet = await signer.getAddress()
-    let userBalance = await provider.getBalance(wallet)
-    userBalance = ethers.utils.formatEther(userBalance)
+    const wallet = await signer.getAddress();
+    let userBalance = await provider.getBalance(wallet);
+    userBalance = ethers.utils.formatEther(userBalance);
 
-    this.setState({provider:provider,signer:signer,wallet:wallet,userBalance:userBalance})
-
+    this.setState({
+      provider: provider,
+      signer: signer,
+      wallet: wallet,
+      userBalance: userBalance,
+    });
+    this.fetchUserData()
   };
+
+  fetchUserData = async () => {
+    let userName = {
+      userName: this.props.currentUser
+    };
+    // Create our request constructor with all the parameters we need
+    const request = new Request("/users/getUserData", {
+      method: "post",
+      body: JSON.stringify(userName),
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const res = await fetch(request);
+    // Send the request with fetch()
+    if (res.status === 200) {
+      const json = await res.json();
+      
+      if (json !== undefined) {
+        this.setState({ userName: json.userName,firstName:json.firstName,lastName:json.lastName});
+        return;
+      }
+    }
+  };
+
   //comment
   changeUserBalance = (x) => {
     this.setState({ userBalance: x });
@@ -98,7 +129,7 @@ class UserDashBoard extends Component {
               changeUserBalance={this.changeUserBalance}
               global={this.state}
               backend={this.props.backend}
-              currentUser={this.props.currentUser}
+              currentUser={this.props.testUser}
             ></UserHeader>
 
             <UserFeed
@@ -110,7 +141,7 @@ class UserDashBoard extends Component {
               changeFriendsList={this.changeFriendsList}
               changeIncomingFriendRequests={this.changeIncomingFriendRequests}
               backend={this.props.backend}
-              currentUser={this.props.currentUser}
+              currentUser={this.props.testUser}
             ></UserFeed>
           </div>
 
@@ -122,7 +153,7 @@ class UserDashBoard extends Component {
             global={this.state}
             changeSentFriendRequests={this.changeSentFriendRequests}
             backend={this.props.backend}
-            currentUser={this.props.currentUser}
+            currentUser={this.props.testUser}
           ></FriendsList>
         </div>
       </div>

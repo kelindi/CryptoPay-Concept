@@ -45,9 +45,9 @@ app.use(bodyParser.json()) // parsing JSON body
 app.use(bodyParser.urlencoded({ extended: true })); // parsing URL-encoded form data (from form POST requests)
 
 // LATER
-// // express-session for managing user sessions
-// const session = require("express-session");
-// const MongoStore = require('connect-mongo') // to store session information on the database in production
+// express-session for managing user sessions
+const session = require("express-session");
+const MongoStore = require('connect-mongo') // to store session information on the database in production
 
 
 function isMongoError(error) { // checks for first error returned by promise rejection if Mongo database suddently disconnects
@@ -69,44 +69,44 @@ const mongoChecker = (req, res, next) => {
 }
 
 // // Middleware for authentication of resources
-// const authenticate = (req, res, next) => {
+const authenticate = (req, res, next) => {
 //     if (env !== 'production' && USE_TEST_USER)
 //         req.session.user = TEST_USER_ID // test user on development. (remember to run `TEST_USER_ON=true node server.js` if you want to use this user.)
 
-//     if (req.session.user) {
-//         User.findById(req.session.user).then((user) => {
-//             if (!user) {
-//                 return Promise.reject()
-//             } else {
-//                 req.user = user
-//                 next()
-//             }
-//         }).catch((error) => {
-//             res.status(401).send("Unauthorized")
-//         })
-//     } else {
-//         res.status(401).send("Unauthorized")
-//     }
-// }
+    if (req.session.user) {
+        User.findById(req.session.user).then((user) => {
+            if (!user) {
+                return Promise.reject()
+            } else {
+                req.user = user
+                next()
+            }
+        }).catch((error) => {
+            res.status(401).send("Unauthorized")
+        })
+    } else {
+        res.status(401).send("Unauthorized")
+    }
+}
 
 
 // /*** Session handling **************************************/
 // // Create a session and session cookie
-// app.use(
-//     session({
-//         secret: process.env.SESSION_SECRET || "our hardcoded secret", // make a SESSION_SECRET environment variable when deploying (for example, on heroku)
-//         resave: false,
-//         saveUninitialized: false,
-//         cookie: {
-//             expires: 60000,
-//             httpOnly: true
-//         },
-//         // store the sessions on the database in production
-//         store: env === 'production' ? MongoStore.create({
-//                                                 mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/StudentAPI'
-//                                  }) : null
-//     })
-// );
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || "our hardcoded secret", // make a SESSION_SECRET environment variable when deploying (for example, on heroku)
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            expires: 60000,
+            httpOnly: true
+        },
+        // store the sessions on the database in production
+        // store: env === 'production' ? MongoStore.create({
+        //                                         mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/StudentAPI'
+        //                          }) : null
+    })
+);
 
 // // A route to login and create a session
 // app.post("/users/login", (req, res) => {
@@ -160,7 +160,7 @@ const mongoChecker = (req, res, next) => {
 /*********************************************************/
 
 /*** API Routes below ************************************/
-// User API Route
+// Register New User
 app.post('/api/register', mongoChecker, async (req, res) => {
     log(req.body)
 
@@ -204,6 +204,41 @@ app.post('/api/register', mongoChecker, async (req, res) => {
 
     
 })
+//Login User
+app.post("/api/login", (req, res) => {
+    const userName = req.body.userName;
+    const password = req.body.password;
+
+    // log(email, password);
+    // Use the static method on the User model to find a user
+    // by their email and password
+    User.findByUserNamePassword(userName, password)
+        .then(user => {
+            // Add the user's id to the session.
+            // We can check later if this exists to ensure we are logged in.
+            req.session.user = user._id;
+            req.session.userName = user.userName; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
+            res.send({ currentUser: user.userName });
+        })
+        .catch(error => {
+            res.status(400).send()
+        });
+});
+
+app.post('/users/getUserData', mongoChecker,async (req, res) => {
+    try {
+        const user = await User.findOne({userName: req.body.userName.toLowerCase()})
+        // res.send(students) // just the array
+        res.send({userName: user.userName,firstName:user.firstName,lastName:user.lastName,friends:user.friends}) // can wrap students in object if want to add more properties
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+
+
 
 /** Student resource routes **/
 // a POST route to *create* a student

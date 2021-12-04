@@ -61,7 +61,7 @@ class App extends React.Component {
             
             <Route exact path='/register' render={() =>(<Register backend ={this.state.backend} />)}/>
             
-            <Route exact path='/userDashBoard' render={() =>(<UserDashBoard backend ={this.state.backend} currentUser ={this.state.currentUser}/>)}/>
+            <Route exact path='/userDashBoard' render={() =>(<UserDashBoard backend ={this.state.backend} currentUser ={this.state.currentUser} testUser = {this.state.backend.user1}/>)}/>
             
             <Route exact path='/adminDashBoard' render={() =>(<AdminDashBoard backend ={this.state.backend} currentUser ={this.state.currentUser}/>)}/>
             <Route exact path='/metamask' render={() =>(<GetWallet/>)}/>
