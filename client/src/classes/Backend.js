@@ -252,6 +252,9 @@ class Backend {
       if (res.status === 200){
         console.log("Added new User")
       }
+      else if(res.status === 304){
+        console.log("Username Taken")
+      }
       else{
         console.log("Could not add user")
       }

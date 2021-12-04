@@ -164,6 +164,11 @@ const mongoChecker = (req, res, next) => {
 app.post('/api/register', mongoChecker, async (req, res) => {
     log(req.body)
 
+    const userNameExists = await User.findOne({userName:req.body.userName})
+    if(userNameExists){
+        res.status(304).send("Username Taken")
+        return
+    }
     // Create a new user
     const user = new User({
         firstName: req.body.firstName,
@@ -174,6 +179,8 @@ app.post('/api/register', mongoChecker, async (req, res) => {
     })
     
     try {
+        //check if username exists
+        
         // Save the user
         const newUser = await user.save()
         res.send(newUser)
