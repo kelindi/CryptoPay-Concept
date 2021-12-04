@@ -31,7 +31,7 @@ const { mongoose } = require("./db/mongoose");
 mongoose.set('bufferCommands', false);
 
 // import the mongoose models
-const { User } = require("./models/User_schema");
+const { User } = require("./models/User_Model");
 const { Transaction } = require("./models/Transaction_schema");
 const { MoneyRequest } = require("./models/MoneyRequest_schema");
 const { Report } = require("./models/Report_schema")
@@ -164,22 +164,24 @@ const mongoChecker = (req, res, next) => {
 app.post('/api/register', mongoChecker, async (req, res) => {
     log(req.body)
 
-    const userNameExists = await User.findOne({userName:req.body.userName})
-    if(userNameExists){
-        res.status(304).send("Username Taken")
-        return
-    }
-    // Create a new user
+    // const userNameExists = await User.findOne({userName:req.body.userName})
+    // if(userNameExists){
+    //     res.status(304).send("Username Taken")
+    //     return
+    // }
+
+    const userNameValid = await User.validateUserName(req.body.userName)
+
+    if(userNameValid){
+        // Create a new user
     const user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        walletAddress: req.body.walletAddress,
-        userName: req.body.userName,
-        friends: []
+        userName: req.body.userName.toLowerCase(),
+        password: req.body.password
     })
     
     try {
-        //check if username exists
         
         // Save the user
         const newUser = await user.save()
@@ -192,6 +194,15 @@ app.post('/api/register', mongoChecker, async (req, res) => {
             res.status(400).send('Bad Request') // bad request for changing the student.
         }
     }
+        
+    }
+    else {
+        res.status(304).send("Username Taken")
+        return
+    }
+
+
+    
 })
 
 /** Student resource routes **/

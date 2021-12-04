@@ -113,8 +113,8 @@ class Register extends Component {
     let newUser = {
       firstName: firstName,
       lastName: lastName,
-      walletAddress: "asdasdasd",
-      userName: userName,
+      userName: userName.toLowerCase(),
+      password:password
     };
 
     const request = new Request(url, {
@@ -138,37 +138,18 @@ class Register extends Component {
       default:
         console.log("Could not add user");
     }
-    //     .then(function(res) {
-    //       if (res.status === 200){
-    //         console.log("Added new User")
-    //       }
-    //       else if(res.status === 304){
-    //         console.log("Username Taken")
-    //         this.setState({invalidUserName:true})
-
-    //       }
-    //       else{
-    //         console.log("Could not add user")
-    //       }
-    //     }).catch((error) => {
-    //       console.log(error)
-    //     })
-    //   };
-
-    // console.log(this.props.backend.loginDB)
+    
     if (shouldReturn) {
         return;
       }
     return;
-
-    // if(this.state.userName in log)
   };
 
   render() {
-    //redirecting to login page
-    // if (this.state.redirectUser) {
-    //     return <Redirect push to="/" />;
-    // }
+    // redirecting to login page
+    if (this.state.redirectUser) {
+        return <Redirect push to="/" />;
+    }
     return (
       <div className="font-sans">
         <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-grey">
