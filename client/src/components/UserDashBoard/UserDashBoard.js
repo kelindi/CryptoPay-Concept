@@ -46,7 +46,6 @@ class UserDashBoard extends Component {
   };
 
   setUserData = async () => {
-    let userName = "User";
     let firstName = "firstName";
     let lastName = "lastName";
     let userName = {
