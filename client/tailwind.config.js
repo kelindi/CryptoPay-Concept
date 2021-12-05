@@ -1,11 +1,11 @@
 module.exports = {
-  purge: [],
+  purge: ["./src/components/**/*.js"],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       keyframes: {
         "small-slow-ping": {
-          "75%, 100%": { transform: "scale(1.1)", opacity: '0' },
+          "75%, 100%": { transform: "scale(1.1)", opacity: "0" },
         },
       },
       animation: {

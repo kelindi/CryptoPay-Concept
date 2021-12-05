@@ -35,7 +35,7 @@ const { User } = require("./models/User_Model");
 const { Transaction } = require("./models/Transaction_schema");
 const { MoneyRequest } = require("./models/MoneyRequest_schema");
 const { Report } = require("./models/Report_schema");
-const { friendRequest } = require("./models/FriendRequest_schema");
+const { friendRequest } = require("./models/FriendRequestModel");
 
 // to validate object IDs
 // const { ObjectID } = require("mongodb");
@@ -225,25 +225,46 @@ app.post("/api/login", (req, res) => {
     });
 });
 
-//get user data
-app.post("/users/getUserData", mongoChecker, async (req, res) => {
+//get user data (except friends ) for given userName
+app.get("/api/user/:userName", authenticate,async (req, res) => {
+    try {
+      const user = await User.findOne({
+        userName: req.params.userName.toLowerCase()
+      });
+      res.send({
+        userName: user.userName,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        walletAddress: user.walletAddress,
+      });
+    } catch (error) {
+      res.status(500).send("Internal server error");
+    }
+  });
+
+//get user friends for given userName
+app.get("/api/user/:userName/friends", authenticate, async (req, res) => {
   try {
     const user = await User.findOne({
-      userName: req.body.userName.toLowerCase(),
+      userName: req.params.userName.toLowerCase()
     });
-    // res.send(students) // just the array
-    res.send({
-      userName: user.userName,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      friends: user.friends,
-    }); // can wrap students in object if want to add more properties
+    // for each friend in user.friends, find the user with that userName
+    const friends = await Promise.all(
+      user.friends.map(async (friend) => {
+        const friendUser = await User.findOne({ userName: friend });
+        return {
+          userName: friendUser.userName,
+          firstName: friendUser.firstName,
+          lastName: friendUser.lastName,
+          walletAddress: friendUser.walletAddress,
+        };
+      })
+    );
+    res.send(friends);
   } catch (error) {
-    log(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Internal server error");
   }
 });
-
 
 
 //update user walletAddress for given userName

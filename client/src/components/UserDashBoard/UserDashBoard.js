@@ -10,20 +10,31 @@ class UserDashBoard extends Component {
     super(props);
     
     this.state = {
+      // uncomment for testing without build
+      
+      // userBalance: this.props.testUser.userBalance,
+      // userName: this.props.testUser.userName,
+      // firstName: this.props.testUser.firstName,
+      // lastName: this.props.testUser.lastName,
+      // friendsList: this.props.testUser.friendsList,
+
+      // comment for testing without build
+      //==========================================================
       userBalance: this.props.userData.userBalance,
       userName: this.props.userData.userName,
       firstName: this.props.userData.firstName,
       lastName: this.props.userData.lastName,
-      profilePicture: this.props.testUser.profilePicture,
       friendsList: this.props.userData.friends,
+      provider: this.props.userData.provider,
+      signer: this.props.userData.signer,
+      wallet: this.props.userData.wallet,
+      //==========================================================
+      profilePicture: this.props.testUser.profilePicture,
       incomingFriendRequests: this.props.testUser.friendRequests,
       sentFriendRequests: this.props.testUser.sentFriendRequests,
       incomingMoneyRequests: this.props.testUser.requests,
       sentMoneyRequests: this.props.testUser.sentRequests,
       transactions: this.props.backend.transactions,
-      provider: this.props.userData.provider,
-      signer: this.props.userData.signer,
-      wallet: this.props.userData.wallet,
     };
   }
   componentDidMount = () => {
