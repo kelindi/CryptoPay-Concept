@@ -43,22 +43,27 @@ class SplitPopUp extends Component {
         dropdownDiv.parentElement.removeChild(dropdownDiv.parentElement.childNodes[dropdownDiv.parentElement.childNodes.length - 1])
 
         // Update filtered friends
-        let fFriends = this.state.filteredFriends
-        fFriends.splice(fFriends.indexOf(friend), 1)
-        this.setState({moneyReceiver: receiverList}, this.setState({filteredFriends: fFriends}))
+        // let fFriends = this.state.filteredFriends
+        // fFriends.splice(fFriends.indexOf(friend), 1)
+        this.setState({moneyReceiver: receiverList})
+        // this.setState({filteredFriends: fFriends})
     } 
 
     splitMoney = () => {
         let validPercent = false
-        let sum = Object.values(this.state.percentages).reduce((a, b) => a + b, 0)
-        console.log(sum)
-        console.log(Object.keys(this.state.percentages).length)
-        console.log(this.state.friendFieldLen)
+        let percentages =  Object.values(this.state.percentages)
+        let sum = percentages.reduce((a, b) => a + b, 0)
         if(sum <= 100 && Object.values(this.state.percentages).length == this.state.friendFieldLen) {     
             validPercent = true
         }
         if(this.state.validAmount && this.state.nameFilled && validPercent){
             this.props.updateBalance(this.state.amount*(100-sum)/100) //CHANGE THIS LATER TO SPLIT AMOUNT
+            // request money from users
+            for(let i=0; i<percentages.length; i++) {
+                // amounts[i]*percentages[i]/100
+                console.log(this.state.amount*percentages[i]/100)
+            }
+
             this.props.minimizeSplit()
         }  
     }
@@ -73,7 +78,7 @@ class SplitPopUp extends Component {
     percentValidation = (key, event) => {
         const percent = event.target.value
         let percentVal = +percent
-        console.log(percentVal)
+        // console.log(percentVal)
         if(!isNaN(percentVal)) {
             this.state.percentages[key] = percentVal
             this.setState({percentages: this.state.percentages})
@@ -117,8 +122,9 @@ class SplitPopUp extends Component {
         const result = this.state.showResults
         result[key] = false
         //check if key already present
-        fields[key] = (
-            <li key={key}>
+        if(this.state.filteredFriends.length > 0) {
+            fields[key] = (
+                <li key={key}>
                     <div className='h-1/3 mb-2 flex flex-row'>
                         <div>
                             Friend:
@@ -132,13 +138,11 @@ class SplitPopUp extends Component {
                                         </svg>
                                     </button>
                                 ): null}
-                                {console.log(this.state.showResults[key])}
                             {true? (
-                            <div id="friendDropdown" className='ml-16 w-40 opacity-100 bg-white absolute'>
+                            <div id="friendDropdown" className='ml-12 w-44 opacity-100 bg-white absolute'>
                                 <ul className=''>
                                     {this.state.filteredFriends.map((friend) =>
                                     {
-                                        console.log("here")
                                         return (
                                             <li><button onClick={(e)=>this.pasteOption(key,e, friend)} value={friend.userName}>{friend.userName}</button></li>
                                         )
@@ -156,9 +160,9 @@ class SplitPopUp extends Component {
                         </div>
                     </div>         
                 </li>
-        )
-        
-        this.setState({friendFields: fields}, this.setState({friendFieldLen: this.state.friendFieldLen + 1}, this.setState({showResults: result})))
+            )
+            this.setState({friendFields: fields}, this.setState({friendFieldLen: this.state.friendFieldLen + 1}, this.setState({showResults: result})))
+        }
     }
 
     // deleteFriendField = () => {
