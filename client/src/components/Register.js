@@ -99,16 +99,11 @@ class Register extends Component {
       this.setState({ invalidLastName: true });
       shouldReturn = true;
     }
-
+    // check if username is empty
     if (userName === "") {
         this.setState({ invalidUserName: true });
         shouldReturn = true;
       }
-
-
-
-    
-    const url = "/api/register";
 
     let newUser = {
       firstName: firstName,
@@ -117,33 +112,25 @@ class Register extends Component {
       password:password
     };
 
-    const request = new Request(url, {
-      method: "post",
-      body: JSON.stringify(newUser),
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    });
-    const res = await fetch(request);
-    switch (res.status) {
+    const {status, data} = await this.props.useApi("post","/api/register", newUser);
+    switch (status) {
       case 200:
-        console.log("new user registered");
         this.setState({ redirectUser: true });
+        console.log("Successfully registered");
         break;
       case 304:
         this.setState({ invalidUserName: true });
-        console.log("invalid username");
+        console.log("Username already exists");
         break;
       default:
-        console.log("Could not add user");
-    }
+        console.log("could not register");
     
     if (shouldReturn) {
         return;
       }
     return;
   };
+};
 
   render() {
     // redirecting to login page

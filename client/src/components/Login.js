@@ -31,55 +31,27 @@ class Login extends Component {
     event.preventDefault();
 
     const wallet = await this.props.connectWallet();
+
+    //check that wallet is connected if not redirect to get metamask page
     if (wallet.connectedStatus === false) {
       this.setState({ walletNotConnected: true });
       return;
     }
 
-    // //insert actual data base here in phase 2 to check for password
-    // if(this.props.backend.loginDB[this.state.userName]===this.state.password){
-    //     const token = this.props.backend.tokenDB[this.state.userName];
-    //     const currentUser = this.props.backend.userDB[token];
-    //     this.props.setCurrentUser(currentUser)
-
-    //     if(currentUser instanceof Admin){
-    //         this.setState({redirectAdmin: true});
-    //         return
-    //     }
-
-    //     else{
-    //         //set the redirect to true to enable the redirect
-    //         this.setState({redirectUser: true});
-    //         return
-    //     }
-
-    // }
     let login = {
         userName: this.state.userName.toLowerCase(),
         password:this.state.password
       };
-    // Create our request constructor with all the parameters we need
-    const request = new Request("/api/login", {
-      method: "post",
-      body: JSON.stringify(login),
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    });
-
-    const res = await fetch(request)
-    // Send the request with fetch()
-    if (res.status === 200){
-        const json = await res.json()
-        if (json.currentUser !== undefined){
-            await this.props.setCurrentUser(json.currentUser);
+    
+   const{status,response} = await this.props.useApi("post", "/api/login", login)
+    if (status === 200){
+        if (response.currentUser !== undefined){
+            await this.props.setCurrentUser(response.currentUser);
             this.setState({redirectUser: true});
             return
         }
     }
     this.setState({ failedAttempt: true });
-
 
   };
 

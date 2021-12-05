@@ -24,6 +24,19 @@ class App extends React.Component {
     this.setState({currentUser : user})
     
   }
+  useApi = async (request,route,body) =>{
+    const response = await fetch(route, {
+      method: request,
+      body: JSON.stringify(body),
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+    });
+    const status = response.status;
+    const data = await response.json();
+    return {status:status, data:data};
+  }
 
   connectWallet = async () => {
     if (window.ethereum) { //check if Metamask is installed
@@ -57,11 +70,11 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             
-            <Route exact path='/' render={() =>(<Login connectWallet = {this.connectWallet} backend ={this.state.backend} setCurrentUser = {this.setCurrentUser} />)}/>
+            <Route exact path='/' render={() =>(<Login connectWallet = {this.connectWallet} backend ={this.state.backend} setCurrentUser = {this.setCurrentUser} useApi = {this.useApi}/>)}/>
             
-            <Route exact path='/register' render={() =>(<Register backend ={this.state.backend} />)}/>
+            <Route exact path='/register' render={() =>(<Register backend ={this.state.backend} useApi = {this.useApi} />)}/>
             
-            <Route exact path='/userDashBoard' render={() =>(<UserDashBoard backend ={this.state.backend} currentUser ={this.state.currentUser} testUser = {this.state.backend.user1}/>)}/>
+            <Route exact path='/userDashBoard' render={() =>(<UserDashBoard backend ={this.state.backend} currentUser ={this.state.currentUser} testUser = {this.state.backend.user1}/>)} useApi = {this.useApi}/>
             
             <Route exact path='/adminDashBoard' render={() =>(<AdminDashBoard backend ={this.state.backend} currentUser ={this.state.currentUser}/>)}/>
             <Route exact path='/metamask' render={() =>(<GetWallet/>)}/>

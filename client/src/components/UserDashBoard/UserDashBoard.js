@@ -27,7 +27,6 @@ class UserDashBoard extends Component {
   }
   componentDidMount = () => {
     this.setUpWeb3();
-
   };
 
   setUpWeb3 = async () => {
@@ -43,36 +42,35 @@ class UserDashBoard extends Component {
       wallet: wallet,
       userBalance: userBalance,
     });
-    this.fetchUserData()
+    this.fetchUserData();
   };
 
-  fetchUserData = async () => {
+  setUserData = async () => {
+    let userName = "User";
+    let firstName = "firstName";
+    let lastName = "lastName";
     let userName = {
-      userName: this.props.currentUser
+      userName: this.props.currentUser,
     };
-    // Create our request constructor with all the parameters we need
-    const request = new Request("/users/getUserData", {
-      method: "post",
-      body: JSON.stringify(userName),
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    });
-
-    const res = await fetch(request);
-    // Send the request with fetch()
-    if (res.status === 200) {
-      const json = await res.json();
+    const { status, data } = await this.props.useApi(
+      "post",
+      "/user/getUserData",
+      userName
+    );
+    if (status === 200) {
+      userName = data.userName;
+      firstName = data.firstName;
+      lastName = data.lastName;
       
-      if (json !== undefined) {
-        this.setState({ userName: json.userName,firstName:json.firstName,lastName:json.lastName});
-        return;
-      }
     }
+
+    this.setState({
+      userName: userName,
+      firstName: firstName,
+      lastName: lastName,
+    });
   };
 
-  //comment
   changeUserBalance = (x) => {
     this.setState({ userBalance: x });
   };
