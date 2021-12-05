@@ -10,8 +10,8 @@ class SplitPopUp extends Component {
             percentages: {},
             validAmount: false,
             currentUser: this.props.currentUser,
-            userFriends: this.props.currentUser.friends,
-            filteredFriends: this.props.userFriends,
+            userFriends: this.props.friendsList,
+            filteredFriends: this.props.friendsList,
             showResults: {},
             // nameFilled: false,
             nameFilled: true,
@@ -30,9 +30,22 @@ class SplitPopUp extends Component {
         this.props.maximizeSplit();
     };
 
-    pasteOption = (key, event) => {
+    pasteOption = (key, event, friend) => {
         // console.log(event.target.value)
-        this.setState((this.setState({filteredFriends: []}, this.setState({nameFilled: true}, this.setMoneyReceiver(key, event)))),  this.setShowResult(key, false))
+        // this.setState((this.setState({filteredFriends: []}, this.setState({nameFilled: true}, this.setMoneyReceiver(key, event)))),  this.setShowResult(key, false))
+        // Update money reciever
+        let receiverList = this.state.moneyReceiver
+        receiverList[key] = event.target.value
+
+        // Manipulate DOM
+        let dropdownDiv = document.querySelector('#friendDropdown')
+        dropdownDiv.parentElement.childNodes[1].value = event.target.value
+        dropdownDiv.parentElement.removeChild(dropdownDiv.parentElement.childNodes[dropdownDiv.parentElement.childNodes.length - 1])
+
+        // Update filtered friends
+        let fFriends = this.state.filteredFriends
+        fFriends.splice(fFriends.indexOf(friend), 1)
+        this.setState({moneyReceiver: receiverList}, this.setState({filteredFriends: fFriends}))
     } 
 
     splitMoney = () => {
@@ -101,6 +114,8 @@ class SplitPopUp extends Component {
     newFriendField = () => {
         const key = uuid()
         const fields = this.state.friendFields
+        const result = this.state.showResults
+        result[key] = false
         //check if key already present
         fields[key] = (
             <li key={key}>
@@ -117,13 +132,15 @@ class SplitPopUp extends Component {
                                         </svg>
                                     </button>
                                 ): null}
-                            {this.state.showResults[key]? (
-                            <div className='ml-20 w-44 opacity-100 bg-white absolute'>
+                                {console.log(this.state.showResults[key])}
+                            {true? (
+                            <div id="friendDropdown" className='ml-16 w-40 opacity-100 bg-white absolute'>
                                 <ul className=''>
                                     {this.state.filteredFriends.map((friend) =>
                                     {
+                                        console.log("here")
                                         return (
-                                            <li><button onClick={(e)=>this.pasteOption(key,e)} value={friend.userName}>{friend.userName}</button></li>
+                                            <li><button onClick={(e)=>this.pasteOption(key,e, friend)} value={friend.userName}>{friend.userName}</button></li>
                                         )
                                     })}
                                 </ul>
@@ -140,8 +157,7 @@ class SplitPopUp extends Component {
                     </div>         
                 </li>
         )
-        const result = this.state.showResults
-        result[key] = true
+        
         this.setState({friendFields: fields}, this.setState({friendFieldLen: this.state.friendFieldLen + 1}, this.setState({showResults: result})))
     }
 

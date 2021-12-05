@@ -143,6 +143,7 @@ class UserHeader extends Component {
         {this.state.splitOpen ? (
           <SplitPopUp
             currentUser={this.state.currentUser}
+            friendsList={this.props.global.friendsList}
             //   updateBalance={this.changeBalance}
             minimizeSplit={this.splitPopOff}
             updateBalance={this.changeBalance}
