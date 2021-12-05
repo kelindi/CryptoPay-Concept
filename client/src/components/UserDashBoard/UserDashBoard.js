@@ -8,25 +8,26 @@ import { ethers } from "ethers";
 class UserDashBoard extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
-      userBalance: this.props.testUser.currentAccountBalance,
-      userName: this.props.testUser.userName,
-      firstName: this.props.testUser.firstName,
-      lastName: this.props.testUser.lastName,
+      userBalance: this.props.userData.userBalance,
+      userName: this.props.userData.userName,
+      firstName: this.props.userData.firstName,
+      lastName: this.props.userData.lastName,
       profilePicture: this.props.testUser.profilePicture,
-      friendsList: this.props.testUser.friends,
+      friendsList: this.props.userData.friends,
       incomingFriendRequests: this.props.testUser.friendRequests,
       sentFriendRequests: this.props.testUser.sentFriendRequests,
       incomingMoneyRequests: this.props.testUser.requests,
       sentMoneyRequests: this.props.testUser.sentRequests,
       transactions: this.props.backend.transactions,
-      provider: null,
-      signer: null,
-      wallet: null,
+      provider: this.props.userData.provider,
+      signer: this.props.userData.signer,
+      wallet: this.props.userData.wallet,
     };
   }
   componentDidMount = () => {
-    this.setUpWeb3();
+    
   };
 
   setUpWeb3 = async () => {
@@ -42,15 +43,13 @@ class UserDashBoard extends Component {
       wallet: wallet,
       userBalance: userBalance,
     });
-    this.fetchUserData();
+    this.setUserData();
   };
 
   setUserData = async () => {
     let firstName = "firstName";
     let lastName = "lastName";
-    let userName = {
-      userName: this.props.currentUser,
-    };
+    let userName = this.props.currentUser;
     const { status, data } = await this.props.useApi(
       "post",
       "/user/getUserData",
@@ -60,6 +59,7 @@ class UserDashBoard extends Component {
       userName = data.userName;
       firstName = data.firstName;
       lastName = data.lastName;
+      
       
     }
 
@@ -109,6 +109,23 @@ class UserDashBoard extends Component {
   changeSentMoneyRequests = (x) => {
     this.setState({ sentMoneyRequests: x });
   };
+
+  sendMoneyRequest = async (body) => {
+    await this.props.useApi("post", "/moneyRequests", body);
+    const {status,data} = await this.props.useApi("get", "/moneyRequests/"+this.state.userName);
+    if(status === 200){
+      this.setState({incomingMoneyRequests: data});
+    }
+  };
+  sendFriendRequest = async (body) => {
+    await this.props.useApi("post", "/friendRequests", body);
+    const {status,data} = await this.props.useApi("get", "/friendRequests/"+this.state.userName);
+    if(status === 200){
+      this.setState({incomingFriendRequests: data});
+    }
+  };
+
+
 
   render() {
     const { currentUser } = this.props;

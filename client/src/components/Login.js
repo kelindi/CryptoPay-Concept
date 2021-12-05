@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import Admin from "../classes/Admin";
 import { Link } from "react-router-dom";
+import {ethers} from 'ethers';
 
 class Login extends Component {
   constructor(props) {
@@ -43,10 +44,11 @@ class Login extends Component {
         password:this.state.password
       };
     
-   const{status,response} = await this.props.useApi("post", "/api/login", login)
+   const{status,data} = await this.props.useApi("post", "/api/login", login)
     if (status === 200){
-        if (response.currentUser !== undefined){
-            await this.props.setCurrentUser(response.currentUser);
+        if (data.currentUser !== undefined){
+            await this.props.setCurrentUser(data.currentUser);
+            await this.setUpUserData();
             this.setState({redirectUser: true});
             return
         }
@@ -54,6 +56,32 @@ class Login extends Component {
     this.setState({ failedAttempt: true });
 
   };
+
+  setUpUserData = async () => {
+    let userData = {}
+    userData.provider = new ethers.providers.Web3Provider(window.ethereum);
+    userData.signer = userData.provider.getSigner();
+    userData.wallet = await userData.signer.getAddress();
+    let userBalance = await userData.provider.getBalance(userData.wallet);
+    userData.userBalance = ethers.utils.formatEther(userBalance);
+    const { status, data } = await this.props.useApi(
+      "get",
+      "/api/user/"+this.state.userName
+    );
+    if (status === 200) {
+      userData.userName = data.userName;
+      userData.firstName = data.firstName;
+      userData.lastName = data.lastName;
+    }
+    const {status2,data2} = await this.props.useApi("get", "/api/user/"+this.state.userName+"/friends");
+    if (status2 === 200){
+        userData.friends = data2.friends;
+    }
+    await this.props.setUserData(userData);
+  };
+
+
+
 
   render() {
     // if this.state.redirect is true, redirect to this path
