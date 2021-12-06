@@ -8,7 +8,7 @@ import { ethers } from "ethers";
 class UserDashBoard extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       // uncomment for testing without build
 
@@ -37,7 +37,19 @@ class UserDashBoard extends Component {
       transactions: this.props.userData.transactions,
     };
   }
-  componentDidMount = () => {
+  componentDidMount = () => {};
+
+  updateUserData = async () => {
+    await this.props.user.updateUserData();
+    this.setState({
+      friendsList: this.props.user.friends,
+      incomingFriendRequests: this.props.user.incomingFriendRequests,
+      sentFriendRequests: this.props.user.sentFriendRequests,
+      incomingMoneyRequests: this.props.user.incomingMoneyRequests,
+      sentMoneyRequests: this.props.user.sentMoneyRequests,
+      transactions: this.props.user.transactions,
+      profilePicture: this.props.user.profilePicture,
+    });
   };
 
   setUpWeb3 = async () => {
@@ -69,8 +81,6 @@ class UserDashBoard extends Component {
       userName = data.userName;
       firstName = data.firstName;
       lastName = data.lastName;
-      
-      
     }
 
     this.setState({
@@ -122,20 +132,24 @@ class UserDashBoard extends Component {
 
   sendMoneyRequest = async (body) => {
     await this.props.useApi("post", "/moneyRequests", body);
-    const {status,data} = await this.props.useApi("get", "/moneyRequests/"+this.state.userName);
-    if(status === 200){
-      this.setState({incomingMoneyRequests: data});
+    const { status, data } = await this.props.useApi(
+      "get",
+      "/moneyRequests/" + this.state.userName
+    );
+    if (status === 200) {
+      this.setState({ incomingMoneyRequests: data });
     }
   };
   sendFriendRequest = async (body) => {
     await this.props.useApi("post", "/friendRequests", body);
-    const {status,data} = await this.props.useApi("get", "/friendRequests/"+this.state.userName);
-    if(status === 200){
-      this.setState({incomingFriendRequests: data});
+    const { status, data } = await this.props.useApi(
+      "get",
+      "/friendRequests/" + this.state.userName
+    );
+    if (status === 200) {
+      this.setState({ incomingFriendRequests: data });
     }
   };
-
-
 
   render() {
     const { currentUser } = this.props;
