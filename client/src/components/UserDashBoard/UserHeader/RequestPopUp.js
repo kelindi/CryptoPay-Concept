@@ -64,6 +64,7 @@ class RequestPopUp extends Component {
             })
             const requestee = requesteeList[0]
             const newReqList = this.props.global.sentMoneyRequests
+            // CHANGE this to JSON body not a request
             const newReq = new MoneyRequest(this.state.currentUser, requestee, this.state.amount, "10-01-2021" )
             newReqList.push(newReq)
             this.setState({
