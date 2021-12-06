@@ -61,7 +61,7 @@ class RequestPopUp extends Component {
         if(this.state.validAmount && this.state.nameFilled){
             const requesteeList = this.props.global.friendsList.filter(friend => {
                 return friend.userName === this.state.requestReceiver
-            })
+            }) // what does this do?
             const requestee = requesteeList[0]
             const newReqList = this.props.global.sentMoneyRequests
             // CHANGE this to JSON body not a request
@@ -72,7 +72,8 @@ class RequestPopUp extends Component {
             })
             this.props.changeSentMoneyRequests(newReqList)
             this.props.minimizeSend()
-        }  
+        } 
+        // Add cases where not valid amount/username and display error on screen
     }
 
     handleClick = () => {
@@ -82,8 +83,8 @@ class RequestPopUp extends Component {
     render() {
         const {global, changeSentMoneyRequests} = this.props
         return (
-            <div className="bg-white rounded md:w-1/3 w-1/2 border shadow-lg fixed z-100 left-1/4 top-1/3 ">
-                <div className="rounded-t bg-teal-500 text-black">
+            <div className="flex flex-col bg-white rounded md:w-1/3 w-1/2 h-auto border shadow-lg fixed z-100 left-1/4 top-1/3 ">
+                <div className="rounded-t bg-blue-300 text-black">
                     <div className="relative py-3 px-2 flex">
                         <span className="font-semibold text-black md:text-base text-sm">Request Money</span>
                         {/* <span className="ml-96" onClick={this.handleClick}>X</span> 

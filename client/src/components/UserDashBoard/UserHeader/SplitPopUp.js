@@ -143,9 +143,11 @@ class SplitPopUp extends Component {
                                 <ul className=''>
                                     {this.state.filteredFriends.map((friend) =>
                                     {
-                                        return (
-                                            <li><button onClick={(e)=>this.pasteOption(key,e, friend)} value={friend.userName}>{friend.userName}</button></li>
-                                        )
+                                        if(!this.state.moneyReceiver.keys().includes(friend)){
+                                            return (
+                                                <li><button onClick={(e)=>this.pasteOption(key,e, friend)} value={friend.userName}>{friend.userName}</button></li>
+                                            )
+                                        }
                                     })}
                                 </ul>
 
