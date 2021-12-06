@@ -8,26 +8,48 @@ import { ethers } from "ethers";
 class UserDashBoard extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      userBalance: this.props.testUser.currentAccountBalance,
-      userName: this.props.testUser.userName,
-      firstName: this.props.testUser.firstName,
-      lastName: this.props.testUser.lastName,
-      profilePicture: this.props.testUser.profilePicture,
-      friendsList: this.props.testUser.friends,
-      incomingFriendRequests: this.props.testUser.friendRequests,
-      sentFriendRequests: this.props.testUser.sentFriendRequests,
-      incomingMoneyRequests: this.props.testUser.requests,
-      sentMoneyRequests: this.props.testUser.sentRequests,
-      transactions: this.props.backend.transactions,
-      provider: null,
-      signer: null,
-      wallet: null,
+      // uncomment for testing without build
+
+      // userBalance: this.props.testUser.userBalance,
+      // userName: this.props.testUser.userName,
+      // firstName: this.props.testUser.firstName,
+      // lastName: this.props.testUser.lastName,
+      // friendsList: this.props.testUser.friendsList,
+
+      // comment for testing without build
+      //==========================================================
+      userBalance: this.props.userData.userBalance,
+      userName: this.props.userData.userName,
+      firstName: this.props.userData.firstName,
+      lastName: this.props.userData.lastName,
+      friendsList: this.props.userData.friends,
+      provider: this.props.userData.provider,
+      signer: this.props.userData.signer,
+      wallet: this.props.userData.wallet,
+      //==========================================================
+      profilePicture: this.props.userData.profilePicture,
+      incomingFriendRequests: this.props.userData.incomingFriendRequests,
+      sentFriendRequests: this.props.userData.sentFriendRequests,
+      incomingMoneyRequests: this.props.userData.incomingMoneyRequests,
+      sentMoneyRequests: this.props.userData.sentMoneyRequests,
+      transactions: this.props.userData.transactions,
     };
   }
-  componentDidMount = () => {
-    this.setUpWeb3();
+  componentDidMount = () => {};
 
+  updateUserData = async () => {
+    await this.props.user.updateUserData();
+    this.setState({
+      friendsList: this.props.user.friends,
+      incomingFriendRequests: this.props.user.incomingFriendRequests,
+      sentFriendRequests: this.props.user.sentFriendRequests,
+      incomingMoneyRequests: this.props.user.incomingMoneyRequests,
+      sentMoneyRequests: this.props.user.sentMoneyRequests,
+      transactions: this.props.user.transactions,
+      profilePicture: this.props.user.profilePicture,
+    });
   };
 
   setUpWeb3 = async () => {
@@ -43,36 +65,31 @@ class UserDashBoard extends Component {
       wallet: wallet,
       userBalance: userBalance,
     });
-    this.fetchUserData()
+    this.setUserData();
   };
 
-  fetchUserData = async () => {
-    let userName = {
-      userName: this.props.currentUser
-    };
-    // Create our request constructor with all the parameters we need
-    const request = new Request("/users/getUserData", {
-      method: "post",
-      body: JSON.stringify(userName),
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    });
-
-    const res = await fetch(request);
-    // Send the request with fetch()
-    if (res.status === 200) {
-      const json = await res.json();
-      
-      if (json !== undefined) {
-        this.setState({ userName: json.userName,firstName:json.firstName,lastName:json.lastName});
-        return;
-      }
+  setUserData = async () => {
+    let firstName = "firstName";
+    let lastName = "lastName";
+    let userName = this.props.currentUser;
+    const { status, data } = await this.props.useApi(
+      "post",
+      "/user/getUserData",
+      userName
+    );
+    if (status === 200) {
+      userName = data.userName;
+      firstName = data.firstName;
+      lastName = data.lastName;
     }
+
+    this.setState({
+      userName: userName,
+      firstName: firstName,
+      lastName: lastName,
+    });
   };
 
-  //comment
   changeUserBalance = (x) => {
     this.setState({ userBalance: x });
   };
@@ -113,6 +130,27 @@ class UserDashBoard extends Component {
     this.setState({ sentMoneyRequests: x });
   };
 
+  sendMoneyRequest = async (body) => {
+    await this.props.useApi("post", "/moneyRequests", body);
+    const { status, data } = await this.props.useApi(
+      "get",
+      "/moneyRequests/" + this.state.userName
+    );
+    if (status === 200) {
+      this.setState({ incomingMoneyRequests: data });
+    }
+  };
+  sendFriendRequest = async (body) => {
+    await this.props.useApi("post", "/friendRequests", body);
+    const { status, data } = await this.props.useApi(
+      "get",
+      "/friendRequests/" + this.state.userName
+    );
+    if (status === 200) {
+      this.setState({ incomingFriendRequests: data });
+    }
+  };
+
   render() {
     const { currentUser } = this.props;
     return (
@@ -140,12 +178,11 @@ class UserDashBoard extends Component {
               changeUserBalance={this.changeUserBalance}
               changeFriendsList={this.changeFriendsList}
               changeIncomingFriendRequests={this.changeIncomingFriendRequests}
-              backend={this.props.backend}
-              currentUser={this.props.testUser}
+              currentUser={this.state}
             ></UserFeed>
           </div>
 
-          <FriendsList
+          {/* <FriendsList
             changeUserBalance={this.changeUserBalance}
             global={this.state}
             changeSentMoneyRequests={this.changeSentMoneyRequests}
@@ -154,7 +191,7 @@ class UserDashBoard extends Component {
             changeSentFriendRequests={this.changeSentFriendRequests}
             backend={this.props.backend}
             currentUser={this.props.testUser}
-          ></FriendsList>
+          ></FriendsList> */}
         </div>
       </div>
     );

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import Admin from "../classes/Admin";
 import { Link } from "react-router-dom";
+import {ethers} from 'ethers';
+import User from "../classes/User";
 
 class Login extends Component {
   constructor(props) {
@@ -31,57 +33,55 @@ class Login extends Component {
     event.preventDefault();
 
     const wallet = await this.props.connectWallet();
+
+    //check that wallet is connected if not redirect to get metamask page
     if (wallet.connectedStatus === false) {
       this.setState({ walletNotConnected: true });
       return;
     }
 
-    // //insert actual data base here in phase 2 to check for password
-    // if(this.props.backend.loginDB[this.state.userName]===this.state.password){
-    //     const token = this.props.backend.tokenDB[this.state.userName];
-    //     const currentUser = this.props.backend.userDB[token];
-    //     this.props.setCurrentUser(currentUser)
-
-    //     if(currentUser instanceof Admin){
-    //         this.setState({redirectAdmin: true});
-    //         return
-    //     }
-
-    //     else{
-    //         //set the redirect to true to enable the redirect
-    //         this.setState({redirectUser: true});
-    //         return
-    //     }
-
-    // }
     let login = {
         userName: this.state.userName.toLowerCase(),
         password:this.state.password
       };
-    // Create our request constructor with all the parameters we need
-    const request = new Request("/api/login", {
-      method: "post",
-      body: JSON.stringify(login),
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    });
-
-    const res = await fetch(request)
-    // Send the request with fetch()
-    if (res.status === 200){
-        const json = await res.json()
-        if (json.currentUser !== undefined){
-            await this.props.setCurrentUser(json.currentUser);
+    
+   const{status,data} = await this.props.useApi("post", "/api/login", login)
+    if (status === 200){
+        if (data.currentUser !== undefined){
+            await this.props.setCurrentUser(data.currentUser);
+            await this.setUpUserData();
             this.setState({redirectUser: true});
             return
         }
     }
     this.setState({ failedAttempt: true });
 
-
   };
+
+  setUpUserData = async () => {
+    let userData = {}
+    userData.provider = new ethers.providers.Web3Provider(window.ethereum);
+    userData.signer = userData.provider.getSigner();
+    userData.wallet = await userData.signer.getAddress();
+    let userBalance = await userData.provider.getBalance(userData.wallet);
+    userData.userBalance = ethers.utils.formatEther(userBalance);
+    const { status, data } = await this.props.useApi(
+      "get",
+      "/api/user/"+this.state.userName
+    );
+    if (status === 200) {
+      userData.userName = data.userName;
+      userData.firstName = data.firstName;
+      userData.lastName = data.lastName;
+    }
+    
+    let user = new User(userData.firstName, userData.lastName, userData.userName, userData.userBalance, userData.wallet,userData.signer,userData.provider);
+    await user.updateData()
+    await this.props.setUserData(user);
+  };
+
+
+
 
   render() {
     // if this.state.redirect is true, redirect to this path

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { friendRequest } = require('./FriendRequestModel')
 
 const Report = mongoose.model('Report', {
     submitter: {
@@ -20,6 +21,15 @@ const Report = mongoose.model('Report', {
     time:{
         type: String,
         required: true
+    },
+    status:{
+        type:Boolean,
+        required: false,
+        default: false
+    },
+    comment:{
+        type:String,
+        required: false
     }
 
 })
