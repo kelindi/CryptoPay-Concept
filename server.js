@@ -589,6 +589,46 @@ app.get("/moneyRequests/outgoing/:userName", mongoChecker, async (req, res) => {
     }
 });
 
+//get user transactions
+app.get("/transactions/:userName", mongoChecker, async (req, res) => {
+    try {
+        const user = await User.findOne({
+            userName: req.params.userName.toLowerCase(),
+        });
+        const transactions = await Transaction.find({
+            $or: [
+                { originUser: user.userName },
+                { destinationUser: user.userName }
+            ]
+        });
+        res.send(transactions);
+    } catch (error) {
+        if (error.name === "CastError") {
+            res.status(404).send("Resource not found");
+        } else {
+            log(error);
+            res.status(500).send("Internal Server Error");
+        }
+    }
+});
+
+//get all transactions
+app.get("/transactions", mongoChecker, async (req, res) => {
+    try {
+        const transactions = await Transaction.find({});
+        res.send(transactions);
+    } catch (error) {
+        log(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
+
+
+
+
+
 //create new Report
 //request body expects
 // {

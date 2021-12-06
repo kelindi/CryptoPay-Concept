@@ -1,23 +1,23 @@
-
-import { uuid } from "uuidv4";
+import cPayRequest from "../CryptoPayClient";
 
 class MoneyRequest {
-  constructor(originUser, destinationUser, amount, date) {
+  constructor(id,originUser, destinationUser,destinationWallet, amount, date) {
+    this.id = id;
     this.originUser = originUser;
     this.destinationUser = destinationUser;
+    this.destinationWallet = destinationWallet;
     this.amount = amount;
     this.date = date;
-    this.id = uuid();
+    
   }
 
-  acceptRequest() {
-    // let the destination user accept this request, trigger a transaction
-
+  deleteRequest() {
+    cPayRequest(/moneyRequests/ + this.id, "DELETE");
     return 1;
   }
 
   cancelRequest() {
-    //let the origin user delete the request
+    cPayRequest(/moneyRequests/ + this.id, "DELETE");
     return 1;
   }
 }
