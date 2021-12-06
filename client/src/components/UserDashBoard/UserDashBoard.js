@@ -11,7 +11,7 @@ class UserDashBoard extends Component {
     
     this.state = {
       // uncomment for testing without build
-      
+
       // userBalance: this.props.testUser.userBalance,
       // userName: this.props.testUser.userName,
       // firstName: this.props.testUser.firstName,
@@ -29,16 +29,15 @@ class UserDashBoard extends Component {
       signer: this.props.userData.signer,
       wallet: this.props.userData.wallet,
       //==========================================================
-      profilePicture: this.props.testUser.profilePicture,
-      incomingFriendRequests: this.props.testUser.friendRequests,
-      sentFriendRequests: this.props.testUser.sentFriendRequests,
-      incomingMoneyRequests: this.props.testUser.requests,
-      sentMoneyRequests: this.props.testUser.sentRequests,
-      transactions: this.props.backend.transactions,
+      profilePicture: this.props.userData.profilePicture,
+      incomingFriendRequests: this.props.userData.incomingFriendRequests,
+      sentFriendRequests: this.props.userData.sentFriendRequests,
+      incomingMoneyRequests: this.props.userData.incomingMoneyRequests,
+      sentMoneyRequests: this.props.userData.sentMoneyRequests,
+      transactions: this.props.userData.transactions,
     };
   }
   componentDidMount = () => {
-    
   };
 
   setUpWeb3 = async () => {
@@ -165,12 +164,11 @@ class UserDashBoard extends Component {
               changeUserBalance={this.changeUserBalance}
               changeFriendsList={this.changeFriendsList}
               changeIncomingFriendRequests={this.changeIncomingFriendRequests}
-              backend={this.props.backend}
-              currentUser={this.props.testUser}
+              currentUser={this.state}
             ></UserFeed>
           </div>
 
-          <FriendsList
+          {/* <FriendsList
             changeUserBalance={this.changeUserBalance}
             global={this.state}
             changeSentMoneyRequests={this.changeSentMoneyRequests}
@@ -179,7 +177,7 @@ class UserDashBoard extends Component {
             changeSentFriendRequests={this.changeSentFriendRequests}
             backend={this.props.backend}
             currentUser={this.props.testUser}
-          ></FriendsList>
+          ></FriendsList> */}
         </div>
       </div>
     );

@@ -3,6 +3,7 @@ import { Redirect } from "react-router";
 import Admin from "../classes/Admin";
 import { Link } from "react-router-dom";
 import {ethers} from 'ethers';
+import User from "../classes/User";
 
 class Login extends Component {
   constructor(props) {
@@ -73,11 +74,10 @@ class Login extends Component {
       userData.firstName = data.firstName;
       userData.lastName = data.lastName;
     }
-    const {status2,data2} = await this.props.useApi("get", "/api/user/"+this.state.userName+"/friends");
-    if (status2 === 200){
-        userData.friends = data2.friends;
-    }
-    await this.props.setUserData(userData);
+    
+    let user = new User(userData.firstName, userData.lastName, userData.userName, userData.userBalance, userData.wallet,userData.signer,userData.provider);
+    await user.updateData()
+    await this.props.setUserData(user);
   };
 
 

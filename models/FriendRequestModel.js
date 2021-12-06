@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const friendRequest = mongoose.model('friendRequest', {
+const FriendRequest = mongoose.model('friendRequest', {
     originUser: {
         type: String,
         required: true
@@ -15,4 +15,4 @@ const friendRequest = mongoose.model('friendRequest', {
     }
 });
 
-module.exports = {friendRequest}
+module.exports = {FriendRequest}

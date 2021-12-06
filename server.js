@@ -35,7 +35,7 @@ const { User } = require("./models/User_Model");
 const { Transaction } = require("./models/Transaction_schema");
 const { MoneyRequest } = require("./models/MoneyRequest_schema");
 const { Report } = require("./models/Report_schema");
-const { friendRequest } = require("./models/FriendRequestModel");
+const { FriendRequest } = require("./models/FriendRequestModel");
 
 // to validate object IDs
 // const { ObjectID } = require("mongodb");
@@ -578,6 +578,7 @@ app.get("/moneyRequests/outgoing/:userName", mongoChecker, async (req, res) => {
         const moneyRequests = await MoneyRequest.find({
             originUser: user._id,
         });
+        console.log(moneyRequests);
         res.send(moneyRequests);
     } catch (error) {
         if (error.name === "CastError") {

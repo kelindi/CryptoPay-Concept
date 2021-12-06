@@ -13,7 +13,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      backend: new Backend(),
       currentUser: null,
       userData: null,
     };
@@ -76,7 +75,6 @@ class App extends React.Component {
             render={() => (
               <Login
                 connectWallet={this.connectWallet}
-                backend={this.state.backend}
                 setCurrentUser={this.setCurrentUser}
                 useApi={this.useApi}
                 setUserData={this.setUserData}
@@ -88,7 +86,7 @@ class App extends React.Component {
             exact
             path="/register"
             render={() => (
-              <Register backend={this.state.backend} useApi={this.useApi} />
+              <Register useApi={this.useApi} />
             )}
           />
 
@@ -97,9 +95,7 @@ class App extends React.Component {
             path="/userDashBoard"
             render={() => (
               <UserDashBoard
-                backend={this.state.backend}
                 currentUser={this.state.currentUser}
-                testUser={this.state.backend.user1}
                 useApi={this.useApi}
                 userData={this.state.userData}
               />
@@ -111,7 +107,6 @@ class App extends React.Component {
             path="/adminDashBoard"
             render={() => (
               <AdminDashBoard
-                backend={this.state.backend}
                 currentUser={this.state.currentUser}
               />
             )}

@@ -154,12 +154,12 @@ class UserFeed extends Component {
               INCOMING MONEY REQUESTS
             </div>
             <div className = "bg-white rorounded-xl">
-            {this.props.global.incomingMoneyRequests.map((request) => (
+            {this.props.currentUser.incomingMoneyRequests.map((request) => (
               <IncomingMoneyRequest
                 key={uuid()}
                 request={request}
                 user={this.state.user}
-                global={this.props.global}
+                global={this.props.currentUser}
                 balance={this.props.currentUser.currentAccountBalance}
                 changeIncomingMoneyRequests={
                   this.props.changeIncomingMoneyRequests
