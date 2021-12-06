@@ -58,7 +58,7 @@ class FriendsList extends Component {
     const value = target.value;
     // this.setState({searchContent: value})
     const filteredUsers = this.state.allUsers.filter(
-      (u) => u.userName.includes(value) && value !== ""
+      (u) => u.userName.includes(value) && value !== "" && u !== this.props.currentUser && !this.state.friends.includes(u)
     );
     this.setState({ usersFound: filteredUsers, searchContent: value });
     /* find users base on the input username and show them */
@@ -182,9 +182,10 @@ class FriendsList extends Component {
             </div>
           </div>
         ) : null}
+
         <div>
           <div className="font-bold">
-            <span className="">Friend List</span>
+            <span className="m-3">Friend List</span>
           </div>
           <div className="bg-transparent w-full">
             {this.state.friends.map((friend) => (
@@ -206,7 +207,7 @@ class FriendsList extends Component {
             ))}
           </div>
         </div>
-        <div className="absolute bottom-0 flex flex-auto w-2/12">
+        <div className="fixed bottom-1.5 w-2/12 flex">
           <button
             className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white w-full"
             onClick={() => {
