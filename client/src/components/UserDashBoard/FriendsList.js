@@ -25,10 +25,10 @@ class FriendsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      allUsers: this.props.backend.users,
+      allUsers: [],
       usersFound: [],
       userNameToSearch: "",
-      friends: this.props.currentUser.friends,
+      friends: this.props.currentUser.friendsList,
       showFriendPopUp: false,
       selectedFriend: null,
       showAddFriends: false,
@@ -80,7 +80,7 @@ class FriendsList extends Component {
   render() {
     const { global, changeSentFriendRequests } = this.props;
     return (
-      <div className="w-full flex flex-row ">
+      <div className="w-full flex flex-col relative ">
         {this.state.showFriendPopUp ? (
           /* pop-up of show info a certain friend */
           <div className=" bg-white rounded md:w-1/3 w-2/3 border shadow-lg fixed z-100 left-1/3 top-1/3 ">
@@ -216,7 +216,7 @@ class FriendsList extends Component {
           <div className="font-bold">
             <span className="m-3">Friend List</span>
           </div>
-          <div className="bg-transparent w-full">
+          <div className="bg-gray-900 w-full">
             {this.state.friends.map((friend) => (
               // list all friends
               <div
