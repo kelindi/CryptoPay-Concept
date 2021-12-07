@@ -157,6 +157,7 @@ class UserDashBoard extends Component {
               global={this.state}
               backend={this.props.backend}
               currentUser={this.props.testUser}
+              useApi={this.props.useApi}
             ></UserHeader>
 
             <UserFeed

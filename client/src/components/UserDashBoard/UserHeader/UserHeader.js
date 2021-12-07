@@ -127,6 +127,7 @@ class UserHeader extends Component {
           updateBalance={this.changeBalance}
           minimizeUpload={this.PFUploadOff}
           maximizeUpload={this.PFUploadOn}
+          useApi={this.props.useApi}
         />
         ): null}
 
@@ -175,6 +176,7 @@ class UserHeader extends Component {
             minimizeSend={this.sendPopOff}
             maximizeSend={this.sendPopOn}
             global={this.props.global}
+            useApi={this.props.useApi}
           />
         ) : null}
         {this.state.requestOpen ? (
@@ -185,6 +187,7 @@ class UserHeader extends Component {
             maximizeSend={this.sendPopOn}
             changeSentMoneyRequests={this.props.changeSentMoneyRequests}
             global={this.props.global}
+            useApi={this.props.useApi}
           />
         ) : null}
         {this.state.splitOpen ? (
@@ -196,6 +199,7 @@ class UserHeader extends Component {
             updateBalance={this.changeBalance}
             maximizeSplit={this.splitPopOn}
             global={this.props.global}
+            useApi={this.props.useApi}
           />
         ) : null}
       </div>

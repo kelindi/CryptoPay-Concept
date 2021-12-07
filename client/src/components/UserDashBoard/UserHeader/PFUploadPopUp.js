@@ -38,10 +38,10 @@ class PFUploadPopUp extends Component {
             // check if file is an image
             // store the file: make a post api call - edit server.js
             // and then get api call to fetch the image and replace the image (Maybe)
-            this.props.global.profilePicture
+            // this.props.global.profilePicture
         } else {
             
-            alert("no files selected")
+            alert("No File Selected")
         }
         this.minimizePopUp()
     }
