@@ -54,7 +54,7 @@ class User{
 				this.sentFriendRequests.push(new FriendRequest(request._id,request.orginUser,request.destinationUser,request.date))
 			});
 		};
-		({status, data} = await cPayRequest('/api/user/'+this.userName+"/friends",'GET'));
+		({status, data} = await cPayRequest('/api/user/'+this.userName.tolowercase()+"/friends",'GET'));
 		if(status === 200 && data.length > 0){
 			data.forEach(friend => {
 				this.friends.push(new Friend(friend.firstName,friend.lastName,friend.userName,'/images/pfDefault.png',friend.walletAddress))
