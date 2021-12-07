@@ -22,7 +22,7 @@ class GetWallet extends Component {
                     If you already have Metamask installed please connect an Etheruem wallet to the App
                 </p>
                 <div className = "absolute top-1/2 text-black">
-                <a className = "bg-gray-200 hover:bg-gray-400 rounded-md text-base p-2 font-light" href ="/">back to Login</a>
+                <a className = "bg-warm-gray-500 hover:bg-warm-gray-400 w-full py-3 px-2 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none" href ="/">back to Login</a>
                 </div>
                 
             </div>

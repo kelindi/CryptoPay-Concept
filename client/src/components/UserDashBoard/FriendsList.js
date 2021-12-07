@@ -25,7 +25,7 @@ class FriendsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      allUsers: this.props.backend.users,
+      allUsers: [],
       usersFound: [],
       userNameToSearch: "",
       friends: this.props.currentUser.friends,
@@ -77,7 +77,7 @@ class FriendsList extends Component {
   render() {
     const { global, changeSentFriendRequests } = this.props;
     return (
-      <div className="w-full flex flex-row ">
+      <div className="w-full flex flex-col relative">
         {this.state.showFriendPopUp ? (
           /* pop-up of show info a certain friend */
           <div className=" bg-white rounded md:w-1/3 w-2/3 border shadow-lg fixed z-100 left-1/3 top-1/3 ">
@@ -182,16 +182,16 @@ class FriendsList extends Component {
             </div>
           </div>
         ) : null}
-
+        <div className = "w-full bg-gray-900">
+        <div className = "h-10 text-gray-300 mx-2 bg-gray-800">Friends</div>
         <div>
           <div className="font-bold">
-            <span className="m-3">Friend List</span>
           </div>
-          <div className="bg-transparent w-full">
-            {this.state.friends.map((friend) => (
+          <div className="w-full">
+            {this.props.currentUser.friendsList.map((friend) => (
               // list all friends
               <div
-                className="flex items-center px-4 py-3 border-b   hover:bg-gray-100"
+                className="flex items-center mx-2 my-2 py-1 hover:bg-warm-gray-500 bg-gray-900 rounded-lg text-gray-300"
                 onClick={() => this.friendPop(friend)}
               >
                 <img
@@ -199,7 +199,7 @@ class FriendsList extends Component {
                   src={friend.profilePicture}
                 />
 
-                <p className="text-gray-600 text-sm mx-2">
+                <p className="text-sm mx-2">
                   <span className="font-bold block">{friend.userName}</span>
                   <span>{friend.firstName}</span> <span>{friend.lastName}</span>
                 </p>
@@ -217,6 +217,7 @@ class FriendsList extends Component {
             {/* Add new friends botton */}
             <span>{"Add New Friend"}</span>
           </button>
+        </div>
         </div>
       </div>
     );

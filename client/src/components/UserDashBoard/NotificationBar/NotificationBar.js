@@ -34,9 +34,10 @@ class NotificationBar extends Component {
     const { global } = this.props;
     return (
       <div className="font-sans">
-        <div className="bg-gray-600 py-4 flex flex-row">
-          <div className = "ml-auto">
-            <div className="relative inline-block mr-6">
+        <div className="bg-gray-800 h-10 py-2 relative">
+          <div className = "ml-auto relative">
+          <div className = "text-gray-300 float-left ml-6 text-lg">CryptoPay</div>
+            <div className="float-right relative inline-block mr-6 my-2">
               <svg
                 onClick={() =>
                   this.setState({
@@ -45,9 +46,9 @@ class NotificationBar extends Component {
                   })
                 }
                 xmlns="http://www.w3.org/2000/svg"
-                height="24px"
+                height="18px"
                 viewBox="0 0 24 24"
-                width="24px"
+                width="18px"
                 fill="#FFFFFF"
               >
                 <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />

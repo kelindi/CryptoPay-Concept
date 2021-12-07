@@ -10,16 +10,6 @@ class UserDashBoard extends Component {
     super(props);
 
     this.state = {
-      // uncomment for testing without build
-
-      // userBalance: this.props.testUser.userBalance,
-      // userName: this.props.testUser.userName,
-      // firstName: this.props.testUser.firstName,
-      // lastName: this.props.testUser.lastName,
-      // friendsList: this.props.testUser.friendsList,
-
-      // comment for testing without build
-      //==========================================================
       userBalance: this.props.userData.userBalance,
       userName: this.props.userData.userName,
       firstName: this.props.userData.firstName,
@@ -28,7 +18,6 @@ class UserDashBoard extends Component {
       provider: this.props.userData.provider,
       signer: this.props.userData.signer,
       wallet: this.props.userData.wallet,
-      //==========================================================
       profilePicture: this.props.userData.profilePicture,
       incomingFriendRequests: this.props.userData.incomingFriendRequests,
       sentFriendRequests: this.props.userData.sentFriendRequests,
@@ -154,7 +143,7 @@ class UserDashBoard extends Component {
   render() {
     const { currentUser } = this.props;
     return (
-      <div className="font-serif">
+      <div className="font-serif bg-gray-900">
         <div className="flex flex-column h-100">
           <div className="w-10/12 h-screen flex-shrink-0">
             <NotificationBar
@@ -182,16 +171,14 @@ class UserDashBoard extends Component {
             ></UserFeed>
           </div>
 
-          {/* <FriendsList
+          <FriendsList
             changeUserBalance={this.changeUserBalance}
-            global={this.state}
             changeSentMoneyRequests={this.changeSentMoneyRequests}
             className="w-2/12 flex-shrink-0"
             global={this.state}
             changeSentFriendRequests={this.changeSentFriendRequests}
-            backend={this.props.backend}
-            currentUser={this.props.testUser}
-          ></FriendsList> */}
+            currentUser={this.state}
+          ></FriendsList>
         </div>
       </div>
     );
