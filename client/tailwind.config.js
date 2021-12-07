@@ -1,8 +1,18 @@
+const { green } = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   purge: ["./src/components/**/*.js"],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      colors: {
+        "blue-gray":colors.blueGray,
+        "cool-gray":colors.coolGray,
+        "gray":colors.gray,
+        "true-gray":colors.trueGray,
+        "warm-gray":colors.warmGray,
+      },
       keyframes: {
         "small-slow-ping": {
           "75%, 100%": { transform: "scale(1.1)", opacity: "0" },

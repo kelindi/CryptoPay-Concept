@@ -96,13 +96,10 @@ class Login extends Component {
 
     return (
       <div className="font-serif">
-        <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-grey">
-          <div className="text-8xl font-mono my-4">CryptoPay</div>
+        <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-gray-900">
+          <div className="text-8xl font-mono my-4 text-gray-200">CryptoPay</div>
           <div className="relative sm:max-w-sm w-full">
-            <div className="relative w-full rounded-3xl  px-6 py-4 bg-white shadow-md border">
-              <label className="block mt-3 text-2xl text-gray-700 text-center font-semibold">
-                Login
-              </label>
+            <div className="relative w-full px-6 py-4">
               <form
                 className="mt-10"
                 onSubmit={(e) => {
@@ -115,7 +112,7 @@ class Login extends Component {
                     onChange={this.handleUsernameChange}
                     placeholder="Username"
                     className={
-                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " +
+                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-bg-warm-gray-300 focus:ring-0 outline-none pl-5 transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 " +
                       (this.state.failedAttempt
                         ? "border-red-500 border"
                         : "border-none")
@@ -130,7 +127,7 @@ class Login extends Component {
                     type="password"
                     placeholder="Password"
                     className={
-                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " +
+                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-bg-warm-gray-300 focus:ring-0 outline-none pl-5 transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 " +
                       (this.state.failedAttempt
                         ? "border-red-500 border"
                         : "border-none")
@@ -146,37 +143,11 @@ class Login extends Component {
                   That username or password is incorrect.
                 </label>
 
-                {/* Add forgot password and remember me later */}
-                <div className="mt-7 flex hidden">
-                  <label
-                    htmlFor="remember_me"
-                    className="inline-flex items-center w-full cursor-pointer"
-                  >
-                    <input
-                      id="remember_me"
-                      type="checkbox"
-                      className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 outline-none"
-                      name="remember"
-                    />
-                    <span className="ml-2 text-sm text-gray-600">
-                      Remember me
-                    </span>
-                  </label>
-
-                  <div className="w-full text-right">
-                    <a
-                      className="underline text-sm text-gray-600 hover:text-gray-900"
-                      href="#"
-                    >
-                      forgot password?
-                    </a>
-                  </div>
-                </div>
 
                 <div className="mt-7">
                   <button
                     onClick={this.handleLogin}
-                    className="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105"
+                    className="bg-warm-gray-500 hover:bg-warm-gray-400 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none"
                   >
                     Login
                   </button>
@@ -184,15 +155,12 @@ class Login extends Component {
 
                 <div className="mt-7">
                   <div className="flex justify-center items-center">
-                    <label className="mr-2">Don't have an account?</label>
-                    {/* <a href="/register" className=" text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
-                                            Create an account!
-                                        </a> */}
+                    <label className="mr-2 text-gray-300">Don't have an account?</label>
                     <Link
-                      className="text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105"
+                      className="text-blue-gray-400 hover:text-blue-gray-200 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105"
                       to={"./Register"}
                     >
-                      Create an account!
+                      Create one!
                     </Link>
                   </div>
                 </div>
