@@ -33,7 +33,11 @@ const UserSchema = mongoose.Schema({
     },
     friends: [{
         friend: String
-    }]
+    }],
+    isAdmin: {
+        default: false,
+        type: Boolean
+    }
 })
 
 //hash password

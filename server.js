@@ -166,14 +166,16 @@ app.use(
 
 /*** API Routes below ************************************/
 // Register New User
+// expects a POST request with a JSON body with the following fields:
+// {
+//     firstName: <firstName>,
+//     lastName: <lastName>,
+//     userName: <userName>,
+//     password: <password>,
+// }
+
 app.post("/api/register", mongoChecker, async (req, res) => {
   log(req.body);
-
-  // const userNameExists = await User.findOne({userName:req.body.userName})
-  // if(userNameExists){
-  //     res.status(304).send("Username Taken")
-  //     return
-  // }
 
   const userNameValid = await User.validateUserName(req.body.userName);
 
@@ -184,6 +186,7 @@ app.post("/api/register", mongoChecker, async (req, res) => {
       lastName: req.body.lastName,
       userName: req.body.userName.toLowerCase(),
       password: req.body.password,
+
     });
 
     try {
@@ -251,7 +254,7 @@ app.get("/api/user/:userName/friends", authenticate, async (req, res) => {
     // for each friend in user.friends, find the user with that userName
     const friends = await Promise.all(
       user.friends.map(async (friend) => {
-        const friendUser = await User.findOne({ userName: friend });
+        const friendUser = await User.findOne({ _id: friend });
         return {
           userName: friendUser.userName,
           firstName: friendUser.firstName,
@@ -461,7 +464,7 @@ app.get("/friendRequests/incoming/:userName", mongoChecker, async (req, res) => 
             userName: req.params.userName.toLowerCase(),
         });
         const friendRequests = await FriendRequest.find({
-            destinationUser: user._id,
+            destinationUser: user.userName,
         });
         res.send(friendRequests);
     } catch (error) {
@@ -480,7 +483,7 @@ app.get("/friendRequests/outgoing/:userName", mongoChecker, async (req, res) => 
             userName: req.params.userName.toLowerCase(),
         });
         const friendRequests = await FriendRequest.find({
-            originUser: user._id,
+            originUser: user.userName,
         });
         res.send(friendRequests);
     } catch (error) {
@@ -557,7 +560,7 @@ app.get("/moneyRequests/incoming/:userName", mongoChecker, async (req, res) => {
             userName: req.params.userName.toLowerCase(),
         });
         const moneyRequests = await MoneyRequest.find({
-            destinationUser: user._id,
+            destinationUser: user.userName,
         });
         res.send(moneyRequests);
     } catch (error) {
@@ -576,7 +579,7 @@ app.get("/moneyRequests/outgoing/:userName", mongoChecker, async (req, res) => {
             userName: req.params.userName.toLowerCase(),
         });
         const moneyRequests = await MoneyRequest.find({
-            originUser: user._id,
+            originUser: user.userName,
         });
         console.log(moneyRequests);
         res.send(moneyRequests);

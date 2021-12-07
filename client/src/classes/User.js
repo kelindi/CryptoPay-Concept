@@ -31,27 +31,30 @@ class User{
 		let {status, data} = await cPayRequest('/moneyRequests/incoming/'+this.userName,'GET');
 		if(status === 200 && data.length > 0){
 			data.forEach(request => {
-				this.incomingMoneyRequests.push(new MoneyRequest(request._id,request.orginUser,request.destinationUser,request.destinationWallet,request.amount,request.date))
+				this.incomingMoneyRequests.push(new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date))
 			});
+			console.log(this.incomingMoneyRequests)
 		};
 		
 		({status, data} = await cPayRequest('/moneyRequests/outgoing/'+this.userName,'GET'));
 
 		if(status === 200 && data.length > 0){
 			data.forEach(request => {
-				this.sentMoneyRequests.push(new MoneyRequest(request._id,request.orginUser,request.destinationUser,request.destinationWallet,request.amount,request.date))
+				console.log(this)
+				this.sentMoneyRequests.push(new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date))
+				console.log(this)
 			});
 		};
 		({status, data} = await cPayRequest('/friendRequests/incoming/'+this.userName,'GET'));
 		if(status === 200 && data.length > 0){
 			data.forEach(request => {
-				this.incomingFriendRequests.push(new FriendRequest(request._id,request.orginUser,request.destinationUser,request.date))
+				this.incomingFriendRequests.push(new FriendRequest(request._id,request.originUser,request.destinationUser,request.date))
 			});
 		};
 		({status, data} = await cPayRequest('/friendRequests/outgoing/'+this.userName,'GET'));
 		if(status === 200 && data.length > 0){
 			data.forEach(request => {
-				this.sentFriendRequests.push(new FriendRequest(request._id,request.orginUser,request.destinationUser,request.date))
+				this.sentFriendRequests.push(new FriendRequest(request._id,request.originUser,request.destinationUser,request.date))
 			});
 		};
 		({status, data} = await cPayRequest('/api/user/'+this.userName+"/friends",'GET'));
@@ -63,7 +66,7 @@ class User{
 		({status, data} = await cPayRequest('/transactions/'+this.userName,'GET'));
 		if(status === 200 && data.length > 0){
 			data.forEach(transaction => {
-				this.transactions.push(new Transaction(transaction.orginUser,transaction.destinationUser,transaction.amount,transaction.date))
+				this.transactions.push(new Transaction(transaction.originUser,transaction.destinationUser,transaction.amount,transaction.date))
 			});
 		};
 
@@ -71,7 +74,7 @@ class User{
 
 	//TODO
 	requestMoney = async ()  =>{
-		const {status, data} = await cPayRequest('moneyRequests/','POST',{originuser:this.userName,destinationuser:this.userName,destinationwallet:this.walletAddress,amount:this.amount,date:new Date()})
+		const {status, data} = await cPayRequest('moneyRequests/','POST',{originuser:this.userName,destinationuser:this.userName,destinationwallet:this.walletAddress,amount:this.amount,date:new Date().toJSON().slice(0,10).replace(/-/g,'/')})
 		if (status !== 200) {
 			console.log(data)
 		}
@@ -79,7 +82,7 @@ class User{
 	}
 	
 	requestFriend = async (friendUserName) => {
-		const {status, data} = await cPayRequest('friendRequests/','POST',{orginUser:this.userName,destinationUser:friendUserName,date:new Date()})
+		const {status, data} = await cPayRequest('friendRequests/','POST',{orginUser:this.userName,destinationUser:friendUserName,date:new Date().toJSON().slice(0,10).replace(/-/g,'/')})
 		if (status !== 200) {
 			console.log(data)
 		}
