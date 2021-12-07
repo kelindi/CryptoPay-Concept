@@ -113,7 +113,7 @@ class UserFeed extends Component {
       changeUserBalance,
     } = this.props;
     return (
-      <div className="relative h-full bg-white flex flex-col">
+      <div className="relative h-full flex flex-col">
         {/* Container Div */}
         <div className="bg-white rounded-xl w-auto bg-color m-4 flex flex-col shadow-2xl">
           {/* div for outgoing requests */}
