@@ -30,19 +30,20 @@ class User{
 	updateData = async () =>{
 		let {status, data} = await cPayRequest('/moneyRequests/incoming/'+this.userName,'GET');
 		if(status === 200 && data.length > 0){
-			data.forEach(request => {
-				this.incomingMoneyRequests.push(new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date))
+			data.forEach(async (request) => {
+				const mr = new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date);
+				await mr.getIncomingFirstLastName();
+				this.incomingMoneyRequests.push(mr)
 			});
 			console.log(this.incomingMoneyRequests)
 		};
 		
 		({status, data} = await cPayRequest('/moneyRequests/outgoing/'+this.userName,'GET'));
-
 		if(status === 200 && data.length > 0){
-			data.forEach(request => {
-				console.log(this)
-				this.sentMoneyRequests.push(new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date))
-				console.log(this)
+			data.forEach(async (request) => {
+				const mr = new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date);
+				await mr.getOutgoingFirstLastName();
+				this.sentMoneyRequests.push(mr)
 			});
 		};
 		({status, data} = await cPayRequest('/friendRequests/incoming/'+this.userName,'GET'));

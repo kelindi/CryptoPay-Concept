@@ -26,9 +26,9 @@ class OutgoingMoneyRequest extends Component{
           />
           <p className="text-gray-600 text-sm mx-2">
             <span className="font-bold block">
-            <strong className = "uppercase">{request.destinationUser} </strong>
-            {/* <span>{request.originUser.firstName}</span>{" "}
-            <span>{request.originUser.lastName}</span> */} {/* Try adding server calls for this later */}
+            <strong className = "uppercase">({request.destinationUser}) </strong>
+            <span className = "font-light text-sm ">{request.outgoingFirstName}</span>{" "}
+            <span className = "font-light text-sm ">{request.outgoingLastName}</span> {/* Try adding server calls for this later */}
             </span>
             
             <div className="px-1 float-left font-light">

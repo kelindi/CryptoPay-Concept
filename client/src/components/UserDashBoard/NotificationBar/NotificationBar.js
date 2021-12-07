@@ -75,7 +75,7 @@ class NotificationBar extends Component {
                         />
                         <p className="text-gray-600 text-sm mx-2">
                           <span className="font-bold block">
-                            {requestor.userName}
+                            {requestor.originUser}
                           </span>
                           <span>{requestor.firstName}</span>{" "}
                           <span>{requestor.lastName}</span>

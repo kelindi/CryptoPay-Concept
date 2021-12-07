@@ -28,25 +28,25 @@ class FriendsList extends Component {
       allUsers: [],
       usersFound: [],
       userNameToSearch: "",
-      friends: this.props.currentUser.friends,
+      friends: this.props.currentUser.friendsList,
       showFriendPopUp: false,
       selectedFriend: null,
       showAddFriends: false,
       searchContent: "",
-      amount: '',
-      balance: this.props.currentUser.currentAccountBalance
+      amount: "",
+      balance: this.props.currentUser.currentAccountBalance,
     };
   }
 
-  handleSend= () => {
+  handleSend = () => {
     //backend call to add money into the reciever's account
-    const newBalance = this.state.balance - this.state.amount
-    console.log(newBalance)
+    const newBalance = this.state.balance - this.state.amount;
+    console.log(newBalance);
     this.setState({
-      balance: newBalance
-    })
-    this.props.changeUserBalance(newBalance)
-  }
+      balance: newBalance,
+    });
+    this.props.changeUserBalance(newBalance);
+  };
 
   friendPop(friend) {
     this.setState({ selectedFriend: friend, showFriendPopUp: true });
@@ -58,7 +58,11 @@ class FriendsList extends Component {
     const value = target.value;
     // this.setState({searchContent: value})
     const filteredUsers = this.state.allUsers.filter(
-      (u) => u.userName.includes(value) && value !== "" && u !== this.props.currentUser && !this.state.friends.includes(u)
+      (u) =>
+        u.userName.includes(value) &&
+        value !== "" &&
+        u !== this.props.currentUser &&
+        !this.state.friends.includes(u)
     );
     this.setState({ usersFound: filteredUsers, searchContent: value });
     /* find users base on the input username and show them */
@@ -66,18 +70,17 @@ class FriendsList extends Component {
     // console.log(this.state.usersFound);
   };
 
-  amountValidation(event){
-    const amt = event.target.value
+  amountValidation(event) {
+    const amt = event.target.value;
     this.setState({
-      amount: amt
-    })
-    
-}
+      amount: amt,
+    });
+  }
 
   render() {
     const { global, changeSentFriendRequests } = this.props;
     return (
-      <div className="w-full flex flex-col relative">
+      <div className="w-full flex flex-col relative ">
         {this.state.showFriendPopUp ? (
           /* pop-up of show info a certain friend */
           <div className=" bg-white rounded md:w-1/3 w-2/3 border shadow-lg fixed z-100 left-1/3 top-1/3 ">
@@ -106,10 +109,20 @@ class FriendsList extends Component {
                 <span>{this.state.selectedFriend.lastName}</span>
               </p>
               <div className=" text-center flex flex-col">
-              <input className="ml-5 w-44 pl-2" type="text"  value={this.state.amount} onChange={(event) => {this.setState({amount : event.target.value})}} placeholder="Amount to send/request"/>
+                <input
+                  className="ml-5 w-44 pl-2"
+                  type="text"
+                  value={this.state.amount}
+                  onChange={(event) => {
+                    this.setState({ amount: event.target.value });
+                  }}
+                  placeholder="Amount to send/request"
+                />
                 <div className="flex flex-row">
-                  <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
-                          onClick={() => this.handleSend()}>
+                  <button
+                    className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
+                    onClick={() => this.handleSend()}
+                  >
                     Send
                   </button>
                   <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white">
@@ -163,35 +176,51 @@ class FriendsList extends Component {
 
                   {!this.state.friends.includes(u) ? (
                     //   only friends not in friendlist have "Send Friend Request" Button
-                    <button
-                      className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
-                      onClick={() => {
-                        // change global sentFriend list
-                        const newFriendRequests = global.sentFriendRequests;
-                        if (!newFriendRequests.includes(u)) {
-                          newFriendRequests.push(u);
-                        }
-                        changeSentFriendRequests(newFriendRequests);
-                      }}
-                    >
-                      Send Friend Request{" "}
-                    </button>
+
+                    <div>
+                      {global.sentFriendRequests.includes(u) ? (
+                        <button className="mx-1 px-2 py-1 bg-red-500 rounded-3xl text-white"
+                        onClick = {() => {
+                          const newFriendRequests = global.sentFriendRequests;
+                          newFriendRequests.pop(u);
+                          changeSentFriendRequests(newFriendRequests);
+                        }}
+                        
+                        >
+                          {" "}
+                          Cancel Request{" "}
+                        </button>
+                      ) : (
+                        <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
+                          onClick={() => {
+                            // change global sentFriend list
+                            const newFriendRequests = global.sentFriendRequests;
+                            
+                              newFriendRequests.push(u);
+                            
+                            changeSentFriendRequests(newFriendRequests);
+                          }}
+                        >
+                          Send Friend Request{" "}
+                        </button>
+                      )}
+                    </div>
                   ) : null}
                 </div>
               ))}
             </div>
           </div>
         ) : null}
-        <div className = "w-full bg-gray-900">
-        <div className = "h-10 text-gray-300 mx-2 bg-gray-800">Friends</div>
+
         <div>
           <div className="font-bold">
+            <span className="m-3">Friend List</span>
           </div>
-          <div className="w-full">
-            {this.props.currentUser.friendsList.map((friend) => (
+          <div className="bg-gray-900 w-full">
+            {this.state.friends.map((friend) => (
               // list all friends
               <div
-                className="flex items-center mx-2 my-2 py-1 hover:bg-warm-gray-500 bg-gray-900 rounded-lg text-gray-300"
+                className="flex items-center px-4 py-3 border-b   hover:bg-gray-100"
                 onClick={() => this.friendPop(friend)}
               >
                 <img
@@ -199,7 +228,7 @@ class FriendsList extends Component {
                   src={friend.profilePicture}
                 />
 
-                <p className="text-sm mx-2">
+                <p className="text-gray-600 text-sm mx-2">
                   <span className="font-bold block">{friend.userName}</span>
                   <span>{friend.firstName}</span> <span>{friend.lastName}</span>
                 </p>
@@ -217,7 +246,6 @@ class FriendsList extends Component {
             {/* Add new friends botton */}
             <span>{"Add New Friend"}</span>
           </button>
-        </div>
         </div>
       </div>
     );
