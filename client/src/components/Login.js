@@ -73,6 +73,7 @@ class Login extends Component {
       userData.userName = data.userName;
       userData.firstName = data.firstName;
       userData.lastName = data.lastName;
+      // userData.profilePhoto = data.profilePhoto
     }
     
     let user = new User(userData.firstName, userData.lastName, userData.userName, userData.userBalance, userData.wallet,userData.signer,userData.provider);

@@ -155,9 +155,10 @@ class UserDashBoard extends Component {
               changeSentMoneyRequests={this.changeSentMoneyRequests}
               changeUserBalance={this.changeUserBalance}
               global={this.state}
-              backend={this.props.backend}
-              currentUser={this.props.testUser}
+              // backend={this.props.backend}
+              currentUser={this.props.currentUser}
               useApi={this.props.useApi}
+              userData={this.props.userData}
             ></UserHeader>
 
             <UserFeed

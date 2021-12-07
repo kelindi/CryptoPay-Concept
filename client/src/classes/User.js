@@ -22,7 +22,7 @@ class User{
 		this.incomingMoneyRequests = []
 		this.sentFriendRequests =[]
 		this.incomingFriendRequests =[]
-		this.profilePicture = '/images/pfDefault.png'
+		this.profilePicture = '/images/pfDefault.png' // this value will be passed in as default valur
 
 	}
 	

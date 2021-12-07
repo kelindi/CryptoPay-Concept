@@ -87,7 +87,7 @@ class UserHeader extends Component {
   }
 
   render() {
-    const { changeSentMoneyRequests } = this.props;
+    // const { changeSentMoneyRequests } = this.props; // what does this do?
 
     return (
       <div className="flex flex-row h-1/5 bg-white mt-2 mb-2 rounded-xl shadow-2xl">
@@ -128,6 +128,7 @@ class UserHeader extends Component {
           minimizeUpload={this.PFUploadOff}
           maximizeUpload={this.PFUploadOn}
           useApi={this.props.useApi}
+          global={this.props.global}
         />
         ): null}
 

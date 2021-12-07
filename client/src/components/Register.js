@@ -110,6 +110,7 @@ class Register extends Component {
       lastName: lastName,
       userName: userName.toLowerCase(),
       password:password
+      // profilePhoto: 
     };
 
     const {status, data} = await this.props.useApi("post","/api/register", newUser);
