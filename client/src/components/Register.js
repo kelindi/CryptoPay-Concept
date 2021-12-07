@@ -138,14 +138,11 @@ class Register extends Component {
         return <Redirect push to="/" />;
     }
     return (
-      <div className="font-sans">
+      <div className="font-sans bg-gray-900">
         <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-grey">
+        <div className="text-7xl font-mono my-4 text-gray-200">CryptoPay</div>
           <div className="relative sm:max-w-sm w-full">
-            <div className="relative w-full rounded-3xl  px-6 py-4 bg-white shadow-md border">
-              <label className="block mt-3 text-2xl text-gray-700 text-center font-semibold">
-                Register
-              </label>
-
+            <div className="relative w-full px-6 py-4">
               <form
                 onSubmit={(e) => {
                   return false;
@@ -159,7 +156,7 @@ class Register extends Component {
                       onChange={this.handleFirstNameChange}
                       placeholder="First Name"
                       className={
-                        "mt-1 w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none flex pl-5 " +
+                        "mt-1 w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 flex pl-5 " +
                         (this.state.invalidFirstName
                           ? "border-red-500 border"
                           : "border-none")
@@ -172,7 +169,7 @@ class Register extends Component {
                       onChange={this.handleLastNameChange}
                       placeholder="Last Name"
                       className={
-                        "mt-1 w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " +
+                        "mt-1 w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 flex pl-5  " +
                         (this.state.invalidLastName
                           ? "border-red-500 border"
                           : "border-none")
@@ -197,7 +194,7 @@ class Register extends Component {
                     onChange={this.handleUsernameChange}
                     placeholder="Username"
                     className={
-                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " +
+                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 pl-5  " +
                       (this.state.invalidUserName
                         ? "border-red-500 border"
                         : "border-none")
@@ -213,7 +210,7 @@ class Register extends Component {
                     type="password"
                     placeholder="Password"
                     className={
-                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " +
+                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 flex pl-5 " +
                       (this.state.invalidPassword
                         ? "border-red-500 border"
                         : "border-none")
@@ -251,9 +248,9 @@ class Register extends Component {
                     value={this.state.rePassword}
                     onChange={this.handleRePasswordChange}
                     type="password"
-                    placeholder="Reenter Password"
+                    placeholder="Re-Enter Password"
                     className={
-                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 outline-none pl-5 " +
+                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 pl-5 " +
                       (this.state.invalidRePassword
                         ? "border-red-500 border"
                         : "border-none")
