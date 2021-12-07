@@ -30,7 +30,7 @@ class SplitPopUp extends Component {
         this.props.maximizeSplit();
     };
 
-    pasteOption = (key, event, friend) => {
+    pasteOption = (key, event) => {
         // console.log(event.target.value)
         // this.setState((this.setState({filteredFriends: []}, this.setState({nameFilled: true}, this.setMoneyReceiver(key, event)))),  this.setShowResult(key, false))
         // Update money reciever
@@ -90,11 +90,12 @@ class SplitPopUp extends Component {
         //     this.setState({moneyReceiver:event.target.value},this.setState({filteredFriends:[]}))
         //     return
         // }    
-        let receiverList = this.state.moneyReceiver
-        receiverList[key] = event.target.value
-        this.setState({moneyReceiver: receiverList}, this.setFilteredFriends(key))   
+        // let receiverList = this.state.moneyReceiver
+        // receiverList[key] = event.target.value
+        // this.setState({moneyReceiver: receiverList}, this.setFilteredFriends(key))   
         // console.log(event.target.value)
         // console.log(receiverList)
+        console.log("yo")
     }
 
     setShowResult = (key, val)=> {
@@ -122,7 +123,7 @@ class SplitPopUp extends Component {
         const result = this.state.showResults
         result[key] = false
         //check if key already present
-        if(this.state.filteredFriends.length > 0) {
+        if(Object.values(this.state.moneyReceiver).length < this.state.filteredFriends.length ) {
             fields[key] = (
                 <li key={key}>
                     <div className='h-1/3 mb-2 flex flex-row'>
@@ -139,13 +140,19 @@ class SplitPopUp extends Component {
                                     </button>
                                 ): null}
                             {true? (
-                            <div id="friendDropdown" className='ml-12 w-44 opacity-100 bg-white absolute'>
+                            <div id="friendDropdown" className='ml-8 w-44 pl-2 opacity-100 bg-white absolute'>
                                 <ul className=''>
                                     {this.state.filteredFriends.map((friend) =>
                                     {
-                                        if(!this.state.moneyReceiver.keys().includes(friend)){
+                                        console.log(friend.userName)
+                                        console.log(Object.values(this.state.moneyReceiver))
+                                        // return (
+                                        //      <li><button onClick={(e)=>this.pasteOption(key,e, friend)} value={friend.userName}>{friend.userName}</button></li>
+                                        // )
+                                        if(!Object.values(this.state.moneyReceiver).includes(friend.userName)){
+                                            console.log(this.state.moneyReceiver)
                                             return (
-                                                <li><button onClick={(e)=>this.pasteOption(key,e, friend)} value={friend.userName}>{friend.userName}</button></li>
+                                                <li><button onClick={(e)=>this.pasteOption(key,e)} value={friend.userName}>{friend.userName}</button></li>
                                             )
                                         }
                                     })}
@@ -183,7 +190,7 @@ class SplitPopUp extends Component {
         let i= event.target.parentElement.parentElement.value
         console.log("value: ", i)
         // delete this.state.friendFields.i
-        let fields = this.state.friendFields
+        let fields = this.state.moneyReceiver
         console.log(fields)
         delete fields[i]
         console.log(fields)
@@ -193,13 +200,13 @@ class SplitPopUp extends Component {
 
     render() {
         return (
-            <div className="flex flex-col bg-white rounded md:w-1/3 w-1/2 h-auto border shadow-lg fixed z-100 left-1/4 top-1/3 ">
+            <div className="flex flex-col bg-white rounded md:w-1/3 w-1/2 h-auto max-h-1/2 border shadow-lg fixed z-100 left-1/4 top-1/3 ">
                 <div className="rounded-t bg-blue-300 text-black">
                     <div className="relative py-3 px-2 flex">
                         <span className="font-semibold text-black md:text-base text-sm">Split Money</span> 
                     </div>
                 </div>
-                <div className="flex flex-col bg-gray-200 md:text-base text-sm border-b p-2 h-auto">
+                <div className="flex flex-col bg-gray-200 md:text-base text-sm border-b p-2 h-1/2 overflow-scroll">
                     <div className='flex flex-col h-2/3'>
                         {/* Searching friends */}
                         <div className='my-2 flex flex-col' on>

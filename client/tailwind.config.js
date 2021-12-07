@@ -26,6 +26,9 @@ module.exports = {
       100: 100,
       auto: "auto",
     },
+    maxHeight: {
+      '1/2': '50%',
+    },
   },
   variants: {
     extend: {},
