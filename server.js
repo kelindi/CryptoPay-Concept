@@ -464,7 +464,7 @@ app.get("/friendRequests/incoming/:userName", mongoChecker, async (req, res) => 
             userName: req.params.userName.toLowerCase(),
         });
         const friendRequests = await FriendRequest.find({
-            destinationUser: user._id,
+            destinationUser: user.userName,
         });
         res.send(friendRequests);
     } catch (error) {
@@ -483,7 +483,7 @@ app.get("/friendRequests/outgoing/:userName", mongoChecker, async (req, res) => 
             userName: req.params.userName.toLowerCase(),
         });
         const friendRequests = await FriendRequest.find({
-            originUser: user._id,
+            originUser: user.userName,
         });
         res.send(friendRequests);
     } catch (error) {
@@ -560,7 +560,7 @@ app.get("/moneyRequests/incoming/:userName", mongoChecker, async (req, res) => {
             userName: req.params.userName.toLowerCase(),
         });
         const moneyRequests = await MoneyRequest.find({
-            destinationUser: user._id,
+            destinationUser: user.userName,
         });
         res.send(moneyRequests);
     } catch (error) {
@@ -579,7 +579,7 @@ app.get("/moneyRequests/outgoing/:userName", mongoChecker, async (req, res) => {
             userName: req.params.userName.toLowerCase(),
         });
         const moneyRequests = await MoneyRequest.find({
-            originUser: user._id,
+            originUser: user.userName,
         });
         console.log(moneyRequests);
         res.send(moneyRequests);
