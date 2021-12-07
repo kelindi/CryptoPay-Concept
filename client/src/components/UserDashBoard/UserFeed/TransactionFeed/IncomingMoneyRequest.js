@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AcceptMoneyReq from "./AcceptMoneyReq";
+import { async } from "q";
 
 class IncomingMoneyRequest extends Component {
   constructor(props) {
@@ -82,9 +83,9 @@ class IncomingMoneyRequest extends Component {
           />
           <p className="text-gray-600 text-sm mx-2">
             <span className="font-bold block">
-            <strong className = "uppercase">{request.originUser} </strong>
-            {/* <span>{request.originUser.firstName}</span>{" "} */}
-            {/* <span>{request.originUser.lastName}</span> */} {/* try adding server calls later */}
+            <strong className = "uppercase">({request.originUser}) </strong>
+            <span className = "font-light text-sm ">{request.incomingFirstName}</span>{" "}
+            <span className = "font-light text-sm ">{request.incomingLastName}</span>
             </span>
             
             <div className="px-1 float-left font-light">
