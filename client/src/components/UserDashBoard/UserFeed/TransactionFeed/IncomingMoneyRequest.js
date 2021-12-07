@@ -82,9 +82,9 @@ class IncomingMoneyRequest extends Component {
           />
           <p className="text-gray-600 text-sm mx-2">
             <span className="font-bold block">
-            <strong className = "uppercase">({request.originUser}) </strong>
-            <span>{request.originUser.firstName}</span>{" "}
-            <span>{request.originUser.lastName}</span>
+            <strong className = "uppercase">{request.originUser} </strong>
+            {/* <span>{request.originUser.firstName}</span>{" "} */}
+            {/* <span>{request.originUser.lastName}</span> */} {/* try adding server calls later */}
             </span>
             
             <div className="px-1 float-left font-light">
@@ -92,7 +92,7 @@ class IncomingMoneyRequest extends Component {
             </div>
             <div className="px-1 font-light float-right">
               {" "}
-              Sent on {request.date}{" "}
+              Sent on {request.date.slice(0, 10)}{" "}
             </div>
           </p>
           <div className="ml-auto text-xs">
