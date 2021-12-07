@@ -14,8 +14,6 @@ class PFUploadPopUp extends Component {
             showResults: false,
             nameFilled: false,
         }
-        this.amountValidation = this.amountValidation.bind(this)
-        this.sendMoney = this.sendMoney.bind(this)
         // this.setMoneyReceiver = this.setMoneyReceiver(this)
         // this.setFilteredFriends = this.setFilteredFriends(this)
     }
@@ -28,46 +26,20 @@ class PFUploadPopUp extends Component {
         this.props.maximizeUpload();
     };
 
-    amountValidation(event){
-        const amount = event.target.value
-        if(!isNaN(+amount)) {
-            this.setState({amount: amount}, this.setState({validAmount: true}))
-        }
-    }
-
-    sendMoney(){
-        if(this.state.validAmount && this.state.nameFilled){
-            this.props.updateBalance(this.state.amount)
-            this.props.minimizeSend()
-        }  
-    }
-
-    setMoneyReceiver = (event)=> {
-        // if(event.target.value === ''){
-        //     this.setState({moneyReceiver:event.target.value},this.setState({filteredFriends:[]}))
-        //     return
-        // }
-        this.setState({moneyReceiver: event.target.value}, this.setFilteredFriends)   
-    }
-
-    setFilteredFriends = () => {
-        
-        if(this.state.moneyReceiver === '') {
-            this.setState(({showResults: false}),this.setState({filteredFriends: []}))
+    uploadPhoto = (event) => {
+        event.preventDefault()
+        // alert('Uploaded')
+        let inputTag = document.querySelector("#uploadFile")
+        console.log(inputTag)
+        let files = inputTag.files
+        console.log(files)
+        // if(files.length !== 0) {
+        //     alert("selected file name: " + files[0].name)
+        // } else {
             
-        }
-        else{
-            this.setState({filteredFriends: this.state.userFriends.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver.toString())))}, this.setState({showResults: true}))
-        }
-        
+        //     alert("no files selected")
+        // }
     }
-
-    pasteOption = (event) => {
-        console.log(event.target.value)
-        this.setState(({showResults: false}), this.setState({filteredFriends: []}, this.setState({moneyReceiver: event.target.value},
-            this.setState({nameFilled: true}))))
-    } 
-
     
 
     render() {
@@ -75,7 +47,7 @@ class PFUploadPopUp extends Component {
             <div className="flex flex-col bg-white rounded md:w-1/3 w-1/2 h-auto border shadow-lg fixed z-100 left-1/4 top-1/3 ">
                 <div className="rounded-t bg-blue-300 text-black">
                     <div className="relative py-3 px-2 flex">
-                        <span className="font-semibold text-black md:text-base text-sm">Upload Photo</span>
+                        <span className="font-semibold text-black md:text-base text-sm">Update Profile Photo</span>
                         {/* <span className="ml-96" onClick={this.handleClick}>X</span> 
                         make the x into a button, not span */}
                     </div>
@@ -83,7 +55,7 @@ class PFUploadPopUp extends Component {
                         <div className='h-2/3'>
                             <div className='h-1/3 mt-2'>
                                 Select Picture:
-                                <input className="ml-8 w-44 pl-2" type='file' accept="image/*" placeholder="Picture"/> 
+                                <input id="uploadFile" className="ml-8 w-44 pl-2" type='file' accept="image/*" placeholder="Picture"/> 
                                 {/* Do a server side check for uploaded file format */}
                                 {/* value={this.state.requestReceiver} 
                                 store uploaded file and connect to backend*/}
@@ -91,7 +63,7 @@ class PFUploadPopUp extends Component {
                         </div>
                         <div className='w-1/1 mt-2 text-right'>
                             <button className='bg-green-500 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
-                            onClick={() => alert('Uploaded')}>Upload</button>
+                            onClick={this.uploadPhoto}>Upload</button>
                             <button className='ml-1 bg-red-500 hover:bg-red-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                             onClick={this.minimizePopUp}><b>Cancel</b></button>
                         </div>
