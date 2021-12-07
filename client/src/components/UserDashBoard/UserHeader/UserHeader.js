@@ -174,6 +174,7 @@ class UserHeader extends Component {
             updateBalance={this.changeBalance}
             minimizeSend={this.sendPopOff}
             maximizeSend={this.sendPopOn}
+            global={this.props.global}
           />
         ) : null}
         {this.state.requestOpen ? (
@@ -194,6 +195,7 @@ class UserHeader extends Component {
             minimizeSplit={this.splitPopOff}
             updateBalance={this.changeBalance}
             maximizeSplit={this.splitPopOn}
+            global={this.props.global}
           />
         ) : null}
       </div>

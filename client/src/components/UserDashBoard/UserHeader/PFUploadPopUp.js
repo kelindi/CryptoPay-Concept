@@ -32,13 +32,18 @@ class PFUploadPopUp extends Component {
         let inputTag = document.querySelector("#uploadFile")
         console.log(inputTag)
         let files = inputTag.files
-        console.log(files)
-        // if(files.length !== 0) {
-        //     alert("selected file name: " + files[0].name)
-        // } else {
+        console.log(files.length)
+        if(files.length !== 0) {
+            alert("selected file name: " + files[0].name)
+            // check if file is an image
+            // store the file: make a post api call - edit server.js
+            // and then get api call to fetch the image and replace the image (Maybe)
+            this.props.global.profilePicture
+        } else {
             
-        //     alert("no files selected")
-        // }
+            alert("no files selected")
+        }
+        this.minimizePopUp()
     }
     
 
