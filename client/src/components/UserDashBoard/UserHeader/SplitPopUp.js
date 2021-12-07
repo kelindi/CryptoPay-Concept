@@ -14,7 +14,7 @@ class SplitPopUp extends Component {
             filteredFriends: this.props.friendsList,
             showResults: {},
             // nameFilled: false,
-            nameFilled: true,
+            nameFilled: false,
             friendFields: {},
             friendFieldLen: 0,
             addFriend: true,
@@ -45,7 +45,12 @@ class SplitPopUp extends Component {
         // Update filtered friends
         // let fFriends = this.state.filteredFriends
         // fFriends.splice(fFriends.indexOf(friend), 1)
-        this.setState({moneyReceiver: receiverList})
+        this.setState({
+            moneyReceiver: receiverList
+            },this.setState({
+                nameFilled: true
+            })
+        )
         // this.setState({filteredFriends: fFriends})
     } 
 
@@ -53,9 +58,12 @@ class SplitPopUp extends Component {
         let validPercent = false
         let percentages =  Object.values(this.state.percentages)
         let sum = percentages.reduce((a, b) => a + b, 0)
-        if(sum <= 100 && Object.values(this.state.percentages).length == this.state.friendFieldLen) {     
+        console.log(percentages)
+        if(sum <= 100 && Object.values(this.state.percentages).length == Object.values(this.state.friendFields).length) {     
             validPercent = true
         }
+        console.log(this.state.validAmount)
+        console.log(validPercent)
         if(this.state.validAmount && this.state.nameFilled && validPercent){
             this.props.updateBalance(this.state.amount*(100-sum)/100) //CHANGE THIS LATER TO SPLIT AMOUNT
             // request money from users
@@ -64,7 +72,7 @@ class SplitPopUp extends Component {
                 console.log(this.state.amount*percentages[i]/100)
             }
 
-            this.props.minimizeSplit()
+            this.minimizePopUp()
         }  
     }
 
@@ -120,13 +128,14 @@ class SplitPopUp extends Component {
     newFriendField = () => {
         const key = uuid()
         const fields = this.state.friendFields
-        const result = this.state.showResults
-        result[key] = false
+        // const result = this.state.showResults
+        // result[key] = false
         //check if key already present
+        console.log(fields)
         if(Object.values(this.state.moneyReceiver).length < this.state.filteredFriends.length ) {
             fields[key] = (
                 <li key={key}>
-                    <div className='h-1/3 mb-2 flex flex-row'>
+                    <div id="friend" className='h-1/3 mb-2 flex flex-row'>
                         <div>
                             Friend:
                             <input className="ml-8 w-44 pl-2" value={this.state.moneyReceiver[key]}
@@ -170,7 +179,7 @@ class SplitPopUp extends Component {
                     </div>         
                 </li>
             )
-            this.setState({friendFields: fields}, this.setState({friendFieldLen: this.state.friendFieldLen + 1}, this.setState({showResults: result})))
+            this.setState({friendFields: fields}, this.setState({friendFieldLen: this.state.friendFieldLen + 1}, this.setState({nameFilled: false})))
         }
     }
 
@@ -190,15 +199,33 @@ class SplitPopUp extends Component {
         let i= event.target.parentElement.parentElement.value
         console.log("value: ", i)
         // delete this.state.friendFields.i
-        let fields = this.state.moneyReceiver
+        let fields = this.state.friendFields
         console.log(fields)
         delete fields[i]
         console.log(fields)
 
-        this.setState({friendFields: fields})  
+        // delete from moneyReceiver as well
+        let recievers = this.state.moneyReceiver
+        delete recievers[i]
+
+        // delete from percentages
+        let percentages = this.state.percentages
+        delete percentages[i]
+
+        this.setState({
+            moneyReceiver: recievers},
+            this.setState({
+                friendFields: fields
+            },
+                this.setState({
+                    percentages: percentages
+                })
+            )
+        )
     }
 
     render() {
+        console.log("rerendering")
         return (
             <div className="flex flex-col bg-white rounded md:w-1/3 w-1/2 h-auto max-h-1/2 border shadow-lg fixed z-100 left-1/4 top-1/3 ">
                 <div className="rounded-t bg-blue-300 text-black">
