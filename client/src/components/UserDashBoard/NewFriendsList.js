@@ -96,18 +96,17 @@ class FriendsList extends Component {
       <div className="w-full flex flex-col relative">
         {this.state.showFriendPopUp ? (
           <div>
-            /* pop-up of show info a certain friend */
+            {/* pop-up of show info a certain friend */}
             <div className=" bg-white rounded md:w-1/3 w-2/3 border shadow-lg fixed z-100 left-1/3 top-1/3 ">
-              <div>
-                <button
-                  onClick={() => {
-                    this.setState({ showFriendPopUp: false });
-                  }}
-                >
-                  <p> X </p>
-                  {/* close the pop-up */}
-                </button>
+
+              
+
+              <div className="rounded-t bg-blue-300 text-black">
+                    <div className="relative py-3 px-2 flex">
+                        <span className="font-semibold text-black md:text-base text-sm">{this.state.selectedFriend.userName}</span> 
+                    </div>
               </div>
+              
 
               <div className="flex items-center px-4 py-3 border-b hover:bg-gray-100">
                 {/* show user info and functions */}
@@ -124,7 +123,7 @@ class FriendsList extends Component {
                 </p>
                 <div className=" text-center flex flex-col">
                   <input
-                    className="ml-5 w-44 pl-2"
+                    className="ml-5 w-50 pl-2 "
                     type="text"
                     value={this.state.amount}
                     onChange={(event) => {
@@ -132,19 +131,31 @@ class FriendsList extends Component {
                     }}
                     placeholder="Amount to send/request"
                   />
-                  <div className="flex flex-row">
+                  <br></br>
+                  <div>
                     <button
-                      className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
+                      className="mx-1 px-2 py-1 bg-green-500 rounded-3xl text-black ml-5"
                       onClick={() => this.handleSend()}
                     >
-                      Send
+                      <span className="font-semibold text-black md:text-base text-sm">Send</span>
                     </button>
+
                     <button
-                      className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
+                      className="mx-1 px-2 py-1 bg-green-500 rounded-3xl text-black ml-4"
                       onClick={() => this.handleRequest}
                     >
-                      Request
+                      <span className="font-semibold text-black md:text-base text-sm">Request</span>
                     </button>
+
+                    <button
+                      className="mx-1 px-2 py-1 bg-red-500 rounded-3xl text-black ml-9"
+                      onClick={() => {
+                        this.setState({ showFriendPopUp: false });
+                      }}
+                    >
+                      <span className="font-semibold text-black md:text-base text-sm">Cancel</span>
+                    </button>
+
                   </div>
                 </div>
               </div>
@@ -154,7 +165,7 @@ class FriendsList extends Component {
 
         {this.state.showAddFriends ? (
           // pop-up for search and add new friend from database
-          <div className="bg-transparent rounded md:w-1/3 w-1/3 border shadow-lg fixed z-100 left-1/3 top-1/4">
+          <div className="bg-transparent rounded md:w-1/3 w-1/3 shadow-lg fixed z-100 left-1/3 top-1/4">
             <div className="flex flex-row">
               <input
                 //   input box for input username
@@ -171,7 +182,7 @@ class FriendsList extends Component {
                 }}
               >
                 {/* button to close pop-up */}
-                <span className="font-bold"> &nbsp;&nbsp;X </span>
+                <span className="font-bold text-2xl"> &nbsp;X </span> 
               </button>
             </div>
 
@@ -179,7 +190,7 @@ class FriendsList extends Component {
               {/* show all users' info according to input username */}
               {this.state.usersFound.map((u) => (
                 <div
-                  className="flex items-center px-4 py-3 border-b hover:bg-gray-100"
+                  className="flex px-4 py-3 border-b hover:bg-gray-100"
                   key={uuid()}
                 >
                   <img
@@ -195,22 +206,22 @@ class FriendsList extends Component {
                   {!this.state.friends.includes(u) ? (
                     //   only friends not in friendlist have "Send Friend Request" Button
 
-                    <div>
+                    <div className="ml-auto ">
                       {global.sentFriendRequests.includes(u) ? (
                         <button
-                          className="mx-1 px-2 py-1 bg-red-500 rounded-3xl text-white"
+                          className="w-50 mx-1 px-2 py-1 bg-red-500 rounded-3xl text-white"
                           onClick={() => {
                             const newFriendRequests = global.sentFriendRequests;
                             newFriendRequests.pop(u);
                             changeSentFriendRequests(newFriendRequests);
                           }}
                         >
-                          {" "}
-                          Cancel Request{" "}
+                          
+                          <span>Cancel Request</span>
                         </button>
                       ) : (
                         <button
-                          className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
+                          className="w-50 mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
                           onClick={() => {
                             // change global sentFriend list
                             const newFriendRequests = global.sentFriendRequests;
@@ -220,7 +231,8 @@ class FriendsList extends Component {
                             changeSentFriendRequests(newFriendRequests);
                           }}
                         >
-                          Send Friend Request{" "}
+                          <span> Send Friend Request </span>
+                          
                         </button>
                       )}
                     </div>
