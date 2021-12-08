@@ -32,7 +32,7 @@ const UserSchema = mongoose.Schema({
         minlength: 1
     },
     profilePhoto: {
-        type: String,
+        data: Buffer
     },
     friends: [{
         friend: String

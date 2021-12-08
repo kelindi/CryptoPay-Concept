@@ -641,14 +641,15 @@ app.get("/transactions", mongoChecker, async (req, res) => {
 });
 
 // Profile Photo calls
-app.patch("/users/ProfilePhoto/:userName", mongoChecker, async (req, res) => {
-  console.log("made")
+app.put("/users/ProfilePhoto/:userName", mongoChecker, async (req, res) => {
+  console.log("D=====>")
+  console.log(req.params)
   try {
     const user = await User.findOne({
       userName: req.params.userName.toLowerCase(),
     });
     // user.lastName = req.body.lastName;
-    console.log("Updating")
+    console.log(req.body.photo)
     user.profilePhoto = req.body.photo 
     console.log("Updated")
     await user.save();
@@ -670,7 +671,7 @@ app.get('/users/ProfilePhoto/:userName', async (req, res) => {
       userName: req.params.userName.toLowerCase(),
     })
     console.log(user.firstName)
-    res.send({ profilePhoto: user.firstName }) // change to profile photo 
+    res.send({ profilePhoto: user.profilePhoto }) // change to profile photo 
   }
   catch (error) {
     if (error.name === "CastError") {

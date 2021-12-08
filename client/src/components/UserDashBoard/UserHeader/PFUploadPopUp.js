@@ -34,22 +34,22 @@ class PFUploadPopUp extends Component {
         // console.log(inputTag)
         let files = inputTag.files
         // console.log(URL.createObjectURL(files[0]))
-        // console.log(files.length)
+        console.log(files[0])
         // console.log(this.props.global.profilePicture)
         if(files.length !== 0) {
             // alert("selected file name: " + files[0].name)
             let photo = {
-                photo: 'yo' // may not be used
-            }
+                photo: files[0]
+            };
             // check if file is an image
 
             // 2 server calls: - post image as image model and - update user
             // this.props.global.profilePicture need to be updated
             console.log('/users/ProfilePhoto/' + this.props.global.userName)
             const { status, data } = await cPayRequest(
-                '/users/ProfilePhoto/' + this.props.global.userName,
-                'patch',
-                photo
+                "/users/ProfilePhoto/" + this.props.global.userName,
+                'put',
+                JSON.stringify(photo)
             );
             console.log("iedufghoduifghuidzfg");
             if (status === 200) {
