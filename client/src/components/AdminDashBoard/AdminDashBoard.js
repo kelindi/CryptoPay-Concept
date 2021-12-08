@@ -48,17 +48,18 @@ class AdminDashBoard extends Component {
                 resolvedReports={this.props.backend.resolvedReports}
               ></ReportTable>
             )}
-          />
+          /> */}
+
           <Route
             exact
             path="/reports"
             render={() => (
               <ReportTable
-                reports={this.props.backend.reports}
-                resolvedReports={this.props.backend.resolvedReports}
+                reports={currentUser.reports}
+                resolvedReports={currentUser.resolvedReports}
               ></ReportTable>
             )}
-          /> */}
+          /> 
 
           <Route
             exact
