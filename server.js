@@ -15,8 +15,9 @@
 
 const log = console.log;
 const path = require("path");
-
 const express = require("express");
+const multer = require("multer");
+const fs = require("fs");
 // starting the express server
 const app = express();
 
@@ -36,6 +37,8 @@ const { Transaction } = require("./models/Transaction_schema");
 const { MoneyRequest } = require("./models/MoneyRequest_schema");
 const { Report } = require("./models/Report_schema");
 const { FriendRequest } = require("./models/FriendRequestModel");
+
+
 
 // to validate object IDs
 // const { ObjectID } = require("mongodb");
@@ -97,16 +100,16 @@ const authenticate = (req, res, next) => {
 
 // const multer = require('multer');
   
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads')
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, file.fieldname + '-' + Date.now())
-//     }
-// });
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
   
-// const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
 // /*** Session handling **************************************/
 // // Create a session and session cookie
@@ -199,9 +202,8 @@ app.post("/api/register", mongoChecker, async (req, res) => {
       lastName: req.body.lastName,
       userName: req.body.userName.toLowerCase(),
       password: req.body.password,
-      profilePhoto: "/images/pfDefault.png" // see if this works (User.js)
     });
-
+    
     try {
       // Save the user
       const newUser = await user.save();
@@ -281,6 +283,7 @@ app.get("/api/user/:userName/friends", authenticate, async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
+
 
 
 //update user walletAddress for given userName
@@ -640,48 +643,6 @@ app.get("/transactions", mongoChecker, async (req, res) => {
     }
 });
 
-// Profile Photo calls
-app.put("/users/ProfilePhoto/:userName", mongoChecker, async (req, res) => {
-  console.log("D=====>")
-  console.log(req.params)
-  try {
-    const user = await User.findOne({
-      userName: req.params.userName.toLowerCase(),
-    });
-    // user.lastName = req.body.lastName;
-    console.log(req.body.photo)
-    user.profilePhoto = req.body.photo 
-    console.log("Updated")
-    await user.save();
-    res.send({  profilePhoto: user.profilePhoto });
-  } catch (error) {
-    if (error.name === "CastError") {
-      res.status(404).send("Resource not found");
-    } else {
-      log(error);
-      res.status(500).send("Internal Server Error");
-    }
-  }
-});
-
-app.get('/users/ProfilePhoto/:userName', async (req, res) => {
-  console.log("made")
-  try {
-    const user = await User.findOne({
-      userName: req.params.userName.toLowerCase(),
-    })
-    console.log(user.firstName)
-    res.send({ profilePhoto: user.profilePhoto }) // change to profile photo 
-  }
-  catch (error) {
-    if (error.name === "CastError") {
-      res.status(404).send("Resource not found");
-    } else {
-      log(error);
-      res.status(500).send("Internal Server Error");
-    }
-  }
-});
 
 
 
