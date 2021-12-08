@@ -71,7 +71,7 @@ class NotificationBar extends Component {
                       <div className="flex items-center px-4 py-3 border-b mx-2 bg-gray-100 rounded-xl shadow-lg my-1.5">
                         <img
                           className="h-8 w-8 rounded-full object-cover mx-1"
-                          src={requestor.profilePicture}
+                          src={"https://avatars.dicebear.com/api/bottts/"+requestor.originUser+".png"}
                         />
                         <p className="text-gray-600 text-sm mx-2">
                           <span className="font-bold block">

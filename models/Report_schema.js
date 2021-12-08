@@ -29,7 +29,8 @@ const Report = mongoose.model('Report', {
     },
     comment:{
         type:String,
-        required: false
+        required: false,
+        default: ''
     }
 
 })

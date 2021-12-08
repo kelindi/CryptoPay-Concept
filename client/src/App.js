@@ -107,7 +107,7 @@ class App extends React.Component {
             path="/adminDashBoard"
             render={() => (
               <AdminDashBoard
-                currentUser={this.state.currentUser}
+                currentUser={this.state.userData}
               />
             )}
           />

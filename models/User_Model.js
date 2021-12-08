@@ -2,6 +2,14 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
 const { resolve } = require('path/posix');
 
+
+const profilePhotoSchema = new mongoose.Schema({
+    data: String,
+    contentType: String,
+});
+
+
+
 const UserSchema = mongoose.Schema({
     firstName: {
         type: String,
@@ -31,17 +39,23 @@ const UserSchema = mongoose.Schema({
         required:true,
         minlength: 1
     },
-    profilePhoto: {
-        data: Buffer
-    },
     friends: [{
         friend: String
     }],
     isAdmin: {
         default: false,
         type: Boolean
+    },
+    pf:{
+        type: String,
+
     }
 })
+
+
+
+
+
 
 //hash password
 UserSchema.pre('save', function(next) {
@@ -59,6 +73,7 @@ UserSchema.pre('save', function(next) {
 	} else {
 		next()
 	}
+    user.pf = "https://avatars.dicebear.com/api/bottts/"+user.userName+".png"
 })
 UserSchema.statics.findByUserNamePassword = function(userName, password) {
 	const User = this // binds this to the User model

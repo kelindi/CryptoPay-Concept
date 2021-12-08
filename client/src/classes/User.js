@@ -22,7 +22,7 @@ class User{
 		this.incomingMoneyRequests = []
 		this.sentFriendRequests =[]
 		this.incomingFriendRequests =[]
-		this.profilePicture = '/images/pfDefault.png' // this value will be passed in as default valur
+		this.profilePicture = "https://avatars.dicebear.com/api/bottts/"+userName+".png" // this value will be passed in as default valur
 
 	}
 	
@@ -32,8 +32,8 @@ class User{
 		if(status === 200 && data.length > 0){
 			data.forEach(async (request) => {
 				const mr = new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date);
-				await mr.getIncomingFirstLastName();
 				this.incomingMoneyRequests.push(mr)
+				await mr.getIncomingFirstLastName();
 			});
 			console.log(this.incomingMoneyRequests)
 		};
@@ -42,16 +42,16 @@ class User{
 		if(status === 200 && data.length > 0){
 			data.forEach(async (request) => {
 				const mr = new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date);
-				await mr.getOutgoingFirstLastName();
 				this.sentMoneyRequests.push(mr)
+				await mr.getOutgoingFirstLastName();
 			});
 		};
 		({status, data} = await cPayRequest('/friendRequests/incoming/'+this.userName,'GET'));
 		if(status === 200 && data.length > 0){
 			data.forEach(async (request) => {
 				const fr = new FriendRequest(request._id,request.originUser,request.destinationUser,request.date)
-				await fr.getIncomingFirstLastName();
 				this.incomingFriendRequests.push(fr)
+				await fr.getIncomingFirstLastName();
 			});
 			// data.forEach(request => {
 			// 	this.incomingFriendRequests.push(new FriendRequest(request._id,request.originUser,request.destinationUser,request.date))
@@ -61,8 +61,8 @@ class User{
 		if(status === 200 && data.length > 0){
 			data.forEach(async (request) => {
 				const fr = new FriendRequest(request._id,request.originUser,request.destinationUser,request.date)
-				await fr.getOutgoingFirstLastName();
 				this.sentFriendRequests.push(fr)
+				await fr.getOutgoingFirstLastName();
 			});
 			// data.forEach(request => {
 			// 	this.sentFriendRequests.push(new FriendRequest(request._id,request.originUser,request.destinationUser,request.date))

@@ -14,7 +14,7 @@ class SentFriendRequest extends Component{
             <div className="relative rounded-2xl w-full h-20 bg-gray-100 mt-2">
                 <div className="absolute float-left rounded-full h-20 w-20">
                     <img className="float-left absolute rounded-full h-20 w-20 flex px-3 py-3 items-center
-                    justify-center" src={requestee.profilePicture}></img>
+                    justify-center" src={"https://avatars.dicebear.com/api/bottts/"+requestee.userName+".png"}></img>
                 </div>
                 {/* <div className="float-right font-bold tracking-widest text-center top-3">{this.props.user.firstName}</div> */}
                 {/* <div className="relative float-right w-10/12 bg-blue-500">

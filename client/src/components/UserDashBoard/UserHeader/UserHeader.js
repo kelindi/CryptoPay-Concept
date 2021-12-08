@@ -101,37 +101,15 @@ class UserHeader extends Component {
         {/* <img className='UserProfilePhoto' src={this.state.pF} alt="Profile Photo"/> */}
         <div className="w-48 h-48 flex-shrink-0 bg-red">
           <img
-            className="shadow-2xl rounded-full h-2/3 w-2/3 m-4 hover:opacity-50"
+            className="shadow-2xl rounded-full h-2/3 w-2/3 m-4 p-4 hover:opacity-50"
             src={this.state.pf} 
             alt="Profile Photo"
             onMouseEnter={()=> this.setIsShown(true)}
             onMouseLeave={()=> this.setIsShown(false)}
           />
         </div>
-        {this.state.isShown? (
-          <div className='flex flex-col rounded w-auto h-auto fixed z-100 left-8 top-20'
-               onMouseEnter={()=>this.setIsShown(true)}
-               onMouseLeave={()=> this.setIsShown(false)}
-               onClick={this.PFUploadOn}>
-            {/* Change Profile Picture */}
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
-                <path d="M0 0h24v24H0z" fill="none"/>
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
-            </svg>
-          </div>
-        ): null}
-        {this.state.pfUpload? (
-          <PFUploadPopUp
-          currentUser={this.state.currentUser}
-          friendsList={this.props.global.friendsList}
-          updateBalance={this.changeBalance}
-          minimizeUpload={this.PFUploadOff}
-          maximizeUpload={this.PFUploadOn}
-          useApi={this.props.useApi}
-          global={this.props.global}
-        />
-        ): null}
-
+        
+        
         <div className="text-left flex flex-col flex-shrink-0">
           {/* Info */}
           <div className="py-2 text-4xl">

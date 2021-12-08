@@ -66,10 +66,12 @@ class MoneyRequestsTable extends Component {
                 return (
                   <tr key={request.id.toString()}>
                     <td className="px-4 py-2 border text-center">
-                      {request.originUser.userName.toString()}
+                      {/* {request.originUser.userName.toString()} */}
+                      {request.originUser.toString()}
                     </td>
                     <td className="px-4 py-2 border text-center">
-                      {request.destinationUser.userName.toString()}
+                      {/* {request.destinationUser.userName.toString()} */}
+                      {request.destinationUser.toString()}
                     </td>
                     <td className="px-4 py-2 border text-center">
                       {request.amount.toString()}

@@ -4,6 +4,7 @@ import Admin from "../classes/Admin";
 import { Link } from "react-router-dom";
 import { ethers } from "ethers";
 import User from "../classes/User";
+import { async } from "q";
 
 class Login extends Component {
   constructor(props) {
@@ -53,6 +54,8 @@ class Login extends Component {
     if (status === 200) {
       if (data.currentUser !== undefined) {
         if (data.isAdmin) {
+          await this.props.setCurrentUser(data.currentUser);
+          await this.setUpAdminData();
           this.setState({ redirectAdmin: true });
           return;
         }
@@ -66,6 +69,27 @@ class Login extends Component {
       }
     }
     this.setState({ failedAttempt: true });
+  };
+
+  setUpAdminData = async() => {
+    let adminData = {};
+    const { status, data } = await this.props.useApi(
+      "get",
+      "/api/user/" + this.state.userName
+    );
+    if (status === 200){
+      adminData.firstName = data.firstName;
+      adminData.lastName = data.lastName;
+    }
+
+    let admin = new Admin(
+      adminData.firstName,
+      adminData.lastName
+    );
+
+    await admin.updateAdminData();
+    console.log(admin)
+    await this.props.setUserData(admin);
   };
 
   setUpUserData = async () => {

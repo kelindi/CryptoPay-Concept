@@ -3,7 +3,7 @@ class Friend{
 		this.firstName = firstName
 		this.lastName= lastName
         this.userName = userName
-        this.profilePicture = profilePicture
+        this.profilePicture = "https://avatars.dicebear.com/api/bottts/"+userName.toString()+".png"
 		this.walletAddress = walletAddress
 
     }

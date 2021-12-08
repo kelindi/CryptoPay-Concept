@@ -20,10 +20,6 @@ class OutgoingMoneyRequest extends Component{
 
         return(
         <div className="h-12 flex items-center px-4 py-3 border-b bg-gray-100 rounded-xl shadow-md my-2">
-          <img
-            className="h-8 w-8 rounded-full object-cover mx-1"
-            src={request.originUser.profilePicture}
-          />
           <p className="text-gray-600 text-sm mx-2">
             <span className="font-bold block">
             <strong className = "uppercase">({request.destinationUser}) </strong>

@@ -90,10 +90,10 @@ class ReportTable extends Component {
               return (
                 <tr key={report.id.toString()}>
                   <td className="px-4 py-2 border text-center">
-                    {report.submitter.userName.toString()}
+                    {report.submitter.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {report.reportedUser.userName.toString()}
+                    {report.reportedUser.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
                     {report.reason.toString()}
@@ -138,10 +138,10 @@ class ReportTable extends Component {
               return (
                 <tr key={report.id.toString()+"resolved"}>
                   <td className="px-4 py-2 border text-center">
-                    {report.submitter.userName.toString()}
+                    {report.submitter.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {report.reportedUser.userName.toString()}
+                    {report.reportedUser.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
                     {report.reason.toString()}
