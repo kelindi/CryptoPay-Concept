@@ -256,6 +256,30 @@ app.get("/users", mongoChecker, async (req, res) => {
 });
 // AbhiC End
 
+//get all userName, firstName, lastName, and pf for all users
+app.get("/api/users/all", mongoChecker, async (req, res) => {
+  try {
+      const users = await User.find({});
+      const userNames = users.map((user) => {
+          return {
+              userName: user.userName,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              pf: user.pf
+          }
+      });
+      res.send(userNames);
+  } catch (error) {
+      log(error);
+      res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
+
+
+
 //get user data (except friends ) for given userName
 app.get("/api/user/:userName", authenticate,async (req, res) => {
     try {
@@ -431,7 +455,7 @@ app.patch("/users/removeFriend/:userName", mongoChecker, async (req, res) => {
     }
   }
 });
-
+ 
 //create new friendRequest
 //request body expects
 // {
