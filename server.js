@@ -234,7 +234,7 @@ app.post("/api/login", (req, res) => {
       // We can check later if this exists to ensure we are logged in.
       req.session.user = user._id;
       req.session.userName = user.userName; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
-      res.send({ currentUser: user.userName });
+      res.send({ currentUser: user.userName,isAdmin:user.isAdmin });
     })
     .catch((error) => {
       res.status(400).send();

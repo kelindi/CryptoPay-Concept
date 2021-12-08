@@ -145,7 +145,7 @@ class UserDashBoard extends Component {
     return (
       <div className="font-serif bg-gray-900">
         <div className="flex flex-column h-100">
-          <div className="w-10/12 h-screen flex-shrink-0">
+          <div className="w-10/12  h-screen flex-shrink-0 flex-grow-0">
             <NotificationBar
               changeFriendsList={this.changeFriendsList}
               changeIncomingFriendRequests={this.changeIncomingFriendRequests}
@@ -172,17 +172,15 @@ class UserDashBoard extends Component {
               currentUser={this.state}
             ></UserFeed>
           </div>
-      <div className = "w-2/12 flex-shrink-0">
-      <FriendsList
-            changeUserBalance={this.changeUserBalance}
-            changeSentMoneyRequests={this.changeSentMoneyRequests}
-            global={this.state}
-            changeSentFriendRequests={this.changeSentFriendRequests}
-            currentUser={this.state}
-          ></FriendsList>
-      
-      </div>
-          
+          <div className="w-2/12 min-w-min flex-shrink-0 flex-grow-0">
+            <FriendsList
+              changeUserBalance={this.changeUserBalance}
+              changeSentMoneyRequests={this.changeSentMoneyRequests}
+              global={this.state}
+              changeSentFriendRequests={this.changeSentFriendRequests}
+              currentUser={this.state}
+            ></FriendsList>
+          </div>
         </div>
       </div>
     );

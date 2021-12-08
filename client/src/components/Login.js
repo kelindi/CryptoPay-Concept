@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import Admin from "../classes/Admin";
 import { Link } from "react-router-dom";
-import {ethers} from 'ethers';
+import { ethers } from "ethers";
 import User from "../classes/User";
 
 class Login extends Component {
@@ -41,25 +41,35 @@ class Login extends Component {
     }
 
     let login = {
-        userName: this.state.userName.toLowerCase(),
-        password:this.state.password
-      };
-    
-   const{status,data} = await this.props.useApi("post", "/api/login", login)
-    if (status === 200){
-        if (data.currentUser !== undefined){
-            await this.props.setCurrentUser(data.currentUser);
-            await this.setUpUserData();
-            this.setState({redirectUser: true});
-            return
+      userName: this.state.userName.toLowerCase(),
+      password: this.state.password,
+    };
+
+    const { status, data } = await this.props.useApi(
+      "post",
+      "/api/login",
+      login
+    );
+    if (status === 200) {
+      if (data.currentUser !== undefined) {
+        if (data.isAdmin) {
+          this.setState({ redirectAdmin: true });
+          return;
         }
+
+        await this.props.setCurrentUser(data.currentUser);
+        await this.setUpUserData();
+
+        this.setState({ redirectUser: true });
+
+        return;
+      }
     }
     this.setState({ failedAttempt: true });
-
   };
 
   setUpUserData = async () => {
-    let userData = {}
+    let userData = {};
     userData.provider = new ethers.providers.Web3Provider(window.ethereum);
     userData.signer = userData.provider.getSigner();
     userData.wallet = await userData.signer.getAddress();
@@ -67,22 +77,29 @@ class Login extends Component {
     userData.userBalance = ethers.utils.formatEther(userBalance);
     const { status, data } = await this.props.useApi(
       "get",
-      "/api/user/"+this.state.userName
+      "/api/user/" + this.state.userName
     );
     if (status === 200) {
+      userData.isAdmin = data.isAdmin;
       userData.userName = data.userName;
       userData.firstName = data.firstName;
       userData.lastName = data.lastName;
+
       // userData.profilePhoto = data.profilePhoto
     }
-    
-    let user = new User(userData.firstName, userData.lastName, userData.userName, userData.userBalance, userData.wallet,userData.signer,userData.provider);
-    await user.updateData()
+
+    let user = new User(
+      userData.firstName,
+      userData.lastName,
+      userData.userName,
+      userData.userBalance,
+      userData.wallet,
+      userData.signer,
+      userData.provider
+    );
+    await user.updateData();
     await this.props.setUserData(user);
   };
-
-
-
 
   render() {
     // if this.state.redirect is true, redirect to this path
@@ -144,7 +161,6 @@ class Login extends Component {
                   That username or password is incorrect.
                 </label>
 
-
                 <div className="mt-7">
                   <button
                     onClick={this.handleLogin}
@@ -156,7 +172,9 @@ class Login extends Component {
 
                 <div className="mt-7">
                   <div className="flex justify-center items-center">
-                    <label className="mr-2 text-gray-300">Don't have an account?</label>
+                    <label className="mr-2 text-gray-300">
+                      Don't have an account?
+                    </label>
                     <Link
                       className="text-blue-gray-400 hover:text-blue-gray-200 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105"
                       to={"./Register"}
