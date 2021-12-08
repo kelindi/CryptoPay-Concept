@@ -58,15 +58,15 @@ class AdminDashBoard extends Component {
                 resolvedReports={this.props.backend.resolvedReports}
               ></ReportTable>
             )}
-          />
+          /> */}
 
           <Route
             exact
             path="/users"
             render={() => (
-              <UserTable users={this.props.backend.users}></UserTable>
+              <UserTable users={currentUser.users}></UserTable>
             )}
-          /> */}
+          /> 
 
           <Route
             exact

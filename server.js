@@ -243,6 +243,19 @@ app.post("/api/login", (req, res) => {
     });
 });
 
+// AbhiC Start
+//get all users
+app.get("/users", mongoChecker, async (req, res) => {
+  try {
+      const users = await User.find({});
+      res.send(users);
+  } catch (error) {
+      log(error);
+      res.status(500).send("Internal Server Error");  
+  }   
+});
+// AbhiC End
+
 //get user data (except friends ) for given userName
 app.get("/api/user/:userName", authenticate,async (req, res) => {
     try {

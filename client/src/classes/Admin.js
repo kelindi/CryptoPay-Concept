@@ -1,5 +1,6 @@
 import cPayRequest from "../CryptoPayClient";
 import MoneyRequest from "./MoneyRequest";
+import User from "./User";
 
 class Admin {
 	constructor(firstName, lastName) {
@@ -23,6 +24,14 @@ class Admin {
 			});
 			// console.log(this.moneyRequests)
 		}
+
+		({status, data} = await cPayRequest('/users','GET'));
+		if(status === 200 && data.length > 0){
+			data.forEach(async (request) => {
+				const user = new User(request.firstName, request.lastName, request.userName, 0, request.walletAddress, null, null);
+				this.users.push(user)
+			});
+		};
 	}
 }
 
