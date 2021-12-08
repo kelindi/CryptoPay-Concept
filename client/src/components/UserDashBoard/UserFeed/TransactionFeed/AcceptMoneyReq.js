@@ -22,8 +22,8 @@ class AcceptMoneyReq extends Component {
         </div>
         <div className="bg-white md:text-base text-sm p-2 h-48">
           <div className="text-center">
-            Are you sure you want to send {request.originUser.userName} (
-            {request.originUser.firstName}, {request.originUser.lastName}) $
+            Are you sure you want to send <b>{request.originUser}</b> (
+            {request.incomingFirstName} {" "} {request.incomingLastName}) $
             <strong className="text-green-700">{request.amount}</strong>?
             This transaction <b>cannot</b> be undone
           </div>
