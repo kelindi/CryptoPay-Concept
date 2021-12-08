@@ -10,8 +10,10 @@ class UserTransactionTable extends Component {
       filterTime: "",
       filterID: "",
       //retreive all the transactions from the backend
-      transactions: this.props.global.transactions,
-      masterTransactions: this.props.global.transactions,
+      // transactions: this.props.global.transactions,
+      // masterTransactions: this.props.global.transactions,
+      transactions: this.props.user.transactions,
+      masterTransactions: this.props.user.transactions,
     };
     this.filterDestinationChange = this.filterDestinationChange.bind(this);
     this.filterAmountChange = this.filterAmountChange.bind(this);
@@ -26,15 +28,15 @@ class UserTransactionTable extends Component {
   filter() {
     const filteredTransactions = this.state.masterTransactions.filter(
       (t) =>
-        t.originUser.userName ===
+        t.originUser ===
           this.props.global.userName &&
-        (t.destinationUser.userName
+        (t.destinationUser
           .toString()
           .includes(this.state.filterDestination.toString()) ||
           this.state.filterDestination == "") &&
         (t.amount.toString() == this.state.filterAmount.toString() ||
           this.state.filterAmount === "") &&
-        (t.date.toString().includes(this.state.filterDate.toString()) ||
+        (t.date.slice(0, 10).toString().includes(this.state.filterDate.toString()) ||
           this.state.filterDate === "") &&
         (t.time == this.state.filterTime.toString() ||
           this.state.filterTime === "") &&
@@ -132,7 +134,7 @@ class UserTransactionTable extends Component {
                     {"$" + transaction.amount.toString()}
                   </td>
                   <td className="border px-4 py-2 text-center">
-                    {transaction.date.toString()}
+                    {transaction.date.slice(0, 10).toString()}
                   </td>
                   <td className="border px-4 py-2 text-center">
                     {transaction.time}
