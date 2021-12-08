@@ -1,36 +1,44 @@
 import React, { Component } from "react";
-import { uuid } from "uuidv4";
  
 class NewUserField extends Component {
     constructor(props) {
         super(props);
+        console.log(props)
         this.state = {
-            friendFields: this.props.friendFields,
             showResults: false,
-            filteredFriends:this.props.global.friendList,
-            key: uuid(),
+            filteredFriends:this.props.global.friendsList,
+            key: props.key,
+            moneyReceiver: this.props.moneyReceiver,
+            userFriends: this.props.global.friendsList,
         }
     }
 
     setMoneyReceiver = (key, event)=> {
-        console.log("yo")
-        this.setState({requestReciever: event.target.value}, this.setFilteredFriends)
+        // console.log("yo")
+        let moneyReceiver = this.state.moneyReceiver
+        moneyReceiver[key] = event.target.value
+        this.setState({moneyReciever: moneyReceiver}, this.setFilteredFriends(key))
     }
 
-    setFilteredFriends = () => {
-        
-        if(this.state.requestReceiver === '') {
+    setFilteredFriends = (key) => {
+        console.log("yo")
+        if(this.state.moneyReceiver[key] === '') {
             this.setState(({showResults: false}),this.setState({filteredFriends: []}))
             
         }
         else{
-            this.setState({filteredFriends: this.state.userFriends.filter(friends => (friends.userName.toString().includes(this.state.requestReceiver.toString())))}, this.setState({showResults: true}))
+            console.log(this.state.moneyReceiver[key])
+            console.log(this.state.userFriends[0].userName.toString().includes(this.state.moneyReceiver[key].toString()))
+            this.setState({filteredFriends: this.state.userFriends.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver[key].toString())))}, this.setState({showResults: true}))
         }
-        
+        // friends.userName.toString().includes(this.state.requestReceiver.toString())
     }
 
     render(){
         console.log("New field rendering")
+        const {global, key, friendFields, moneyReceiver, pasteOption, percentValidation} = this.props;
+        console.log(this.props)
+        console.log(this.props.global.friendsList)
         return (
             <div id="friend" className='h-1/3 mb-2 flex flex-row'>
                 <div>
@@ -53,7 +61,7 @@ class NewUserField extends Component {
                                 if(!Object.values(this.props.moneyReceiver).includes(friend.userName)){
                                     // console.log(this.state.moneyReceiver)
                                     return (
-                                        <li><button onClick={(e)=>this.pasteOption(this.state.key,e)} value={friend.userName}>{friend.userName}</button></li>
+                                        <li><button onClick={(e)=>this.props.pasteOption(this.state.key,e)} value={friend.userName}>{friend.userName}</button></li>
                                     )
                                 }
                             })}
