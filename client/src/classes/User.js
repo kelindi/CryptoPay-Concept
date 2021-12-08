@@ -48,15 +48,25 @@ class User{
 		};
 		({status, data} = await cPayRequest('/friendRequests/incoming/'+this.userName,'GET'));
 		if(status === 200 && data.length > 0){
-			data.forEach(request => {
-				this.incomingFriendRequests.push(new FriendRequest(request._id,request.originUser,request.destinationUser,request.date))
+			data.forEach(async (request) => {
+				const fr = new FriendRequest(request._id,request.originUser,request.destinationUser,request.date)
+				await fr.getIncomingFirstLastName();
+				this.incomingFriendRequests.push(fr)
 			});
+			// data.forEach(request => {
+			// 	this.incomingFriendRequests.push(new FriendRequest(request._id,request.originUser,request.destinationUser,request.date))
+			// });
 		};
 		({status, data} = await cPayRequest('/friendRequests/outgoing/'+this.userName,'GET'));
 		if(status === 200 && data.length > 0){
-			data.forEach(request => {
-				this.sentFriendRequests.push(new FriendRequest(request._id,request.originUser,request.destinationUser,request.date))
+			data.forEach(async (request) => {
+				const fr = new FriendRequest(request._id,request.originUser,request.destinationUser,request.date)
+				await fr.getOutgoingFirstLastName();
+				this.sentFriendRequests.push(fr)
 			});
+			// data.forEach(request => {
+			// 	this.sentFriendRequests.push(new FriendRequest(request._id,request.originUser,request.destinationUser,request.date))
+			// });
 		};
 		({status, data} = await cPayRequest('/api/user/'+this.userName+"/friends",'GET'));
 		if(status === 200 && data.length > 0){

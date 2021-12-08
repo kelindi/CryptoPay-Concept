@@ -27,8 +27,8 @@ class FriendRequest extends Component {
               <b className="mx-1">({requestor.originUser})</b>
             </div>
             <div className="flex flex-row tracking-wide">
-              <p className="mx-1 text-xs">{requestor.firstName}</p>
-              <p className="mx-1 text-xs">{requestor.lastName}</p>
+              <p className="mx-1 text-xs">{requestor.destinationFirstName}</p>
+              <p className="mx-1 text-xs">{requestor.destinationLastName}</p>
             </div>
           </div>
           <div>
