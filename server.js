@@ -199,7 +199,7 @@ app.post("/api/register", mongoChecker, async (req, res) => {
       lastName: req.body.lastName,
       userName: req.body.userName.toLowerCase(),
       password: req.body.password,
-      profilePhoto: "Default Photo"
+      profilePhoto: "/images/pfDefault.png" // see if this works (User.js)
     });
 
     try {
@@ -641,15 +641,18 @@ app.get("/transactions", mongoChecker, async (req, res) => {
 });
 
 // Profile Photo calls
-app.patch("/users/updateProfilePhoto/:userName", mongoChecker, async (req, res) => {
+app.patch("/users/ProfilePhoto/:userName", mongoChecker, async (req, res) => {
+  console.log("made")
   try {
     const user = await User.findOne({
       userName: req.params.userName.toLowerCase(),
     });
     // user.lastName = req.body.lastName;
+    console.log("Updating")
     user.profilePhoto = req.body.photo 
+    console.log("Updated")
     await user.save();
-    res.send(user);
+    res.send({  profilePhoto: user.profilePhoto });
   } catch (error) {
     if (error.name === "CastError") {
       res.status(404).send("Resource not found");
@@ -667,7 +670,7 @@ app.get('/users/ProfilePhoto/:userName', async (req, res) => {
       userName: req.params.userName.toLowerCase(),
     })
     console.log(user.firstName)
-    res.send(user.firstName) // change to profile photo 
+    res.send({ profilePhoto: user.firstName }) // change to profile photo 
   }
   catch (error) {
     if (error.name === "CastError") {
