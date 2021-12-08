@@ -172,15 +172,17 @@ class UserDashBoard extends Component {
               currentUser={this.state}
             ></UserFeed>
           </div>
-
-          <FriendsList
+      <div className = "w-2/12 flex-shrink-0">
+      <FriendsList
             changeUserBalance={this.changeUserBalance}
             changeSentMoneyRequests={this.changeSentMoneyRequests}
-            className="w-2/12 flex-shrink-0"
             global={this.state}
             changeSentFriendRequests={this.changeSentFriendRequests}
             currentUser={this.state}
           ></FriendsList>
+      
+      </div>
+          
         </div>
       </div>
     );
