@@ -18,6 +18,8 @@ class AdminDashBoard extends Component {
   }
 
   render() {
+    const { currentUser } = this.props;
+    console.log(currentUser.moneyRequests)
     return (
       <BrowserRouter basename="/AdminDashBoard">
         <div className = "bg-gray-700 py-4">
@@ -37,7 +39,7 @@ class AdminDashBoard extends Component {
           </ul>
         </div>
         <Switch>
-        <Route
+        {/* <Route
             exact
             path="/"
             render={() => (
@@ -64,19 +66,29 @@ class AdminDashBoard extends Component {
             render={() => (
               <UserTable users={this.props.backend.users}></UserTable>
             )}
-          />
+          /> */}
 
           <Route
             exact
             path="/moneyrequests"
             render={() => (
+              //AbhiC Start
+
+              //uncomment below if things go wrong
+              // <MoneyRequestsTable
+              //   moneyRequests={this.props.backend.moneyRequests}
+              // ></MoneyRequestsTable>
+              //uncomment till above
+
               <MoneyRequestsTable
-                moneyRequests={this.props.backend.moneyRequests}
+                moneyRequests={currentUser.moneyRequests}
               ></MoneyRequestsTable>
+
+              //AbhiC End
             )}
           />
 
-          <Route
+          {/* <Route
             exact
             path="/transactions"
             render={() => (
@@ -84,7 +96,7 @@ class AdminDashBoard extends Component {
                 transactions={this.props.backend.transactions}
               ></TransactionTable>
             )}
-          />
+          /> */}
         </Switch>
         <div className="overflow-hidden px-5"></div>
       </BrowserRouter>
