@@ -1,5 +1,6 @@
 import React, { Component, useState } from "react";
 import { uuid } from "uuidv4";
+import MoneyRequest from "../../classes/MoneyRequest";
 
 /*
 TODO
@@ -28,10 +29,10 @@ class FriendsList extends Component {
       allUsers: [],
       usersFound: [],
       userNameToSearch: "",
-      friends: this.props.currentUser.friendsList,
       showFriendPopUp: false,
       selectedFriend: null,
       showAddFriends: false,
+      showFriendMoneyRequest: false,
       searchContent: "",
       amount: "",
       balance: this.props.currentUser.currentAccountBalance,
@@ -47,6 +48,7 @@ class FriendsList extends Component {
     });
     this.props.changeUserBalance(newBalance);
   };
+
 
   friendPop(friend) {
     this.setState({ selectedFriend: friend, showFriendPopUp: true });
@@ -70,11 +72,20 @@ class FriendsList extends Component {
     // console.log(this.state.usersFound);
   };
 
-  amountValidation(event) {
-    const amt = event.target.value;
-    this.setState({
-      amount: amt,
-    });
+  handleRequest() {
+    const amount = this.amount
+    if (!isNaN(+amount)) {
+      const requestee = this.state.selectedFriend
+      const newReqList = this.props.global.sentMoneyRequests;
+      const newReq = new MoneyRequest(
+        this.props.currentUser.userName,
+        requestee,
+        this.state.amount,
+        "10-01-2021"
+      );
+      newReqList.push(newReq);
+      this.props.changeSentMoneyRequests(newReqList);
+    }
   }
 
   render() {
@@ -82,52 +93,57 @@ class FriendsList extends Component {
     return (
       <div className="w-full h-screen flex flex-col bg-yellow-50">
         {this.state.showFriendPopUp ? (
-          /* pop-up of show info a certain friend */
-          <div className=" bg-white rounded md:w-1/3 w-2/3 border shadow-lg fixed z-100 left-1/3 top-1/3 ">
-            <div>
-              <button
-                onClick={() => {
-                  this.setState({ showFriendPopUp: false });
-                }}
-              >
-                <p> X </p>
-                {/* close the pop-up */}
-              </button>
-            </div>
-
-            <div className="flex items-center px-4 py-3 border-b hover:bg-gray-100">
-              {/* show user info and functions */}
-              <img
-                className="h-8 w-8 rounded-full object-cover mx-1"
-                src={this.state.selectedFriend.profilePicture}
-              />
-              <p className="text-gray-600 text-sm mx-2">
-                <span className="font-bold block">
-                  {this.state.selectedFriend.userName}
-                </span>
-                <span>{this.state.selectedFriend.firstName}</span>{" "}
-                <span>{this.state.selectedFriend.lastName}</span>
-              </p>
-              <div className=" text-center flex flex-col">
-                <input
-                  className="ml-5 w-44 pl-2"
-                  type="text"
-                  value={this.state.amount}
-                  onChange={(event) => {
-                    this.setState({ amount: event.target.value });
+          <div>
+            /* pop-up of show info a certain friend */
+            <div className=" bg-white rounded md:w-1/3 w-2/3 border shadow-lg fixed z-100 left-1/3 top-1/3 ">
+              <div>
+                <button
+                  onClick={() => {
+                    this.setState({ showFriendPopUp: false });
                   }}
-                  placeholder="Amount to send/request"
+                >
+                  <p> X </p>
+                  {/* close the pop-up */}
+                </button>
+              </div>
+
+              <div className="flex items-center px-4 py-3 border-b hover:bg-gray-100">
+                {/* show user info and functions */}
+                <img
+                  className="h-8 w-8 rounded-full object-cover mx-1"
+                  src={this.state.selectedFriend.profilePicture}
                 />
-                <div className="flex flex-row">
-                  <button
-                    className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
-                    onClick={() => this.handleSend()}
-                  >
-                    Send
-                  </button>
-                  <button className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white">
-                    Request
-                  </button>
+                <p className="text-gray-600 text-sm mx-2">
+                  <span className="font-bold block">
+                    {this.state.selectedFriend.userName}
+                  </span>
+                  <span>{this.state.selectedFriend.firstName}</span>{" "}
+                  <span>{this.state.selectedFriend.lastName}</span>
+                </p>
+                <div className=" text-center flex flex-col">
+                  <input
+                    className="ml-5 w-44 pl-2"
+                    type="text"
+                    value={this.state.amount}
+                    onChange={(event) => {
+                      this.setState({ amount: event.target.value });
+                    }}
+                    placeholder="Amount to send/request"
+                  />
+                  <div className="flex flex-row">
+                    <button
+                      className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
+                      onClick={() => this.handleSend()}
+                    >
+                      Send
+                    </button>
+                    <button
+                      className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
+                      onClick={() => this.handleRequest}
+                    >
+                      Request
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -213,13 +229,14 @@ class FriendsList extends Component {
           </div>
         ) : null}
 
+
         <div className="fixed w-2/12 h-full">
           <div className="w-full h-full relative">
             <div className="font-bold">
               <span className="m-3">Friend List</span>
             </div>
             <div className="bg-gray-900 h-full">
-              {this.state.friends.map((friend) => (
+              {this.props.currentUser.friendsList.map((friend) => (
                 // list all friends
                 <div
                   className="flex items-center px-4 py-3 hover:bg-warm-gray-400 hover:text-gray-900 text-gray-300 rounded-md"
