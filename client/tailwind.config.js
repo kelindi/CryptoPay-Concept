@@ -22,6 +22,13 @@ module.exports = {
         "spin-slow": "spin 2s linear infinite",
         "small-slow-ping": "small-slow-ping 3s ease-in-out infinite",
       },
+      maxHeight: {
+        '0': '0',
+         '1/4': '25%',
+         '1/2': '50%',
+         '3/4': '75%',
+         'full': '100%',
+      }
     },
     zIndex: {
       0: 0,
@@ -36,9 +43,7 @@ module.exports = {
       100: 100,
       auto: "auto",
     },
-    maxHeight: {
-      '1/2': '50%',
-    },
+    
   },
   variants: {
     extend: {},

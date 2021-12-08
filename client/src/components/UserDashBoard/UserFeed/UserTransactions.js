@@ -26,8 +26,8 @@ class UserTransactionTable extends Component {
   filter() {
     const filteredTransactions = this.state.masterTransactions.filter(
       (t) =>
-        t.originUser.userName.toString() ===
-          this.props.global.userName.toString() &&
+        t.originUser.userName ===
+          this.props.global.userName &&
         (t.destinationUser.userName
           .toString()
           .includes(this.state.filterDestination.toString()) ||
@@ -36,7 +36,7 @@ class UserTransactionTable extends Component {
           this.state.filterAmount === "") &&
         (t.date.toString().includes(this.state.filterDate.toString()) ||
           this.state.filterDate === "") &&
-        (t.time.toString() == this.state.filterTime.toString() ||
+        (t.time == this.state.filterTime.toString() ||
           this.state.filterTime === "") &&
         (t.id.toString().includes(this.state.filterID.toString()) ||
           this.state.filterID === "")
@@ -126,7 +126,7 @@ class UserTransactionTable extends Component {
               return (
                 <tr className = "border"key={transaction.id}>
                   <td className="border px-4 py-2 text-center">
-                    {transaction.destinationUser.userName.toString()}
+                    {transaction.destinationUser}
                   </td>
                   <td className="border px-4 py-2 text-center">
                     {"$" + transaction.amount.toString()}
@@ -135,7 +135,7 @@ class UserTransactionTable extends Component {
                     {transaction.date.toString()}
                   </td>
                   <td className="border px-4 py-2 text-center">
-                    {transaction.time.toString()}
+                    {transaction.time}
                   </td>
                   <td className="border px-4 py-2 text-center">
                     {transaction.id.toString()}
