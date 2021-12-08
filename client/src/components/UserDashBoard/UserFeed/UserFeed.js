@@ -131,12 +131,14 @@ class UserFeed extends Component {
                   src={requestor.profilePicture}
                 />
                 <p className="text-gray-600 text-sm mx-2">
-                  <span className="font-bold block uppercase">{requestor.destinationUser}</span>
+                  <span className=" float-left font-bold block uppercase">({requestor.destinationUser})</span>{" "}
+                  <span className="float-right">
+                    <span className = "font-light text-sm ">{requestor.destinationFirstName}</span>{" "}
+                    <span className = "font-light text-sm ">{requestor.destinationLastName}</span>
+                  </span>
                   <div className="px-1 font-light">
                     Sent on {requestor.date.slice(0, 10)}{" "}
                   </div>
-                  {/* <span>{requestor.firstName}</span>{" "}
-                  <span>{requestor.lastName}</span> */}
                 </p>
                 <div className="ml-auto text-xs">
                   <button
