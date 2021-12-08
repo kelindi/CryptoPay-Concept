@@ -25,11 +25,11 @@ class TransactionTable extends Component {
   filter() {
     const filteredTransactions = this.state.masterTransactions.filter(
       (t) =>
-        (t.originUser.userName
+        (t.originUser
           .toString()
           .includes(this.state.filterOrigin.toString()) ||
           this.state.filterOrigin.toString() == "") &&
-        (t.destinationUser.userName
+        (t.destinationUser
           .toString()
           .includes(this.state.filterDestination.toString()) ||
           this.state.filterDestination == "") &&
@@ -140,10 +140,10 @@ class TransactionTable extends Component {
               return (
                 <tr key={transaction.id}>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.originUser.userName.toString()}
+                    {transaction.originUser.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.destinationUser.userName.toString()}
+                    {transaction.destinationUser.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
                     {"$" + transaction.amount.toString()}

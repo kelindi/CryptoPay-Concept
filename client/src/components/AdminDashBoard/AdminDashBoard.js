@@ -39,16 +39,16 @@ class AdminDashBoard extends Component {
           </ul>
         </div>
         <Switch>
-        {/* <Route
+        <Route
             exact
             path="/"
             render={() => (
               <ReportTable
-                reports={this.props.backend.reports}
-                resolvedReports={this.props.backend.resolvedReports}
+                reports={currentUser.reports}
+                resolvedReports={currentUser.resolvedReports}
               ></ReportTable>
             )}
-          /> */}
+          />
 
           <Route
             exact
@@ -73,31 +73,23 @@ class AdminDashBoard extends Component {
             exact
             path="/moneyrequests"
             render={() => (
-              //AbhiC Start
-
-              //uncomment below if things go wrong
-              // <MoneyRequestsTable
-              //   moneyRequests={this.props.backend.moneyRequests}
-              // ></MoneyRequestsTable>
-              //uncomment till above
 
               <MoneyRequestsTable
                 moneyRequests={currentUser.moneyRequests}
               ></MoneyRequestsTable>
 
-              //AbhiC End
             )}
           />
 
-          {/* <Route
+          <Route
             exact
             path="/transactions"
             render={() => (
               <TransactionTable
-                transactions={this.props.backend.transactions}
+                transactions={currentUser.transactions}
               ></TransactionTable>
             )}
-          /> */}
+          />
         </Switch>
         <div className="overflow-hidden px-5"></div>
       </BrowserRouter>
