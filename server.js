@@ -445,7 +445,6 @@ app.post("/friendRequests", mongoChecker, async (req, res) => {
         const friendRequest = new FriendRequest({
             originUser: req.body.originUser,
             destinationUser: req.body.destinationUser,
-            amount: req.body.amount,
             date: req.body.date
         });
         await friendRequest.save();

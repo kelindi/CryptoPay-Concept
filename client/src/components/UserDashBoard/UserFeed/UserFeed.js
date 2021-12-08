@@ -128,7 +128,7 @@ class UserFeed extends Component {
                 
                 <img
                   className="h-8 w-8 rounded-full object-cover mx-1"
-                  src={requestor.profilePicture}
+                  src={"https://avatars.dicebear.com/api/bottts/"+requestor.destinationUser+".png"}
                 />
                 <p className="text-gray-600 text-sm mx-2">
                   <span className=" float-left font-bold block uppercase">({requestor.destinationUser})</span>{" "}

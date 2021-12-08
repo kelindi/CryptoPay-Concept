@@ -143,7 +143,7 @@ class UserDashBoard extends Component {
   render() {
     const { currentUser } = this.props;
     return (
-      <div className="font-serif bg-gray-900">
+      <div className="font-serif bg-gray-900 overflow-hidden">
         <div className="flex flex-column h-100">
           <div className="w-10/12  h-screen flex-shrink-0 flex-grow-0">
             <NotificationBar
