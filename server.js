@@ -95,6 +95,19 @@ const authenticate = (req, res, next) => {
   }
 };
 
+// const multer = require('multer');
+  
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// });
+  
+// const upload = multer({ storage: storage });
+
 // /*** Session handling **************************************/
 // // Create a session and session cookie
 app.use(
@@ -186,7 +199,7 @@ app.post("/api/register", mongoChecker, async (req, res) => {
       lastName: req.body.lastName,
       userName: req.body.userName.toLowerCase(),
       password: req.body.password,
-
+      profilePhoto: "Default Photo"
     });
 
     try {
@@ -627,8 +640,44 @@ app.get("/transactions", mongoChecker, async (req, res) => {
     }
 });
 
+// Profile Photo calls
+app.patch("/users/updateProfilePhoto/:userName", mongoChecker, async (req, res) => {
+  try {
+    const user = await User.findOne({
+      userName: req.params.userName.toLowerCase(),
+    });
+    // user.lastName = req.body.lastName;
+    user.profilePhoto = req.body.photo 
+    await user.save();
+    res.send(user);
+  } catch (error) {
+    if (error.name === "CastError") {
+      res.status(404).send("Resource not found");
+    } else {
+      log(error);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+});
 
-
+app.get('/users/ProfilePhoto/:userName', async (req, res) => {
+  console.log("made")
+  try {
+    const user = await User.findOne({
+      userName: req.params.userName.toLowerCase(),
+    })
+    console.log(user.firstName)
+    res.send(user.firstName) // change to profile photo 
+  }
+  catch (error) {
+    if (error.name === "CastError") {
+      res.status(404).send("Resource not found");
+    } else {
+      log(error);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+});
 
 
 
