@@ -90,11 +90,14 @@ class SplitPopUp extends Component {
     percentValidation = (key, event) => {
         const percent = event.target.value
         let percentVal = +percent
-        // console.log(percentVal)
+        console.log(percentVal)
+        let p = this.state.percentages
         if(!isNaN(percentVal)) {
-            this.state.percentages[key] = percentVal
-            this.setState({percentages: this.state.percentages})
+            p[key] = percentVal
+        } else {
+            p[key] = 0
         }
+        this.setState({percentages: p})
     }
 
     setMoneyReceiver = (key, event)=> {
@@ -141,17 +144,24 @@ class SplitPopUp extends Component {
         const numFriends = this.state.numFriends
         // console.log(numFriends)
 
+        const friendFields = this.state.friendFields
+        friendFields[key] = (
+            <NewUserField
+                global={this.props.global}
+                key={this.state.keys[this.state.numFriends]}
+                moneyReceiver={this.state.moneyReceiver}
+                pasteOption={this.pasteOption}
+                percentValidation={this.percentValidation}
+            />
+        ) 
+
         const filteredFriends = this.state.filteredFriends
-        console.log(filteredFriends)
         this.setState({newFriends:friends,
             keys: keys,
             numFriends:this.state.numFriends+1,
-            filteredFriends: filteredFriends
+            filteredFriends: filteredFriends,
+            friendFields: friendFields
         })
-    }
-
-    renderNewUser = () => {
-        
     }
 
     deleteFriendField = (event) => {
@@ -185,12 +195,12 @@ class SplitPopUp extends Component {
 
     render() {
         console.log("rerendering")
-        console.log(this.state.numFriends)
-        console.log(this.state.filteredFriends)
-        console.log(this.state.keys[this.state.numFriends])
-        console.log(this.state.newFriends[this.state.keys[this.state.numFriends]])
-        let key = this.state.keys[this.state.numFriends]
-        let friendFields = this.state.friendFields
+        // console.log(this.state.numFriends)
+        // console.log(this.state.filteredFriends)
+        // console.log(this.state.keys[this.state.numFriends])
+        // console.log(this.state.newFriends[this.state.keys[this.state.numFriends]])
+        // let key = this.state.keys[this.state.numFriends]
+        // let friendFields = this.state.friendFields
         return (
             <div className="flex flex-col bg-white rounded md:w-1/3 w-1/2 h-auto max-h-1/2 border shadow-lg fixed z-100 left-1/4 top-1/3 ">
                 <div className="rounded-t bg-blue-300 text-black">
@@ -216,7 +226,7 @@ class SplitPopUp extends Component {
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
                             </svg>
                         </button>
-                        {this.state.newFriends[this.state.keys[this.state.numFriends]] ? (
+                        {/* {this.state.newFriends[this.state.keys[this.state.numFriends]] ? (
                             <NewUserField
                                 global={this.props.global}
                                 key={this.state.keys[this.state.numFriends]}
@@ -224,7 +234,7 @@ class SplitPopUp extends Component {
                                 pasteOption={this.pasteOption}
                                 percentValidation={this.percentValidation}
                             />
-                        ): null}
+                        ): null} */}
                         </div>
                         <div className='h-1/3'>
                             <form>

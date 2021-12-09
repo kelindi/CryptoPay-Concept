@@ -14,7 +14,7 @@ class NewUserField extends Component {
     }
 
     setMoneyReceiver = (key, event)=> {
-        // console.log("yo")
+        console.log(event.target.value)
         let moneyReceiver = this.state.moneyReceiver
         moneyReceiver[key] = event.target.value
         this.setState({moneyReciever: moneyReceiver}, this.setFilteredFriends(key))
@@ -43,7 +43,7 @@ class NewUserField extends Component {
             <div id="friend" className='h-1/3 mb-2 flex flex-row'>
                 <div>
                     Friend:
-                    <input className="ml-8 w-44 pl-2" value={this.state.moneyReceiver[this.state.key]}
+                    <input className="ml-8 w-44 pl-2"
                             onChange={(e) => this.setMoneyReceiver(this.state.key, e)} placeholder="Friend"/>
                         {/* {Object.keys(this.state.friendFieldLen).length>=0? (
                             <button className='mx-3 px-0.5 w-4 h-4' value={key} onClick={this.deleteFriendField}>
