@@ -70,6 +70,9 @@ class App extends React.Component {
       },
     });
     const status = response.status;
+    if (status !== 200) {
+      return {status: status, data: []};
+    }
     const data = await response.json();
     return { status: status, data: data };
   };

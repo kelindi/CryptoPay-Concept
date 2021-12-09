@@ -2,7 +2,7 @@ import { Redirect } from "react-router";
 import User from "./classes/User";
 import { ethers } from "ethers";
 export const checkSession = async (app) => {
-    const url = `http://localhost:5000/users/check-session`
+    const url = `https://crypt0pay.herokuapp.com/users/check-session`
     try{
         let res = await fetch(url);
         if (res.status === 200){
@@ -11,9 +11,6 @@ export const checkSession = async (app) => {
           if (json && json.userName) {
               let user = new User (json.firstName, json.lastName, json.userName)
               app.setState({ currentUser: user})
-      
-              
-              
           }
         }
       }

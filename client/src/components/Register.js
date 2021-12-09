@@ -105,6 +105,10 @@ class Register extends Component {
         shouldReturn = true;
       }
 
+    if (shouldReturn) {
+      return;
+    }
+
     let newUser = {
       firstName: firstName,
       lastName: lastName,
