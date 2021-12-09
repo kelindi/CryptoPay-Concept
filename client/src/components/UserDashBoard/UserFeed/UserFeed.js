@@ -125,7 +125,6 @@ class UserFeed extends Component {
           
             {this.props.currentUser.sentFriendRequests.map((requestor) => (
               <div key = { uuid()} className="h-12 flex items-center px-4 py-3 border-b bg-gray-100 rounded-xl shadow-md my-2">
-                
                 <img
                   className="h-8 w-8 rounded-full object-cover mx-1"
                   src={"https://avatars.dicebear.com/api/bottts/"+requestor.destinationUser+".png"}

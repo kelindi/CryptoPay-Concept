@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import { uuid } from "uuidv4";
 import MoneyRequest from "../../classes/MoneyRequest";
-import FriendRequest from "../../classes/FriendRequest"
+import FriendRequest from "../../classes/FriendRequest";
 
 /*
 TODO
@@ -37,16 +37,23 @@ class FriendsList extends Component {
       showFriendMoneyRequest: false,
       searchContent: "",
       amount: "",
-      balance: this.props.currentUser.currentAccountBalance,
+      balance: this.props.user.currentAccountBalance,
+      tab: false,
     };
+    console.log(props);
   }
 
   deleteFriendRequest = async (friend) => {
-    let rIndex = this.props.currentUser.sentFriendRequests.findIndex(req => req.destinationUser === friend);
-    let r = this.props.currentUser.sentFriendRequests[rIndex];
-    await r.deleteRequest()
-    await this.props.updateUserData()
-  }
+    let rIndex = this.props.user.sentFriendRequests.findIndex(
+      (req) => req.destinationUser === friend
+    );
+    let r = this.props.user.sentFriendRequests[rIndex];
+    const { status, data } = await r.deleteRequest();
+    if (status === 200) {
+      await this.props.updateUserData();
+    }
+    return;
+  };
   addFriends = async () => {
     const { status, data } = await cPayRequest("/api/users/all", "get");
     console.log(status, data);
@@ -67,9 +74,7 @@ class FriendsList extends Component {
 
   isUserNameFriend = (userName) => {
     if (
-      this.props.currentUser.friendsList.some(
-        (friend) => friend.userName === userName
-      )
+      this.props.user.friendsList.some((friend) => friend.userName === userName)
     ) {
       return true;
     }
@@ -87,7 +92,7 @@ class FriendsList extends Component {
         (u) =>
           u.userName.toString().includes(event.target.value) &&
           event.target.value !== "" &&
-          u.userName !== this.props.currentUser.userName &&
+          u.userName !== this.props.user.userName &&
           this.isUserNameFriend(u.userName) === false
       );
       this.setState({ usersFound: filteredUsers });
@@ -102,9 +107,9 @@ class FriendsList extends Component {
     const amount = this.amount;
     if (!isNaN(+amount)) {
       const requestee = this.state.selectedFriend;
-      const newReqList = this.props.global.sentMoneyRequests;
+      const newReqList = this.props.user.sentMoneyRequests;
       const newReq = new MoneyRequest(
-        this.props.currentUser.userName,
+        this.props.user.userName,
         requestee,
         this.state.amount,
         "10-01-2021"
@@ -115,7 +120,19 @@ class FriendsList extends Component {
   }
 
   closeFriendPopUp = () => {
-    this.setState({ showAddFriends: false, selectedFriend: null,usersFound:[] });
+    this.setState({
+      showAddFriends: false,
+      selectedFriend: null,
+      usersFound: [],
+      searchContent: ""
+    });
+  };
+
+  toggleTab = (state) => {
+    console.log("clicked")
+    this.setState({
+      tab: state
+    },console.log(this.state.tab));
   };
 
   render() {
@@ -202,14 +219,19 @@ class FriendsList extends Component {
                 <input
                   //   input box for input username
                   className={
-                    "py-3 px-6 w-full outline-none bg-warm-gray-300 " + (this.state.usersFound.length === 0 ? "rounded-full" : "rounded-t-xl")
+                    "py-3 px-6 w-full outline-none bg-warm-gray-300 " +
+                    (this.state.usersFound.length === 0
+                      ? "rounded-full"
+                      : "rounded-t-xl")
                   }
                   value={this.state.searchContent}
                   onChange={this.userFilter}
                   type="text"
                   placeholder="Search By User Name"
                 />
-                <div className={"overflow-auto bg-warm-gray-300 relative max-h-60"}>
+                <div
+                  className={"overflow-auto bg-warm-gray-300 relative max-h-60"}
+                >
                   {/* show all users' info according to input username */}
                   {this.state.usersFound.map((u) => (
                     <div
@@ -226,17 +248,19 @@ class FriendsList extends Component {
                         <span>{u.firstName}</span> <span>{u.lastName}</span>
                       </p>
 
-                      {!this.props.currentUser.friendsList.some(
+                      {!this.props.user.friendsList.some(
                         (friend) => friend.userName === u.userName
                       ) ? (
                         //   only friends not in friendlist have "Send Friend Request" Button
                         <div className="ml-auto ">
-                          {this.props.currentUser.sentFriendRequests.some(
+                          {this.props.user.sentFriendRequests.some(
                             (request) => request.destinationUser === u.userName
                           ) ? (
                             <button
                               className="w-50 mx-1 px-2 py-1 bg-red-500 rounded-3xl text-white"
-                              onClick={() => this.deleteFriendRequest(u.userName)}
+                              onClick={() =>
+                                this.deleteFriendRequest(u.userName)
+                              }
                             >
                               <span>Cancel Request</span>
                             </button>
@@ -261,22 +285,35 @@ class FriendsList extends Component {
                     </div>
                   ))}
                 </div>
-                <div className ={"bg-warm-gray-300 rounded-b-lg h-6 w-full " + (this.state.usersFound.length === 0 ? "hidden" : "")}></div>
+                <div
+                  className={
+                    "bg-warm-gray-300 rounded-b-lg h-6 w-full " +
+                    (this.state.usersFound.length === 0 ? "hidden" : "")
+                  }
+                ></div>
               </div>
             </div>
-            <div className="bg-black opacity-80 w-full h-full" onClick={this.closeFriendPopUp}></div>
+            <div
+              className="bg-black opacity-80 w-full h-full"
+              onClick={this.closeFriendPopUp}
+            ></div>
           </div>
         ) : null}
 
         <div className="fixed w-2/12 h-full">
           <div className="w-full h-full relative">
-            <div className="font-bold">
-              <span className="m-3">Friend List</span>
+            <div className="font-bold flex flex-row h-10 items-center justify-center bg-gray-800">
+              <div className = "rounded-lg text-gray-800 bg-gray-700 flex flex-row">
+              
+                <button onClick = {() => {this.toggleTab(false)}} className={"px-4 " + (this.state.tab ? "text-warm-gray-400" : "bg-warm-gray-400 rounded-md")}>Friends</button>
+                <button onClick = {() => {this.toggleTab(true)}} className={"px-4 " +(this.state.tab ? "bg-warm-gray-400 rounded-md" : "text-warm-gray-400")}>Pending</button>
+              </div>
             </div>
-            <div className="bg-gray-900 h-full">
-              {this.props.currentUser.friendsList.map((friend) => (
+            <div className={"bg-gray-900 h-full "+(this.state.tab ? "hidden" : null)}>
+              {this.props.user.friendsList.map((friend) => (
                 // list all friends
                 <div
+                  key={uuid()}
                   className="flex items-center px-4 py-3 hover:bg-warm-gray-400 hover:text-gray-900 text-gray-300 rounded-md"
                   onClick={() => this.friendPop(friend)}
                 >
@@ -292,9 +329,16 @@ class FriendsList extends Component {
                   </p>
                 </div>
               ))}
-              <div className="absolute bottom-5 w-full flex justify-center items-center">
+              
+            </div>
+            <div className = {"bg-gray-900 h-full "+(this.state.tab ? null : "hidden")}>
+              {this.props.user.sentFriendRequests.map((request) => (
+                <div></div>
+              ))}
+            </div>
+            <div className="absolute bottom-5 w-full flex justify-center items-center">
                 <button
-                  className="bg-blue-500 rounded-3xl block text-white mx-auto px-3 py-2"
+                  className="bg-warm-gray-400 rounded-3xl block text-gray-800 mx-auto px-5 py-2 hover:bg-warm-gray-500 hover:text-gray-300"
                   onClick={() => {
                     this.addFriends();
                   }}
@@ -302,7 +346,6 @@ class FriendsList extends Component {
                   Add Friend
                 </button>
               </div>
-            </div>
           </div>
         </div>
       </div>

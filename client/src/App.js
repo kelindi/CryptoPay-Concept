@@ -21,7 +21,7 @@ class App extends React.Component {
 
   updateData = async () => {
     await this.state.currentUser.updateData();
-    await this.setState({userData: this.state.currentUser});
+    await this.setState({currentUser: this.state.currentUser});
   }
 
   setCurrentUser = (user) => {

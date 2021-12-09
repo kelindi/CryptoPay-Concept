@@ -29,7 +29,9 @@ class User{
 
 	updateData = async () =>{
 		let {status, data} = await cPayRequest('/moneyRequests/incoming/'+this.userName,'GET');
+		this.incomingMoneyRequests = []
 		if(status === 200 && data.length > 0){
+			this.incomingMoneyRequests = []
 			data.forEach(async (request) => {
 				const mr = new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date);
 				this.incomingMoneyRequests.push(mr)
@@ -39,7 +41,9 @@ class User{
 		};
 		
 		({status, data} = await cPayRequest('/moneyRequests/outgoing/'+this.userName,'GET'));
+		this.sentMoneyRequests = []
 		if(status === 200 && data.length > 0){
+			this.sentMoneyRequests = []
 			data.forEach(async (request) => {
 				const mr = new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date);
 				this.sentMoneyRequests.push(mr)
@@ -47,6 +51,7 @@ class User{
 			});
 		};
 		({status, data} = await cPayRequest('/friendRequests/incoming/'+this.userName,'GET'));
+		this.incomingFriendRequests = []
 		if(status === 200 && data.length > 0){
 			data.forEach(async (request) => {
 				const fr = new FriendRequest(request._id,request.originUser,request.destinationUser,request.date)
@@ -58,6 +63,7 @@ class User{
 			// });
 		};
 		({status, data} = await cPayRequest('/friendRequests/outgoing/'+this.userName,'GET'));
+		this.sentFriendRequests = []
 		if(status === 200 && data.length > 0){
 			data.forEach(async (request) => {
 				const fr = new FriendRequest(request._id,request.originUser,request.destinationUser,request.date)
@@ -69,18 +75,21 @@ class User{
 			// });
 		};
 		({status, data} = await cPayRequest('/api/user/'+this.userName+"/friends",'GET'));
+		this.friendsList = []
 		if(status === 200 && data.length > 0){
+			this.friendsList = []
 			data.forEach(friend => {
 				this.friendsList.push(new Friend(friend.firstName,friend.lastName,friend.userName,'/images/pfDefault.png',friend.walletAddress))
 			});
 		};
 		({status, data} = await cPayRequest('/transactions/'+this.userName,'GET'));
+		this.transactions = []
 		if(status === 200 && data.length > 0){
 			data.forEach(transaction => {
 				this.transactions.push(new Transaction(transaction.originUser,transaction.destinationUser,transaction.amount,transaction.date, transaction.time, transaction._id))
 			});
 		};
-		console.log(this.transactions)
+		return this
 
 	};
 

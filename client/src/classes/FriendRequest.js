@@ -13,9 +13,9 @@ class FriendRequest {
     this.originLastName = null;
   }
 
-  deleteRequest() {
-    cPayRequest(/friendRequests/ + this.id, "DELETE");
-    return 1;
+  deleteRequest = async () => {
+    const{status,data}  = await cPayRequest("/friendRequests/" + this.id, "DELETE");
+    return {status:status,data:data};
   }
 
   cancelRequest() {

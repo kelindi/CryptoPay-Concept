@@ -11,7 +11,6 @@ const cPayRequest = async (route, request, body) => {
               "Content-Type": "application/json",
             },
           });
-
     }
     else {
         response = await fetch(route, {
