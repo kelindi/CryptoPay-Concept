@@ -107,6 +107,10 @@ class FriendsList extends Component {
     }
   }
 
+  closeFriendPopUp = () => {
+    this.setState({ showAddFriends: false, selectedFriend: null,usersFound:[] });
+  };
+
   render() {
     const { global, changeSentFriendRequests } = this.props;
     return (
@@ -185,7 +189,7 @@ class FriendsList extends Component {
 
         {this.state.showAddFriends ? (
           // pop-up for search and add new friend from database
-          <div className="bg-transparent rounded w-screen h-screen shadow-lg fixed left-0 z-50">
+          <div className="bg-transparent w-screen h-screen shadow-lg fixed left-0 z-50">
             <div className="z-100 md:w-1/3 w-1/3 left-1/3 top-1/4 absolute">
               <div className="w-full">
                 <input
@@ -258,7 +262,7 @@ class FriendsList extends Component {
                 <div className ={"bg-warm-gray-300 rounded-b-lg h-6 w-full " + (this.state.usersFound.length === 0 ? "hidden" : "")}></div>
               </div>
             </div>
-            <div className="bg-black opacity-70 w-full h-full border-red-500"></div>
+            <div className="bg-black opacity-80 w-full h-full" onClick={this.closeFriendPopUp}></div>
           </div>
         ) : null}
 

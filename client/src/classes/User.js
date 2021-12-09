@@ -77,9 +77,10 @@ class User{
 		({status, data} = await cPayRequest('/transactions/'+this.userName,'GET'));
 		if(status === 200 && data.length > 0){
 			data.forEach(transaction => {
-				this.transactions.push(new Transaction(transaction.originUser,transaction.destinationUser,transaction.amount,transaction.date))
+				this.transactions.push(new Transaction(transaction.originUser,transaction.destinationUser,transaction.amount,transaction.date, transaction.time, transaction._id))
 			});
 		};
+		console.log(this.transactions)
 
 	};
 

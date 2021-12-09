@@ -197,8 +197,11 @@ class UserFeed extends Component {
           {/* div for rest of the feed */}
         </div>
 
-        <div className = "bg-white rounded-xl shadow-2xl m-4">
-            <UserTransactionTable global = {this.props.global} ></UserTransactionTable>
+        <div className = "bg-white rounded-xl shadow-2xl m- overflow-y-auto h-48">
+            <UserTransactionTable 
+            user = {this.state.user}
+            global = {this.props.global} 
+            ></UserTransactionTable>
         </div>
       </div>
     );

@@ -25,17 +25,17 @@ class TransactionTable extends Component {
   filter() {
     const filteredTransactions = this.state.masterTransactions.filter(
       (t) =>
-        (t.originUser.userName
+        (t.originUser
           .toString()
           .includes(this.state.filterOrigin.toString()) ||
           this.state.filterOrigin.toString() == "") &&
-        (t.destinationUser.userName
+        (t.destinationUser
           .toString()
           .includes(this.state.filterDestination.toString()) ||
           this.state.filterDestination == "") &&
         (t.amount.toString() == this.state.filterAmount.toString() ||
           this.state.filterAmount === "") &&
-        (t.date.toString().includes(this.state.filterDate.toString()) ||
+        (t.date.slice(0, 10).toString().includes(this.state.filterDate.toString()) ||
           this.state.filterDate === "") &&
         (t.time.toString() == this.state.filterTime.toString() ||
           this.state.filterTime === "") &&
@@ -140,16 +140,16 @@ class TransactionTable extends Component {
               return (
                 <tr key={transaction.id}>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.originUser.userName.toString()}
+                    {transaction.originUser.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.destinationUser.userName.toString()}
+                    {transaction.destinationUser.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {"$" + transaction.amount.toString()}
+                    {transaction.amount.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.date.toString()}
+                    {transaction.date.slice(0,10).toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
                     {transaction.time.toString()}

@@ -679,9 +679,27 @@ app.get("/transactions", mongoChecker, async (req, res) => {
     }
 });
 
-
-
-
+//post transaction
+app.post("/transaction", mongoChecker, async (req, res) => {
+  try {
+      const transaction = new Transaction({
+          originUser: req.body.originUser,
+          destinationUser: req.body.destinationUser,
+          amount: req.body.amount,
+          date: req.body.date,
+          time: req.body.time
+      });
+      await transaction.save();
+      res.send(transaction);
+  } catch (error) {
+      if (error.name === "ValidationError") {
+          res.status(400).send(error.message);
+      } else {
+          log(error);
+          res.status(500).send("Internal Server Error");
+      }
+  }
+});
 
 //create new Report
 //request body expects

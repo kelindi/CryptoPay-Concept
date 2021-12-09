@@ -2,6 +2,7 @@ import cPayRequest from "../CryptoPayClient";
 import MoneyRequest from "./MoneyRequest";
 import User from "./User";
 import Report from "./Report";
+import Transaction from "./Transaction";
 
 class Admin {
 	constructor(firstName, lastName) {
@@ -40,6 +41,14 @@ class Admin {
 			data.forEach(async (request) => {
 				const report = new Report(request.submitter, request.reportedUser, request.reason, request.date, request.time, request._id);
 				this.reports.push(report)
+			});
+		};
+
+		({status, data} = await cPayRequest('/transactions','GET'));
+		if(status === 200 && data.length > 0){
+			data.forEach(async (request) => {
+				const transaction = new Transaction(request.originUser, request.destinationUser, request.amount, request.date, request.time, request._id);
+				this.transactions.push(transaction)
 			});
 		};
 	}
