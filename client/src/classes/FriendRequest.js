@@ -6,7 +6,6 @@ class FriendRequest {
     this.originUser = originUser;
     this.destinationUser = destinationUser;
     this.date = date;
-    // My code
     this.destinationFirstName = null;
     this.destinationLastName = null;
     this.originFirstName = null;
