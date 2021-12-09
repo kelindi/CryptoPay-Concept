@@ -12,35 +12,42 @@ class UserDashBoard extends Component {
     super(props);
 
     this.state = {
-      userBalance: this.props.userData.userBalance,
-      userName: this.props.userData.userName,
-      firstName: this.props.userData.firstName,
-      lastName: this.props.userData.lastName,
-      friendsList: this.props.userData.friends,
-      provider: this.props.userData.provider,
-      signer: this.props.userData.signer,
-      wallet: this.props.userData.wallet,
-      profilePicture: this.props.userData.profilePicture,
-      incomingFriendRequests: this.props.userData.incomingFriendRequests,
-      sentFriendRequests: this.props.userData.sentFriendRequests,
-      incomingMoneyRequests: this.props.userData.incomingMoneyRequests,
-      sentMoneyRequests: this.props.userData.sentMoneyRequests,
-      transactions: this.props.userData.transactions,
-    };
-  }
-  componentDidMount = () => {};
-
-  updateUserData = async () => {
-    await this.props.updateData();
-    this.setState({
+      userBalance: this.props.currentUser.currentAccountBalance,
+      userName: this.props.currentUser.userName,
+      firstName: this.props.currentUser.firstName,
+      lastName: this.props.currentUser.lastName,
       friendsList: this.props.currentUser.friendsList,
+      provider: this.props.currentUser.provider,
+      signer: this.props.currentUser.signer,
+      wallet: this.props.currentUser.walletAddress,
+      profilePicture: this.props.currentUser.profilePicture,
       incomingFriendRequests: this.props.currentUser.incomingFriendRequests,
       sentFriendRequests: this.props.currentUser.sentFriendRequests,
       incomingMoneyRequests: this.props.currentUser.incomingMoneyRequests,
       sentMoneyRequests: this.props.currentUser.sentMoneyRequests,
       transactions: this.props.currentUser.transactions,
-      profilePicture: this.props.currentUser.profilePicture,
+      update: 0,
+      user: this.props.currentUser,
+    };
+  }
+  componentDidMount = () => {
+    console.log(this.props);
+  };
+
+  updateUserData = async () => {
+    let {status,newUser} = await this.state.user.updateData();
+    if(status ===200){
+    this.setState({
+      user: newUser,
+      friendsList: newUser.friendsList,
+      incomingFriendRequests: newUser.incomingFriendRequests,
+      sentFriendRequests: newUser.sentFriendRequests,
+      incomingMoneyRequests: newUser.incomingMoneyRequests,
+      sentMoneyRequests: newUser.sentMoneyRequests,
+      transactions: newUser.transactions,
+      profilePicture: newUser.profilePicture,
     });
+  }
   };
 
   setUpWeb3 = async () => {
@@ -149,24 +156,24 @@ class UserDashBoard extends Component {
         <div className="flex flex-column h-100">
           <div className="w-10/12  h-screen flex-shrink-0 flex-grow-0">
             <NotificationBar
-              key={uuid()}
+              key={this.state}
               changeFriendsList={this.changeFriendsList}
               changeIncomingFriendRequests={this.changeIncomingFriendRequests}
               global={this.state}
             ></NotificationBar>
             <UserHeader
-             key={uuid()}
+              key={this.state}
               changeSentMoneyRequests={this.changeSentMoneyRequests}
               changeUserBalance={this.changeUserBalance}
               global={this.state}
               // backend={this.props.backend}
-              currentUser={this.props.currentUser}
+              currentUser={this.state}
               useApi={this.props.useApi}
               userData={this.props.userData}
             ></UserHeader>
 
             <UserFeed
-              key={uuid()}
+              key={this.state}
               changeSentFriendRequests={this.changeSentFriendRequests}
               global={this.state}
               changeOutgoingMoneyRequests={this.changeSentMoneyRequests}
@@ -174,18 +181,15 @@ class UserDashBoard extends Component {
               changeUserBalance={this.changeUserBalance}
               changeFriendsList={this.changeFriendsList}
               changeIncomingFriendRequests={this.changeIncomingFriendRequests}
-              currentUser={this.props.currentUser}
+              currentUser={this.state}
             ></UserFeed>
           </div>
           <div className="w-2/12 min-w-min flex-shrink-0 flex-grow-0">
             <FriendsList
-              key={uuid()}
-              changeUserBalance={this.changeUserBalance}
-              changeSentMoneyRequests={this.changeSentMoneyRequests}
-              global={this.state}
               changeSentFriendRequests={this.changeSentFriendRequests}
-              currentUser={this.props.currentUser}
               updateUserData={this.updateUserData}
+              key={this.state}
+              user={this.state}
             ></FriendsList>
           </div>
         </div>

@@ -9,6 +9,12 @@ import AdminDashBoard from "./components/AdminDashBoard/AdminDashBoard";
 import detectEthereumProvider from "@metamask/detect-provider";
 import GetWallet from "./components/GetWallet.js";
 import { uuid } from "uuidv4";
+import cPayRequest from "./CryptoPayClient";
+import User from "./classes/User";
+import { ethers } from "ethers";
+import Admin from "./classes/Admin";
+import { Redirect } from "react-router";
+import { checkSession } from "./CheckSession";
 
 class App extends React.Component {
   constructor(props) {
@@ -16,16 +22,38 @@ class App extends React.Component {
     this.state = {
       currentUser: null,
       userData: null,
+      redirect: false
     };
   }
+  
+  componentDidMount(){
+    console.log("checking if user has logged in")
+    checkSession(this)
+    // deployment URL
+    // const url = `https://crypt0pay.herokuapp.com/users/check-session`
+    // local URL
+    
+  }
+      
+    // .then(res => {
+    //     if (res.status === 200) {
+    //         return res.json();
+    //     }
+    // })
+    // .then(json => {
+    //     if (json && json.currentUser) {
+    //         this.setState({ currentUser: json.currentUser });
+    //     }
+    // })
 
   updateData = async () => {
     await this.state.currentUser.updateData();
-    await this.setState({userData: this.state.currentUser});
+    await this.setState({currentUser: this.state.currentUser});
   }
 
   setCurrentUser = (user) => {
     this.setState({ currentUser: user });
+    console.log(this.state.currentUser)
   };
   setUserData = (userData) => {
     this.setState({ userData: userData });
@@ -75,6 +103,27 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
+        <Route
+            exact path={["/", "/login", "/userDashBoard"] /* any of these URLs are accepted. */ }
+            render={ () => (
+                <div className="app">
+                    { /* Different componenets rendered depending on if someone is logged in. */}
+                    {!this.state.currentUser ? <Login
+                    connectWallet={this.connectWallet}
+                    setCurrentUser={this.setCurrentUser}
+                    useApi={this.useApi}
+                    setUserData={this.setUserData}
+                  /> : <UserDashBoard
+                  currentUser={this.state.currentUser}
+                  useApi={this.useApi}
+                  userData={this.state.currentUser}
+                  updateData = {this.updateData}
+                />}
+                </div>                   // ... spread operator - provides all of the props in the props object
+                
+            )}
+        />
+
           <Route
             exact
             path="/"

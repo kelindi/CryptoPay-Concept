@@ -236,12 +236,36 @@ app.post("/api/login", (req, res) => {
       // We can check later if this exists to ensure we are logged in.
       req.session.user = user._id;
       req.session.userName = user.userName; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
+      req.session.isAdmin = user.isAdmin;
+      req.session.firstName = user.firstName;
+      req.session.lastName = user.lastName;
+      req.session.walletAddress = user.walletAddress;
       res.send({ currentUser: user.userName,isAdmin:user.isAdmin });
     })
     .catch((error) => {
       res.status(400).send();
     });
 });
+
+//new start
+app.get('/users/logout', (req, res) => {
+  req.session.destroy((error) => {
+    if(error){
+      res.status(500).send(error)
+    } else{
+      res.redirect('/')
+    }
+  })
+})
+
+app.get("/users/check-session", (req, res) => {
+  if (req.session.user) {
+      res.send({ firstName: req.session.firstName, lastName: req.session.lastName, userName: req.session.userName, isAdmin: req.session.isAdmin });
+  } else {
+      res.status(401).send();
+  }
+});
+//new end
 
 // AbhiC Start
 //get all users
@@ -274,6 +298,51 @@ app.get("/api/users/all", mongoChecker, async (req, res) => {
       res.status(500).send("Internal Server Error");
   }
 });
+//get all userdata
+app.get("/api/user/data/:userName", mongoChecker, async (req, res) => {
+  try {
+      const user = await User.findOne({userName: req.params.userName});
+      //find all friendRequests with the originUser as the userName
+      const sentfriendRequests = await FriendRequest.find({originUser: user.userName});
+      //find all friendRequests with the targetUser as the userName
+      const incomingfriendRequests = await FriendRequest.find({destinationUser: user.userName});
+      //find all moneyRequests with the originUser as the userName
+      const sentMoneyRequests = await MoneyRequest.find({originUser: user.userName});
+      //find all moneyRequests with the targetUser as the userName
+      const incomingMoneyRequests = await MoneyRequest.find({destinationUser: user.userName});
+      //find all transactions with the originUser as the userName or the detinationUser as the userName
+      const transactions = await Transaction.find({$or: [{originUser: user.userName}, {destinationUser: user.userName}]});
+      const friends = await Promise.all(
+        user.friends.map(async (friend) => {
+          const friendUser = await User.findOne({ _id: friend });
+          return {
+            userName: friendUser.userName,
+            firstName: friendUser.firstName,
+            lastName: friendUser.lastName,
+            walletAddress: friendUser.walletAddress,
+          };
+        })
+      );
+      //send all this data
+      res.send({
+        userName: user.userName,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        walletAddress: user.walletAddress,
+        friends: friends,
+        sentFriendRequests: sentfriendRequests,
+        incomingFriendRequests: incomingfriendRequests,
+        sentMoneyRequests: sentMoneyRequests,
+        incomingMoneyRequests: incomingMoneyRequests,
+        transactions: transactions,
+      });
+  } catch (error) {
+
+      log(error);
+      res.status(500).send("Internal Server Error");
+  }
+});
+
 
 
 
@@ -559,9 +628,8 @@ app.post("/friendRequests", mongoChecker, async (req, res) => {
 //delete friendRequest
 app.delete("/friendRequests/:id", mongoChecker, async (req, res) => {
     try {
-        await FriendRequest.findByIdAndDelete(req.params.id);
-        res.send("Friend Request Deleted");
-        console.log(friendDeleted)
+        let a = await FriendRequest.findByIdAndDelete(req.params.id);
+        res.send(a);
     } catch (error) {
         if (error.name === "CastError") {
             res.status(404).send("Resource not found");

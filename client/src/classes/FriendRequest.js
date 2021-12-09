@@ -6,16 +6,15 @@ class FriendRequest {
     this.originUser = originUser;
     this.destinationUser = destinationUser;
     this.date = date;
-    // My code
     this.destinationFirstName = null;
     this.destinationLastName = null;
     this.originFirstName = null;
     this.originLastName = null;
   }
 
-  deleteRequest() {
-    cPayRequest(/friendRequests/ + this.id, "DELETE");
-    return 1;
+  deleteRequest = async () => {
+    const{status,data}  = await cPayRequest("/friendRequests/" + this.id, "DELETE");
+    return {status:status,data:data};
   }
 
   cancelRequest() {

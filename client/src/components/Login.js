@@ -54,13 +54,13 @@ class Login extends Component {
     if (status === 200) {
       if (data.currentUser !== undefined) {
         if (data.isAdmin) {
-          await this.props.setCurrentUser(data.currentUser);
+          // await this.props.setCurrentUser(data.currentUser);
           await this.setUpAdminData();
           this.setState({ redirectAdmin: true });
           return;
         }
 
-        await this.props.setCurrentUser(data.currentUser);
+        // await this.props.setCurrentUser(data.currentUser);
         await this.setUpUserData();
 
         this.setState({ redirectUser: true });
@@ -128,9 +128,10 @@ class Login extends Component {
 
   render() {
     // if this.state.redirect is true, redirect to this path
-    if (this.state.redirectUser) {
-      return <Redirect push to="/userDashBoard" />;
-    } else if (this.state.redirectAdmin) {
+    // if (this.state.redirectUser) {
+    //   return <Redirect push to="/userDashBoard" />;
+    // }
+      if (this.state.redirectAdmin) {
       return <Redirect push to="/adminDashBoard" />;
     }
     if (this.state.walletNotConnected) {
