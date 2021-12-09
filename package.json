@@ -15,6 +15,7 @@
   "scripts": {
     "start": "node server.js",
     "setup": "npm install && cd client && npm install && cd ..",
-    "build": "cd client && npm install && npm run build"
+    "build": "cd client && npm install && npm run build",
+    "dev": "cd client && npm run build && cd .. && npm start"
   }
 }
