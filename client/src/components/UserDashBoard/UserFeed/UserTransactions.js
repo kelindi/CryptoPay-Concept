@@ -13,7 +13,8 @@ class UserTransactionTable extends Component {
       //retreive all the transactions from the backend
       // transactions: this.props.global.transactions,
       // masterTransactions: this.props.global.transactions,
-      transactions: []
+      transactions: this.props.user.transactions,
+      waitingforTransactions: false,
     };
     this.filterDestinationChange = this.filterDestinationChange.bind(this);
     this.filterAmountChange = this.filterAmountChange.bind(this);
@@ -21,15 +22,26 @@ class UserTransactionTable extends Component {
     this.filterTimeChange = this.filterTimeChange.bind(this);
     this.filterIDChange = this.filterIDChange.bind(this);
     this.filter = this.filter.bind(this);
+
   }
   componentDidMount(){
-    this.filter()
+    if (this.props.user.transactions === null) {
+      this.setState({transactions: [],waitingforTransactions: true})
+    }
   }
+
+  componentDidUpdate()
+   {
+    if(this.state.waitingforTransactions === true && this.props.user.transactions !== null){
+      this.setState({transactions: this.props.user.transactions,waitingforTransactions: false})
+    }
+  }
+
   filter() {
-    let masterTransactions = this.props.user.transactions;
-    if (masterTransactions === null) {
+    if (this.props.user.transactions === null) {
       return
     }
+    let masterTransactions = this.props.user.transactions
     const filteredTransactions = masterTransactions.filter(
       (t) =>
         t.originUser ===
@@ -80,10 +92,11 @@ class UserTransactionTable extends Component {
 
   render() {
     return (
-      <div className="font-sans font-light shadow-2xl">
-        <div className="text-center text-3xl py-4">TRANSACTIONS</div>
+      <div className="font-sans font-light shadow-2xl static">
+        
+        
         <table className="table-auto w-full">
-          <thead>
+          <thead className = "sticky bg-white top-0 z-10">
             <tr>
               <th className="px-4 py-2 border text-center">
                 Destination
@@ -154,6 +167,8 @@ class UserTransactionTable extends Component {
             }))}
           </tbody>
         </table>
+
+        
       </div>
     );
   }

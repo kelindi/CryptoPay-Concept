@@ -163,7 +163,8 @@ class UserFeed extends Component {
           {/* div for rest of the feed */}
         </div>
 
-        <div className="bg-white rounded-xl shadow-2xl m- overflow-y-auto h-48">
+        <div className="bg-white rounded-xl shadow-2xl h-52 overflow-auto">
+        <div className="text-center text-3xl py-4">TRANSACTIONS</div>
           <UserTransactionTable
             user={this.props.currentUser}
           ></UserTransactionTable>
