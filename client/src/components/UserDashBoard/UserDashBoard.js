@@ -186,7 +186,7 @@ class UserDashBoard extends Component {
           </div>
           <div className="w-2/12 min-w-min flex-shrink-0 flex-grow-0">
             <FriendsList
-              sendFriendRequest={this.sendFriendRequest}
+              changeSentFriendRequests={this.changeSentFriendRequests}
               updateUserData={this.updateUserData}
               key={this.state}
               user={this.state}

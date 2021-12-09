@@ -61,7 +61,11 @@ class FriendsList extends Component {
       destinationUser: userName,
       date: new Date(),
     };
-    const { status, data } =await cPayRequest("/friendRequests","post", newFr);
+    const { status, data } = await cPayRequest(
+      "/friendRequests",
+      "post",
+      newFr
+    );
     if (status === 200) {
       await this.props.updateUserData();
     }
@@ -283,8 +287,13 @@ class FriendsList extends Component {
                           ) : (
                             <button
                               className="w-50 mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
-                              onClick={() => {
-                                // change global sentFriend list
+                              onClick={async () => {
+                                let newReqList =
+                                  this.props.user.sentFriendRequests;
+                                newReqList = newReqList.filter(
+                                  (req) => req.destinationUser === u.userName
+                                );
+                                await this.props.changeSentFriendRequests(newReqList);
                                 this.sendFriendRequest(u.userName);
                               }}
                             >
