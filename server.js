@@ -350,6 +350,38 @@ app.patch(
   }
 );
 
+//update user firstName, userName, lastName for given userName
+//request body expects
+// {
+//     firstName: <firstName>
+//     lastName: <lastName>
+//     userName: <userName> 
+// }
+app.patch(
+  "/users/updateAll/:userName",
+  mongoChecker,
+  async (req, res) => {
+    try {
+      const user = await User.findOne({
+        userName: req.params.userName.toLowerCase(),
+      });
+      console.log(req.body)
+      user.firstName = req.body.firstName;
+      user.lastName = req.body.lastName;
+      user.userName = req.body.userName
+      await user.save();
+      res.send(user);
+    } catch (error) {
+      if (error.name === "CastError") {
+        res.status(404).send("Resource not found");
+      } else {
+        log(error);
+        res.status(500).send("Internal Server Error");
+      }
+    }
+  }
+);
+
 //update user firstName for given userName
 //request body expects
 // {
@@ -400,6 +432,32 @@ app.patch("/users/updateLastName/:userName", mongoChecker, async (req, res) => {
   }
 });
 
+//update user userName for given userName
+//request body expects
+// {
+//     userName: <userName>
+// }
+app.patch(
+  "/users/updateUserName/:userName",
+  mongoChecker,
+  async (req, res) => {
+    try {
+      const user = await User.findOne({
+        userName: req.params.userName.toLowerCase(),
+      });
+      user.userName = req.body.userName;
+      await user.save();
+      res.send(user);
+    } catch (error) {
+      if (error.name === "CastError") {
+        res.status(404).send("Resource not found");
+      } else {
+        log(error);
+        res.status(500).send("Internal Server Error");
+      }
+    }
+  }
+);
 //add friend to user
 // request body expects
 // {

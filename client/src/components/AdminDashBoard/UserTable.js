@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { uuid } from "uuidv4";
 import User from "../../classes/User";
+import cPayRequest from "../../CryptoPayClient";
 
 class UserTable extends Component {
   constructor(props) {
@@ -95,9 +96,11 @@ class UserTable extends Component {
       .classList.remove("hidden");
   }
 
-  saveEdit(user, event) {
+  saveEdit = async (user, event) => {
     //hide save button
     event.target.classList.add("hidden");
+    let initial_userName = user.userName
+    console.log(initial_userName)
 
     //make all the editable cells uneditable
     let divs = document.querySelectorAll("." + user.userName.toString());
@@ -115,6 +118,13 @@ class UserTable extends Component {
     user.firstName = divs[0].innerHTML;
     user.lastName = divs[1].innerHTML;
     user.userName = divs[2].innerHTML;
+    console.log(user.firstName, user.lastName, user.userName)
+    await cPayRequest('/users/updateAll/'+initial_userName, 'PATCH', {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      userName: user.userName
+    });
+
   }
   newFirstNameChange(event) {
     this.setState({ newFirstName: event.target.value });
@@ -252,7 +262,6 @@ class UserTable extends Component {
                   className="block m-auto border rounded-md"
                 ></input>
               </th>
-              <th className="px-1 py-2 border text-center"> Account Balance</th>
               <th className="px-1 py-2 border text-center ">Edit</th>
               <th className="px-1 py-2 border text-center">Delete User</th>
             </tr>
