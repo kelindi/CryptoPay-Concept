@@ -131,7 +131,7 @@ class UserTransactionTable extends Component {
                     {transaction.destinationUser}
                   </td>
                   <td className="border px-4 py-2 text-center">
-                    {"$" + transaction.amount.toString()}
+                    {transaction.amount.toString()}
                   </td>
                   <td className="border px-4 py-2 text-center">
                     {transaction.date.slice(0, 10).toString()}

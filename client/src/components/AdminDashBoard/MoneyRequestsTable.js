@@ -77,7 +77,7 @@ class MoneyRequestsTable extends Component {
                       {request.amount.toString()}
                     </td>
                     <td className="px-4 py-2 border text-center">
-                      {request.date.toString()}
+                      {request.date.slice(0, 10).toString()}
                     </td>
                     <td className="px-4 py-2 border text-center">
                       {request.id.toString()}

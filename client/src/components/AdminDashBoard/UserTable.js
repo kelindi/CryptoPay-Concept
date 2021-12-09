@@ -286,9 +286,6 @@ class UserTable extends Component {
                   <td className="px-0.5 py-1 border text-center">
                     {user.walletAddress.toString()}
                   </td>
-                  <td className="px-0.5 py-1 border text-center">
-                    {"$" + user.currentAccountBalance.toString()}
-                  </td>
                   <td className="px-0.5 py-1 border text-center mx-2">
                     <button
                       className={

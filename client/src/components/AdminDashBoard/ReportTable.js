@@ -99,7 +99,7 @@ class ReportTable extends Component {
                     {report.reason.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {report.date.toString()}
+                    {report.date.slice(0, 10).toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
                     {report.time.toString()}
@@ -147,7 +147,7 @@ class ReportTable extends Component {
                     {report.reason.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {report.date.toString()}
+                    {report.date.slice(0, 10).toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
                     {report.time.toString()}

@@ -35,7 +35,7 @@ class TransactionTable extends Component {
           this.state.filterDestination == "") &&
         (t.amount.toString() == this.state.filterAmount.toString() ||
           this.state.filterAmount === "") &&
-        (t.date.toString().includes(this.state.filterDate.toString()) ||
+        (t.date.slice(0, 10).toString().includes(this.state.filterDate.toString()) ||
           this.state.filterDate === "") &&
         (t.time.toString() == this.state.filterTime.toString() ||
           this.state.filterTime === "") &&
@@ -146,10 +146,10 @@ class TransactionTable extends Component {
                     {transaction.destinationUser.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {"$" + transaction.amount.toString()}
+                    {transaction.amount.toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
-                    {transaction.date.toString()}
+                    {transaction.date.slice(0,10).toString()}
                   </td>
                   <td className="px-4 py-2 border text-center">
                     {transaction.time.toString()}
