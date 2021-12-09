@@ -160,6 +160,7 @@ class UserHeader extends Component {
         ) : null}
         {this.state.requestOpen ? (
           <RequestPopUp
+            currentUser={this.state.currentUser}
             toggle={this.reqPop}
             friendsList={this.props.global.friendsList}
             minimizeSend={this.reqPopOff}

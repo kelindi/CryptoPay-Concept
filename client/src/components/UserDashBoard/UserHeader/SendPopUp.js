@@ -49,8 +49,8 @@ class SendPopUp extends Component {
                 let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 let yyyy = today.getFullYear();
 
-                let h = today.getHours()
-                let m = today.getMinutes();
+                let h = String(today.getHours())
+                let m = String(today.getMinutes()).padStart(2, '0');
 
                 let date = yyyy + '-' + mm + '-' + dd;
                 let time = h + ':' + m;
