@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import cPayRequest from "../../CryptoPayClient";
 class MoneyRequestsTable extends Component {
     constructor(props) {
       super(props);
@@ -14,9 +15,10 @@ class MoneyRequestsTable extends Component {
     }
 
 
-    deleteRequest = () => {
+    deleteRequest = async() => {
         let newMoneyRequests = this.state.moneyRequests.filter((request) => (request !== this.state.requestToDelete))
         this.setState({moneyRequests:newMoneyRequests},this.setState({showDeletePopup: false}))
+        await this.state.requestToDelete.deleteRequest();
     }
   
     render() {

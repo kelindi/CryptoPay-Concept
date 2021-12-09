@@ -334,42 +334,6 @@ class UserTable extends Component {
           </tbody>
         </table>
         <div className="flex">
-          {/* <div className="my-2 mx-auto">
-            <input
-              className={
-                (this.state.noFirstName
-                  ? "border-red-500"
-                  : "boder-black-700") + " border rounded-md mx-1 px-4"
-              }
-              placeholder="First Name"
-              value={this.state.newFirstName}
-              onChange={this.newFirstNameChange}
-            ></input>
-            <input
-              className={
-                (this.state.noLastName ? "border-red-500" : "boder-black-700") +
-                " border rounded-md mx-1 px-4"
-              }
-              placeholder="Last Name"
-              value={this.state.newLastName}
-              onChange={this.newLastNameChange}
-            ></input>
-            <input
-              className={
-                (this.state.noUserName ? "border-red-500" : "boder-black-700") +
-                " border rounded-md mx-1 px-4"
-              }
-              placeholder="Username"
-              value={this.state.newUserName}
-              onChange={this.newUserNameChange}
-            ></input>
-            <button
-              className="bg-green-500 border rounded-2xl px-2 py-1 transform hover:scale-110 transition duration-500 ease-in-out"
-              onClick={() => this.addNewUser()}
-            >
-              Add New User
-            </button>
-          </div> */}
         </div>
       </div>
     );
