@@ -179,6 +179,7 @@ class UserDashBoard extends Component {
               global={this.state}
               changeSentFriendRequests={this.changeSentFriendRequests}
               currentUser={this.state}
+              updateUserData={this.updateUserData}
             ></FriendsList>
           </div>
         </div>
