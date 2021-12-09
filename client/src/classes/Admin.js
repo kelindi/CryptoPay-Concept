@@ -39,8 +39,14 @@ class Admin {
 		({status, data} = await cPayRequest('/reports','GET'));
 		if(status === 200 && data.length > 0){
 			data.forEach(async (request) => {
-				const report = new Report(request.submitter, request.reportedUser, request.reason, request.date, request.time, request._id);
-				this.reports.push(report)
+				if (request.status === false){
+					const report = new Report(request.submitter, request.reportedUser, request.reason, request.date, request.time, request._id, '');
+					this.reports.push(report)
+				}else{
+					const report = new Report(request.submitter, request.reportedUser, request.reason, request.date, request.time, request._id, request.comment);
+					this.resolvedReports.push(report)
+				}
+				
 			});
 		};
 

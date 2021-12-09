@@ -740,7 +740,7 @@ app.patch("/reports/:id", mongoChecker, async (req, res) => {
     try {
         const report = await Report.findById(req.params.id);
         report.comment = req.body.comment;
-        report.resolved = true;
+        report.status = true;
         await report.save();
         res.send(report);
     } catch (error) {
