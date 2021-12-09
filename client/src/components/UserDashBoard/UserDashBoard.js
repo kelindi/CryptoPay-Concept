@@ -7,6 +7,7 @@ import FriendRequest from "../../classes/FriendRequest";
 import { ethers } from "ethers";
 import { uuid } from "uuidv4";
 import { Redirect } from "react-router";
+import { hexValue } from "@ethersproject/bytes";
 
 class UserDashBoard extends Component {
   constructor(props) {
@@ -89,6 +90,25 @@ class UserDashBoard extends Component {
     });
     this.setUserData();
   };
+
+  sendMoney = async (address,amount) => {
+    if(!window.ethereum){
+      alert("Please install a crypto wallet to use this feature");
+      return;
+    }
+    try {
+    ethers.utils.getAddress(address);
+    const tx = await this.user.signer.sendTransaction({
+      to: address,
+      value: ethers.utils.parseEther(amount),
+    })
+  }
+  catch(err){
+    console.log(err);
+
+
+  }
+}
 
   setUserData = async () => {
     let firstName = "firstName";
@@ -201,6 +221,7 @@ class UserDashBoard extends Component {
               currentUser={this.state}
               useApi={this.props.useApi}
               userData={this.props.userData}
+              sendMoney={this.sendMoney}
             ></UserHeader>
 
             <UserFeed
@@ -221,6 +242,7 @@ class UserDashBoard extends Component {
               updateUserData={this.updateUserData}
               key={this.state}
               user={this.state}
+              sendMoney={this.sendMoney}
             ></FriendsList>
           </div>
         </div>
