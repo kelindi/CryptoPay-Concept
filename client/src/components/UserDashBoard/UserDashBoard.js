@@ -6,32 +6,56 @@ import UserHeader from "./UserHeader/UserHeader";
 import FriendRequest from "../../classes/FriendRequest";
 import { ethers } from "ethers";
 import { uuid } from "uuidv4";
+import { Redirect } from "react-router";
 
 class UserDashBoard extends Component {
   constructor(props) {
     super(props);
+    
 
     this.state = {
-      userBalance: this.props.currentUser.currentAccountBalance,
+      userBalance: null,
       userName: this.props.currentUser.userName,
       firstName: this.props.currentUser.firstName,
       lastName: this.props.currentUser.lastName,
       friendsList: this.props.currentUser.friendsList,
-      provider: this.props.currentUser.provider,
-      signer: this.props.currentUser.signer,
-      wallet: this.props.currentUser.walletAddress,
       profilePicture: this.props.currentUser.profilePicture,
-      incomingFriendRequests: this.props.currentUser.incomingFriendRequests,
-      sentFriendRequests: this.props.currentUser.sentFriendRequests,
-      incomingMoneyRequests: this.props.currentUser.incomingMoneyRequests,
-      sentMoneyRequests: this.props.currentUser.sentMoneyRequests,
-      transactions: this.props.currentUser.transactions,
+      provider: null,
+      signer: null,
+      wallet: null,
+      incomingFriendRequests: null,
+      sentFriendRequests: null,
+      incomingMoneyRequests: null,
+      sentMoneyRequests: null,
+      transactions: null,
       update: 0,
       user: this.props.currentUser,
+      walletNotConnected: false,
     };
   }
   componentDidMount = () => {
-    console.log(this.props);
+    this.setUpWallet();
+    this.updateUserData();
+  };
+
+  setUpWallet = async () => {
+    const isWallet = await this.props.connectWallet();
+    //check that wallet is connected if not redirect to get metamask page
+    if (isWallet.connectedStatus === false) {
+      this.setState({ walletNotConnected: true });
+      return;
+    }
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    let signer = provider.getSigner();
+    let wallet = await signer.getAddress();
+    let userBalance = await provider.getBalance(wallet);
+    userBalance = ethers.utils.formatEther(userBalance);
+    this.setState({
+      provider: provider,
+      signer: signer,
+      wallet: wallet,
+      userBalance: userBalance,
+    });
   };
 
   updateUserData = async () => {
@@ -151,6 +175,12 @@ class UserDashBoard extends Component {
 
   render() {
     const { currentUser } = this.props;
+    if (this.props.sessionStatus === false) {
+      return <Redirect to="/login" />;
+    }
+    if (this.state.walletNotConnected) {
+      return <Redirect to="/metamask" />;
+    }
     return (
       <div className="font-serif bg-gray-900 overflow-hidden">
         <div className="flex flex-column h-100">
@@ -160,6 +190,7 @@ class UserDashBoard extends Component {
               changeFriendsList={this.changeFriendsList}
               changeIncomingFriendRequests={this.changeIncomingFriendRequests}
               global={this.state}
+              user = {this.state}
             ></NotificationBar>
             <UserHeader
               key={this.state}

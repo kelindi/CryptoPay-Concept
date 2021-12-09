@@ -33,14 +33,6 @@ class Login extends Component {
   handleLogin = async (event) => {
     event.preventDefault();
 
-    const wallet = await this.props.connectWallet();
-
-    //check that wallet is connected if not redirect to get metamask page
-    if (wallet.connectedStatus === false) {
-      this.setState({ walletNotConnected: true });
-      return;
-    }
-
     let login = {
       userName: this.state.userName.toLowerCase(),
       password: this.state.password,
@@ -94,11 +86,6 @@ class Login extends Component {
 
   setUpUserData = async () => {
     let userData = {};
-    userData.provider = new ethers.providers.Web3Provider(window.ethereum);
-    userData.signer = userData.provider.getSigner();
-    userData.wallet = await userData.signer.getAddress();
-    let userBalance = await userData.provider.getBalance(userData.wallet);
-    userData.userBalance = ethers.utils.formatEther(userBalance);
     const { status, data } = await this.props.useApi(
       "get",
       "/api/user/" + this.state.userName
@@ -116,11 +103,8 @@ class Login extends Component {
       userData.firstName,
       userData.lastName,
       userData.userName,
-      userData.userBalance,
-      userData.wallet,
-      userData.signer,
-      userData.provider
     );
+
     await user.updateData();
     await this.props.setCurrentUser(user);
     await this.props.setUserData(user);
@@ -128,16 +112,15 @@ class Login extends Component {
 
   render() {
     // if this.state.redirect is true, redirect to this path
-    // if (this.state.redirectUser) {
-    //   return <Redirect push to="/userDashBoard" />;
-    // }
+    if (this.state.redirectUser) {
+      return <Redirect push to="/userDashBoard" />;
+    }
+    if(this.props.sessionStatus === true){
+      return <Redirect push to="/userDashBoard" />;
+    }
       if (this.state.redirectAdmin) {
       return <Redirect push to="/adminDashBoard" />;
     }
-    if (this.state.walletNotConnected) {
-      return <Redirect push to="/metamask" />;
-    }
-
     return (
       <div className="font-serif">
         <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-gray-900">

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Loading from "../../Loading";
 
 class UserTransactionTable extends Component {
   constructor(props) {
@@ -12,8 +13,7 @@ class UserTransactionTable extends Component {
       //retreive all the transactions from the backend
       // transactions: this.props.global.transactions,
       // masterTransactions: this.props.global.transactions,
-      transactions: this.props.user.transactions,
-      masterTransactions: this.props.user.transactions,
+      transactions: []
     };
     this.filterDestinationChange = this.filterDestinationChange.bind(this);
     this.filterAmountChange = this.filterAmountChange.bind(this);
@@ -26,10 +26,14 @@ class UserTransactionTable extends Component {
     this.filter()
   }
   filter() {
-    const filteredTransactions = this.state.masterTransactions.filter(
+    let masterTransactions = this.props.user.transactions;
+    if (masterTransactions === null) {
+      return
+    }
+    const filteredTransactions = masterTransactions.filter(
       (t) =>
         t.originUser ===
-          this.props.global.userName &&
+          this.props.user.userName &&
         (t.destinationUser
           .toString()
           .includes(this.state.filterDestination.toString()) ||
@@ -124,7 +128,10 @@ class UserTransactionTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.transactions.map((transaction) => {
+            {this.props.user.transactions === null ? (
+              <Loading></Loading>
+            ) : (
+            this.state.transactions.map((transaction) => {
               return (
                 <tr className = "border"key={transaction.id}>
                   <td className="border px-4 py-2 text-center">
@@ -144,7 +151,7 @@ class UserTransactionTable extends Component {
                   </td>
                 </tr>
               );
-            })}
+            }))}
           </tbody>
         </table>
       </div>

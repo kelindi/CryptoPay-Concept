@@ -15,6 +15,7 @@ import { ethers } from "ethers";
 import Admin from "./classes/Admin";
 import { Redirect } from "react-router";
 import { checkSession } from "./CheckSession";
+import {createBrowserHistory} from 'history';
 
 class App extends React.Component {
   constructor(props) {
@@ -100,8 +101,9 @@ class App extends React.Component {
   };
 
   render() {
+    const browserHistory = createBrowserHistory();
     return (
-      <BrowserRouter>
+      <BrowserRouter history={browserHistory}>
         <Switch>
         <Route
             exact path={["/", "/login", "/userDashBoard"] /* any of these URLs are accepted. */ }
@@ -118,6 +120,7 @@ class App extends React.Component {
                   useApi={this.useApi}
                   userData={this.state.currentUser}
                   updateData = {this.updateData}
+                  connectWallet={this.connectWallet}
                 />}
                 </div>                   // ... spread operator - provides all of the props in the props object
                 
@@ -133,6 +136,7 @@ class App extends React.Component {
                 setCurrentUser={this.setCurrentUser}
                 useApi={this.useApi}
                 setUserData={this.setUserData}
+                sessionStatus={this.state.currentUser}
               />
             )}
           />
@@ -154,6 +158,8 @@ class App extends React.Component {
                 useApi={this.useApi}
                 userData={this.state.userData}
                 updateData = {this.updateData}
+                connectWallet={this.connectWallet}
+                sessionStatus={this.state.currentUser}
               />
             )}
           />

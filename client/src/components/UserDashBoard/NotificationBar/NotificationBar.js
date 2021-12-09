@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { uuid } from "uuidv4";
+import Loading from "../../Loading";
 import FriendRequest from "../UserFeed/FriendRequest";
 
 class NotificationBar extends Component {
@@ -8,7 +9,7 @@ class NotificationBar extends Component {
     super(props);
     this.state = {
       showIncomingFriendRequests: false,
-      redirect: false
+      redirect: false,
     };
   }
 
@@ -32,10 +33,8 @@ class NotificationBar extends Component {
   };
 
   logout = () => {
-    this.setState({redirect: true})
-    // maybe change sessions? like reset user in session to undefined?
-  }
-
+    this.setState({ redirect: true });
+  };
 
   render() {
     if (this.state.redirect) {
@@ -46,13 +45,18 @@ class NotificationBar extends Component {
     return (
       <div className="font-sans">
         <div className="bg-gray-800 h-10 py-2 relative">
-          <div className = "ml-auto relative">
-          <div className = "text-gray-300 float-left ml-6 text-lg">CryptoPay</div>
+          <div className="ml-auto relative">
+            <div className="text-gray-300 float-left ml-6 text-lg">
+              CryptoPay
+            </div>
             <div className="float-right relative inline-block mr-6 my-2">
               {/* Log Out Button */}
               {/* Add svg and then redirect it to login page on click */}
-              <img className='h-4 w-4' src = '../../../../images/logout-2.jpg'
-                   onClick={this.logout} ></img>
+              <img
+                className="h-4 w-4"
+                src="../../../../images/logout-2.jpg"
+                onClick={this.logout}
+              ></img>
             </div>
             <div className="float-right relative inline-block mr-6 my-2">
               {/* Notification Button */}
@@ -74,30 +78,45 @@ class NotificationBar extends Component {
               <span
                 className={
                   "flex absolute -top-2.5 -right-2 h-4 w-4 bg-red-500 rounded-full items-center justify-center text-xs " +
-                  (global.incomingFriendRequests.length > 0
+                  (this.props.user.incomingFriendRequests === null
+                    ? "hidden"
+                    : this.props.user.incomingFriendRequests.length > 0
                     ? "animate-small-slow-ping"
                     : "hidden")
                 }
               >
-                {global.incomingFriendRequests.length}
+                {this.props.user.incomingFriendRequests === null ? (0) :
+                this.props.user.incomingFriendRequests.length}
               </span>
               <div className="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20 w-96">
-                {this.state.showIncomingFriendRequests &&
-                global.incomingFriendRequests.length ? (
+                {this.props.user.incomingFriendRequests === null ? ( <div> </div>
+                ) : this.state.showIncomingFriendRequests &&
+                  this.props.user.incomingFriendRequests.length > 0 ? (
                   <div className="py-2">
-                    {global.incomingFriendRequests.map((requestor) => (
+
+                    {this.props.user.incomingFriendRequests.map((requestor) => (
+                      
                       <div className="flex items-center px-4 py-3 border-b mx-2 bg-gray-100 rounded-xl shadow-lg my-1.5">
                         <img
                           className="h-8 w-8 rounded-full object-cover mx-1"
-                          src={"https://avatars.dicebear.com/api/bottts/"+requestor.originUser+".png"}
+                          src={
+                            "https://avatars.dicebear.com/api/bottts/" +
+                            requestor.originUser +
+                            ".png"
+                          }
                         />
                         <p className="text-gray-600 text-sm mx-2">
                           <span className="font-bold block">
                             {requestor.originUser}
                           </span>
-                          <span className = "font-light text-sm ">{requestor.originFirstName}</span>{" "}
-                          <span className = "font-light text-sm ">{requestor.originLastName}</span>
+                          <span className="font-light text-sm ">
+                            {requestor.originFirstName}
+                          </span>{" "}
+                          <span className="font-light text-sm ">
+                            {requestor.originLastName}
+                          </span>
                         </p>
+                        
                         <div className="ml-auto text-xs">
                           <button
                             onClick={() => this.acceptRequest(requestor)}
