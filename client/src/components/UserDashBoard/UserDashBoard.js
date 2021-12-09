@@ -35,9 +35,8 @@ class UserDashBoard extends Component {
   };
 
   updateUserData = async () => {
-    let newUser = await this.state.user.updateData();
-    console.log("hhhh");
-    console.log(newUser);
+    let {status,newUser} = await this.state.user.updateData();
+    if(status ===200){
     this.setState({
       user: newUser,
       friendsList: newUser.friendsList,
@@ -48,6 +47,7 @@ class UserDashBoard extends Component {
       transactions: newUser.transactions,
       profilePicture: newUser.profilePicture,
     });
+  }
   };
 
   setUpWeb3 = async () => {

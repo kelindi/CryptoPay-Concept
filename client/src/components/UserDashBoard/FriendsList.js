@@ -293,7 +293,7 @@ class FriendsList extends Component {
                                 newReqList = newReqList.filter(
                                   (req) => req.destinationUser === u.userName
                                 );
-                                await this.props.changeSentFriendRequests(newReqList);
+                                this.props.changeSentFriendRequests(newReqList);
                                 this.sendFriendRequest(u.userName);
                               }}
                             >

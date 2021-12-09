@@ -295,6 +295,51 @@ app.get("/api/users/all", mongoChecker, async (req, res) => {
       res.status(500).send("Internal Server Error");
   }
 });
+//get all userdata
+app.get("/api/user/data/:userName", mongoChecker, async (req, res) => {
+  try {
+      const user = await User.findOne({userName: req.params.userName});
+      //find all friendRequests with the originUser as the userName
+      const sentfriendRequests = await FriendRequest.find({originUser: user.userName});
+      //find all friendRequests with the targetUser as the userName
+      const incomingfriendRequests = await FriendRequest.find({destinationUser: user.userName});
+      //find all moneyRequests with the originUser as the userName
+      const sentMoneyRequests = await MoneyRequest.find({originUser: user.userName});
+      //find all moneyRequests with the targetUser as the userName
+      const incomingMoneyRequests = await MoneyRequest.find({destinationUser: user.userName});
+      //find all transactions with the originUser as the userName or the detinationUser as the userName
+      const transactions = await Transaction.find({$or: [{originUser: user.userName}, {destinationUser: user.userName}]});
+      const friends = await Promise.all(
+        user.friends.map(async (friend) => {
+          const friendUser = await User.findOne({ _id: friend });
+          return {
+            userName: friendUser.userName,
+            firstName: friendUser.firstName,
+            lastName: friendUser.lastName,
+            walletAddress: friendUser.walletAddress,
+          };
+        })
+      );
+      //send all this data
+      res.send({
+        userName: user.userName,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        walletAddress: user.walletAddress,
+        friends: friends,
+        sentFriendRequests: sentfriendRequests,
+        incomingFriendRequests: incomingfriendRequests,
+        sentMoneyRequests: sentMoneyRequests,
+        incomingMoneyRequests: incomingMoneyRequests,
+        transactions: transactions,
+      });
+  } catch (error) {
+
+      log(error);
+      res.status(500).send("Internal Server Error");
+  }
+});
+
 
 
 

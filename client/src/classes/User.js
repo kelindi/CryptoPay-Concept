@@ -1,124 +1,160 @@
-import cPayRequest from "../CryptoPayClient"
-import Friend from "./Friend"
-import MoneyRequest from "./MoneyRequest"
-import FriendRequest from "./FriendRequest"
-import Transaction from "./Transaction"
+import cPayRequest from "../CryptoPayClient";
+import Friend from "./Friend";
+import MoneyRequest from "./MoneyRequest";
+import FriendRequest from "./FriendRequest";
+import Transaction from "./Transaction";
 
 //uid
-class User{
-	constructor(firstName, lastName,userName,currentAccountBalance,walletAddress,signer,provider) {
-		this.firstName = firstName
-		this.lastName= lastName
-        this.userName = userName
-		this.currentAccountBalance = currentAccountBalance
-		this.walletAddress = walletAddress
-		this.signer = signer
-		this.provider = provider
+class User {
+  constructor(
+    firstName,
+    lastName,
+    userName,
+    currentAccountBalance,
+    walletAddress,
+    signer,
+    provider
+  ) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.userName = userName;
+    this.currentAccountBalance = currentAccountBalance;
+    this.walletAddress = walletAddress;
+    this.signer = signer;
+    this.provider = provider;
 
-		// all this cannot be initialized when there is a backend, purely exposed for testing purposes
-		this.friendsList = []
-        this.transactions = []
-		this.sentMoneyRequests = []
-		this.incomingMoneyRequests = []
-		this.sentFriendRequests =[]
-		this.incomingFriendRequests =[]
-		this.profilePicture = "https://avatars.dicebear.com/api/bottts/"+userName+".png" // this value will be passed in as default valur
+    // all this cannot be initialized when there is a backend, purely exposed for testing purposes
+    this.friendsList = [];
+    this.transactions = [];
+    this.sentMoneyRequests = [];
+    this.incomingMoneyRequests = [];
+    this.sentFriendRequests = [];
+    this.incomingFriendRequests = [];
+    this.profilePicture =
+      "https://avatars.dicebear.com/api/bottts/" + userName + ".png"; // this value will be passed in as default valur
+  }
 
-	}
-	
+  updateData = async () => {
+    const { status, data } = await cPayRequest(
+      "/api/user/data/" + this.userName.toLowerCase(),
+      "GET"
+    );
+	console.log(status)
+	console.log(data);
+    if (status === 200) {
+      this.incomingMoneyRequests = [];
+      data.incomingMoneyRequests.forEach(async (request) => {
+        const mr = new MoneyRequest(
+          request._id,
+          request.originUser,
+          request.destinationUser,
+          request.destinationWallet,
+          request.amount,
+          request.date
+        );
+        this.incomingMoneyRequests.push(mr);
+        await mr.getIncomingFirstLastName();
+      });
+      this.sentMoneyRequests = [];
+      data.sentMoneyRequests.forEach(async (request) => {
+        const mr = new MoneyRequest(
+          request._id,
+          request.originUser,
+          request.destinationUser,
+          request.destinationWallet,
+          request.amount,
+          request.date
+        );
+        this.sentMoneyRequests.push(mr);
+        await mr.getOutgoingFirstLastName();
+      });
 
-	updateData = async () =>{
-		let {status, data} = await cPayRequest('/moneyRequests/incoming/'+this.userName,'GET');
-		this.incomingMoneyRequests = []
-		if(status === 200 && data.length > 0){
-			this.incomingMoneyRequests = []
-			data.forEach(async (request) => {
-				const mr = new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date);
-				this.incomingMoneyRequests.push(mr)
-				await mr.getIncomingFirstLastName();
-			});
-			console.log(this.incomingMoneyRequests)
-		};
-		
-		({status, data} = await cPayRequest('/moneyRequests/outgoing/'+this.userName,'GET'));
-		this.sentMoneyRequests = []
-		if(status === 200 && data.length > 0){
-			this.sentMoneyRequests = []
-			data.forEach(async (request) => {
-				const mr = new MoneyRequest(request._id,request.originUser,request.destinationUser,request.destinationWallet,request.amount,request.date);
-				this.sentMoneyRequests.push(mr)
-				await mr.getOutgoingFirstLastName();
-			});
-		};
-		({status, data} = await cPayRequest('/friendRequests/incoming/'+this.userName,'GET'));
-		this.incomingFriendRequests = []
-		if(status === 200 && data.length > 0){
-			data.forEach(async (request) => {
-				const fr = new FriendRequest(request._id,request.originUser,request.destinationUser,request.date)
-				this.incomingFriendRequests.push(fr)
-				await fr.getIncomingFirstLastName();
-			});
-			// data.forEach(request => {
-			// 	this.incomingFriendRequests.push(new FriendRequest(request._id,request.originUser,request.destinationUser,request.date))
-			// });
-		};
-		({status, data} = await cPayRequest('/friendRequests/outgoing/'+this.userName,'GET'));
-		this.sentFriendRequests = []
-		if(status === 200 && data.length > 0){
-			data.forEach(async (request) => {
-				const fr = new FriendRequest(request._id,request.originUser,request.destinationUser,request.date)
-				this.sentFriendRequests.push(fr)
-				await fr.getOutgoingFirstLastName();
-			});
-			// data.forEach(request => {
-			// 	this.sentFriendRequests.push(new FriendRequest(request._id,request.originUser,request.destinationUser,request.date))
-			// });
-		};
-		({status, data} = await cPayRequest('/api/user/'+this.userName+"/friends",'GET'));
-		this.friendsList = []
-		if(status === 200 && data.length > 0){
-			this.friendsList = []
-			data.forEach(friend => {
-				this.friendsList.push(new Friend(friend.firstName,friend.lastName,friend.userName,'/images/pfDefault.png',friend.walletAddress))
-			});
-		};
-		({status, data} = await cPayRequest('/transactions/'+this.userName,'GET'));
-		this.transactions = []
-		if(status === 200 && data.length > 0){
-			data.forEach(transaction => {
-				this.transactions.push(new Transaction(transaction.originUser,transaction.destinationUser,transaction.amount,transaction.date, transaction.time, transaction._id))
-			});
-		};
-		return this
+      this.incomingFriendRequests = [];
+      data.incomingFriendRequests.forEach(async (request) => {
+        const fr = new FriendRequest(
+          request._id,
+          request.originUser,
+          request.destinationUser,
+          request.date
+        );
+        this.incomingFriendRequests.push(fr);
+        await fr.getIncomingFirstLastName();
+      });
 
-	};
+      this.sentFriendRequests = [];
+      data.sentFriendRequests.forEach(async (request) => {
+        const fr = new FriendRequest(
+          request._id,
+          request.originUser,
+          request.destinationUser,
+          request.date
+        );
+        this.sentFriendRequests.push(fr);
+        await fr.getOutgoingFirstLastName();
+      });
 
-	//TODO
-	requestMoney = async ()  =>{
-		const {status, data} = await cPayRequest('moneyRequests/','POST',{originuser:this.userName,destinationuser:this.userName,destinationwallet:this.walletAddress,amount:this.amount,date:new Date().toJSON().slice(0,10).replace(/-/g,'/')})
-		if (status !== 200) {
-			console.log(data)
-		}
-		await this.updateData()
-	}
-	
-	requestFriend = async (friendUserName) => {
-		const {status, data} = await cPayRequest('friendRequests/','POST',{orginUser:this.userName,destinationUser:friendUserName,date:new Date().toJSON().slice(0,10).replace(/-/g,'/')})
-		if (status !== 200) {
-			console.log(data)
-		}
-		await this.updateData()
+      this.friendsList = [];
+	  // create new friend for each friend in data.friends and push it to friendsList
+	  data.friends.forEach(async (friend) => {
+		const f = new Friend(friend.firstName,friend.lastName,friend.userName,friend.walletAddress,friend.profilePicture,friend.walletAddress)
+		this.friendsList.push(f);
+	  });
 
+      this.transactions = [];
+      data.transactions.forEach((transaction) => {
+        this.transactions.push(
+          new Transaction(
+            transaction.originUser,
+            transaction.destinationUser,
+            transaction.amount,
+            transaction.date,
+            transaction.time,
+            transaction._id
+          )
+        );
+      });
+    }
+	return {status:status,newUser:this};
+  };
 
-	}
+  //TODO
+  requestMoney = async () => {
+    const { status, data } = await cPayRequest("moneyRequests/", "POST", {
+      originuser: this.userName,
+      destinationuser: this.userName,
+      destinationwallet: this.walletAddress,
+      amount: this.amount,
+      date: new Date().toJSON().slice(0, 10).replace(/-/g, "/"),
+    });
+    if (status !== 200) {
+      console.log(data);
+    }
+    await this.updateData();
+  };
 
-	addWalletaddress = async () =>{
-		const {status, data} = await cPayRequest('/users/updateWalletAddress/'+this.userName,'PATCH',{walletAddress:this.walletAddress})
-		if (status !== 200) {
-			console.log(data)
-		}
-		await this.updateData()
-	}
+  requestFriend = async (friendUserName) => {
+    const { status, data } = await cPayRequest("friendRequests/", "POST", {
+      orginUser: this.userName,
+      destinationUser: friendUserName,
+      date: new Date().toJSON().slice(0, 10).replace(/-/g, "/"),
+    });
+    if (status !== 200) {
+      console.log(data);
+    }
+    await this.updateData();
+  };
+
+  addWalletaddress = async () => {
+    const { status, data } = await cPayRequest(
+      "/users/updateWalletAddress/" + this.userName,
+      "PATCH",
+      { walletAddress: this.walletAddress }
+    );
+    if (status !== 200) {
+      console.log(data);
+    }
+    await this.updateData();
+  };
 }
 
-export default User
+export default User;
