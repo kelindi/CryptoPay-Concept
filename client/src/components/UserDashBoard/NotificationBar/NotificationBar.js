@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { uuid } from "uuidv4";
 import FriendRequest from "../UserFeed/FriendRequest";
 
@@ -6,7 +7,8 @@ class NotificationBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showIncomingFriendRequests: false
+      showIncomingFriendRequests: false,
+      redirect: false
     };
   }
 
@@ -29,8 +31,15 @@ class NotificationBar extends Component {
     this.props.changeIncomingFriendRequests(newIncomingFriendRequests);
   };
 
+  logout = () => {
+    this.setState({redirect: true})
+  }
+
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect push to="/" />;
+    }
     const { global } = this.props;
     return (
       <div className="font-sans">
@@ -38,6 +47,13 @@ class NotificationBar extends Component {
           <div className = "ml-auto relative">
           <div className = "text-gray-300 float-left ml-6 text-lg">CryptoPay</div>
             <div className="float-right relative inline-block mr-6 my-2">
+              {/* Log Out Button */}
+              {/* Add svg and then redirect it to login page on click */}
+              <img className='h-4 w-4' src = '../../../../images/logout-2.jpg'
+                   onClick={this.logout} ></img>
+            </div>
+            <div className="float-right relative inline-block mr-6 my-2">
+              {/* Notification Button */}
               <svg
                 onClick={() =>
                   this.setState({
