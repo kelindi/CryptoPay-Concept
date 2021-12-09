@@ -561,12 +561,13 @@ app.delete("/friendRequests/:id", mongoChecker, async (req, res) => {
     try {
         await FriendRequest.findByIdAndDelete(req.params.id);
         res.send("Friend Request Deleted");
+        console.log(friendDeleted)
     } catch (error) {
         if (error.name === "CastError") {
             res.status(404).send("Resource not found");
         } else {
-            log(error);
-            res.status(500).send("Internal Server Error");
+            log(error);    
+            res.status(500);
         }
     }
 });

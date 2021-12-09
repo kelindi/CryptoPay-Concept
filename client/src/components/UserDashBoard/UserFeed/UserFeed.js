@@ -121,9 +121,9 @@ class UserFeed extends Component {
             OUTGOING FRIEND REQUESTS
           </div>
 
-          <div className={"overflow-y-scroll bg-white rounded-xl mx-5 my-4.5 "+ (global.sentFriendRequests.length > 0 ? "h-32":"")}>
+          <div className={"overflow-y-scroll bg-white rounded-xl mx-5 my-4.5 "+ (this.props.currentUser.sentFriendRequests.length > 0 ? "h-32":"")}>
           
-            {global.sentFriendRequests.map((requestor) => (
+            {this.props.currentUser.sentFriendRequests.map((requestor) => (
               <div key = { uuid()} className="h-12 flex items-center px-4 py-3 border-b bg-gray-100 rounded-xl shadow-md my-2">
                 
                 <img
