@@ -6,6 +6,7 @@ import IncomingMoneyRequest from "./TransactionFeed/IncomingMoneyRequest";
 import { acceptRequest } from "./FriendRequestResponses";
 import OutgoingMoneyRequest from "./TransactionFeed/OutgoingMoneyTransaction";
 import UserTransactionTable from "./UserTransactions";
+import Loading from "../../Loading";
 
 /*
 TODO
@@ -90,7 +91,7 @@ class UserFeed extends Component {
     const newSentRequests = this.props.global.sentFriendRequests.filter((r) => {
       return r !== requestee;
     });
-    this.props.changeSentFriendRequests(newSentRequests)
+    this.props.changeSentFriendRequests(newSentRequests);
   };
 
   sendPopOn = () => {
@@ -114,93 +115,59 @@ class UserFeed extends Component {
     } = this.props;
     return (
       <div className="relative h-full flex flex-col">
-        {/* Container Div */}
-        <div className="bg-white rounded-xl w-auto bg-color m-4 flex flex-col shadow-2xl">
-          {/* div for outgoing requests */}
-          <div className="font-sans text-black text-xl font-light  tracking-widest text-center">
-            OUTGOING FRIEND REQUESTS
-          </div>
-
-          <div className={"overflow-y-scroll bg-white rounded-xl mx-5 my-4.5 "+ (this.props.currentUser.sentFriendRequests.length > 0 ? "h-32":"")}>
-          
-            {this.props.currentUser.sentFriendRequests.map((requestor) => (
-              <div key = { uuid()} className="h-12 flex items-center px-4 py-3 border-b bg-gray-100 rounded-xl shadow-md my-2">
-                <img
-                  className="h-8 w-8 rounded-full object-cover mx-1"
-                  src={"https://avatars.dicebear.com/api/bottts/"+requestor.destinationUser+".png"}
-                />
-                <p className="text-gray-600 text-sm mx-2">
-                  <span className=" float-left font-bold block uppercase">({requestor.destinationUser})</span>{" "}
-                  <span className="float-right">
-                    <span className = "font-light text-sm ">{requestor.destinationFirstName}</span>{" "}
-                    <span className = "font-light text-sm ">{requestor.destinationLastName}</span>
-                  </span>
-                  <div className="px-1 font-light">
-                    Sent on {requestor.date.slice(0, 10)}{" "}
-                  </div>
-                </p>
-                <div className="ml-auto text-xs">
-                  <button
-                    onClick={() => this.handleRescind(requestor)}
-                    className="mx-1 px-2 py-1 bg-red-500 rounded-3xl text-white shadow-lg"
-                  >
-                    Cancel Request
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         <div className="bg-white rounded-xl w-auto bg-color m-4 flex flex-row shadow-2xl">
           <div className="overflow-y-auto rounded-xl my-4 mx-2 w-full">
             <div className="font-sans text-black text-xl font-light tracking-widest text-center ">
               INCOMING MONEY REQUESTS
             </div>
-            <div className = "bg-white rorounded-xl">
-            {this.props.currentUser.incomingMoneyRequests.map((request) => (
-              <IncomingMoneyRequest
-                key={uuid()}
-                request={request}
-                user={this.state.user}
-                global={this.props.currentUser}
-                balance={this.props.currentUser.currentAccountBalance}
-                changeIncomingMoneyRequests={
-                  this.props.changeIncomingMoneyRequests
-                }
-                changeUserBalance={this.props.changeUserBalance}
-              />
-            
-            ))}
-                
+            <div className="bg-white rorounded-xl">
+              {this.props.currentUser.incomingMoneyRequests === null ? (
+                <Loading></Loading>
+              ) : (
+                this.props.currentUser.incomingMoneyRequests.map((request) => (
+                  <IncomingMoneyRequest
+                    key={uuid()}
+                    request={request}
+                    user={this.state.user}
+                    global={this.props.currentUser}
+                    balance={this.props.currentUser.currentAccountBalance}
+                    changeIncomingMoneyRequests={
+                      this.props.changeIncomingMoneyRequests
+                    }
+                    changeUserBalance={this.props.changeUserBalance}
+                  />
+                ))
+              )}
             </div>
           </div>
-          
-          
-          
+
           <div className=" overflow-y-auto rounded-xl my-4 mx-2 w-full">
             <div className="font-sans text-black text-xl font-light tracking-widest text-center">
               OUTGOING MONEY REQUESTS
             </div>
-            {global.sentMoneyRequests.map((request) => (
-              <OutgoingMoneyRequest
-                key={uuid()}
-                request={request}
-                global={this.props.global}
-                changeOutgoingMoneyRequests={
-                  this.props.changeOutgoingMoneyRequests
-                }
-              />
-            ))}
+            {this.props.currentUser.sentMoneyRequests === null ? (
+              <Loading></Loading>
+            ) : (
+              this.props.currentUser.sentMoneyRequests.map((request) => (
+                <OutgoingMoneyRequest
+                  key={uuid()}
+                  request={request}
+                  global={this.props.global}
+                  changeOutgoingMoneyRequests={
+                    this.props.changeOutgoingMoneyRequests
+                  }
+                />
+              ))
+            )}
           </div>
           {/* div for rest of the feed */}
         </div>
 
-        <div className = "bg-white rounded-xl shadow-2xl m- overflow-y-auto h-48">
-            <UserTransactionTable 
-            user = {this.state.user}
-            global = {this.props.global} 
-            ></UserTransactionTable>
+        <div className="bg-white rounded-xl shadow-2xl h-52 overflow-auto">
+        <div className="text-center text-3xl py-4">TRANSACTIONS</div>
+          <UserTransactionTable
+            user={this.props.currentUser}
+          ></UserTransactionTable>
         </div>
       </div>
     );

@@ -79,8 +79,9 @@ class Register extends Component {
         password.length >= 8
       )
     ) {
-      this.setState({ invalidPassword: true });
       shouldReturn = true;
+      this.setState({ invalidPassword: true });
+      
     }
 
     //check if password and repassword are the same
@@ -104,6 +105,11 @@ class Register extends Component {
         this.setState({ invalidUserName: true });
         shouldReturn = true;
       }
+
+    if (shouldReturn) {
+      console.log("should return");
+      return
+    }
 
     let newUser = {
       firstName: firstName,
@@ -195,7 +201,7 @@ class Register extends Component {
                     onChange={this.handleUsernameChange}
                     placeholder="Username"
                     className={
-                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 pl-5  " +
+                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 pl-5  " +
                       (this.state.invalidUserName
                         ? "border-red-500 border"
                         : "border-none")
@@ -211,7 +217,7 @@ class Register extends Component {
                     type="password"
                     placeholder="Password"
                     className={
-                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 flex pl-5 " +
+                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 pl-5 " +
                       (this.state.invalidPassword
                         ? "border-red-500 border"
                         : "border-none")
@@ -251,7 +257,7 @@ class Register extends Component {
                     type="password"
                     placeholder="Re-Enter Password"
                     className={
-                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 pl-5 " +
+                      "mt-1 block w-full bg-gray-100 h-11 rounded-xl shadow-2xl hover:bg-warm-gray-300 focus:bg-warm-gray-300 focus:ring-0 outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 pl-5 " +
                       (this.state.invalidRePassword
                         ? "border-red-500 border"
                         : "border-none")
@@ -259,32 +265,6 @@ class Register extends Component {
                   />
                 </div>
 
-                {/* Add forgot password and remember me later */}
-                <div className="mt-7 flex hidden">
-                  <label
-                    htmlFor="remember_me"
-                    className="inline-flex items-center w-full cursor-pointer"
-                  >
-                    <input
-                      id="remember_me"
-                      type="checkbox"
-                      className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 outline-none"
-                      name="remember"
-                    />
-                    <span className="ml-2 text-sm text-gray-600">
-                      Remember me
-                    </span>
-                  </label>
-
-                  <div className="w-full text-right">
-                    <a
-                      className="underline text-sm text-gray-600 hover:text-gray-900"
-                      href="#"
-                    >
-                      forgot password?
-                    </a>
-                  </div>
-                </div>
 
                 <div className="mt-7">
                   <button

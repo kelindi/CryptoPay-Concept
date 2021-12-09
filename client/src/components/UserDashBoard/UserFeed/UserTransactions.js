@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Loading from "../../Loading";
 
 class UserTransactionTable extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class UserTransactionTable extends Component {
       // transactions: this.props.global.transactions,
       // masterTransactions: this.props.global.transactions,
       transactions: this.props.user.transactions,
-      masterTransactions: this.props.user.transactions,
+      waitingforTransactions: false,
     };
     this.filterDestinationChange = this.filterDestinationChange.bind(this);
     this.filterAmountChange = this.filterAmountChange.bind(this);
@@ -21,15 +22,30 @@ class UserTransactionTable extends Component {
     this.filterTimeChange = this.filterTimeChange.bind(this);
     this.filterIDChange = this.filterIDChange.bind(this);
     this.filter = this.filter.bind(this);
+
   }
   componentDidMount(){
-    this.filter()
+    if (this.props.user.transactions === null) {
+      this.setState({transactions: [],waitingforTransactions: true})
+    }
   }
+
+  componentDidUpdate()
+   {
+    if(this.state.waitingforTransactions === true && this.props.user.transactions !== null){
+      this.setState({transactions: this.props.user.transactions,waitingforTransactions: false})
+    }
+  }
+
   filter() {
-    const filteredTransactions = this.state.masterTransactions.filter(
+    if (this.props.user.transactions === null) {
+      return
+    }
+    let masterTransactions = this.props.user.transactions
+    const filteredTransactions = masterTransactions.filter(
       (t) =>
         t.originUser ===
-          this.props.global.userName &&
+          this.props.user.userName &&
         (t.destinationUser
           .toString()
           .includes(this.state.filterDestination.toString()) ||
@@ -76,10 +92,11 @@ class UserTransactionTable extends Component {
 
   render() {
     return (
-      <div className="font-sans font-light shadow-2xl">
-        <div className="text-center text-3xl py-4">TRANSACTIONS</div>
+      <div className="font-sans font-light shadow-2xl static">
+        
+        
         <table className="table-auto w-full">
-          <thead>
+          <thead className = "sticky bg-white top-0 z-10">
             <tr>
               <th className="px-4 py-2 border text-center">
                 Destination
@@ -124,7 +141,10 @@ class UserTransactionTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.transactions.map((transaction) => {
+            {this.props.user.transactions === null ? (
+              <Loading></Loading>
+            ) : (
+            this.state.transactions.map((transaction) => {
               return (
                 <tr className = "border"key={transaction.id}>
                   <td className="border px-4 py-2 text-center">
@@ -144,9 +164,11 @@ class UserTransactionTable extends Component {
                   </td>
                 </tr>
               );
-            })}
+            }))}
           </tbody>
         </table>
+
+        
       </div>
     );
   }

@@ -2,6 +2,7 @@ import { Redirect } from "react-router";
 import User from "./classes/User";
 import { ethers } from "ethers";
 export const checkSession = async (app) => {
+    //const url = `https://crypt0pay.herokuapp.com/users/check-session`
     const url = `http://localhost:5000/users/check-session`
     try{
         let res = await fetch(url);
@@ -9,18 +10,8 @@ export const checkSession = async (app) => {
           let json = await res.json();
           console.log(json)
           if (json && json.userName) {
-              let provider = new ethers.providers.Web3Provider(window.ethereum);
-              let signer = provider.getSigner();
-              let walletAddress = await signer.getAddress();
-              let tempUserBalance = await provider.getBalance(walletAddress);
-              let userBalance = ethers.utils.formatEther(tempUserBalance);
-              let user = new User (json.firstName, json.lastName, json.userName, userBalance, walletAddress, signer, provider)
-              let {status, newUser} = await user.updateData()
-              if(status === 200){
-                app.setState({ currentUser: newUser})
-              }
-              
-              
+              let user = new User (json.firstName, json.lastName, json.userName)
+              app.setState({ currentUser: user})
           }
         }
       }

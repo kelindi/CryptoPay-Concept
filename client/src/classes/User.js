@@ -18,10 +18,27 @@ class User {
     this.firstName = firstName;
     this.lastName = lastName;
     this.userName = userName;
-    this.currentAccountBalance = currentAccountBalance;
-    this.walletAddress = walletAddress;
-    this.signer = signer;
-    this.provider = provider;
+	if (currentAccountBalance) {
+		this.currentAccountBalance = currentAccountBalance;
+	}
+	else {
+		this.currentAccountBalance = null;
+	}
+    if (walletAddress) {
+      this.walletAddress = walletAddress;
+    } else {
+      this.walletAddress = null;
+    }
+    if (signer) {
+      this.signer = signer;
+    } else {
+      this.signer = null;
+    }
+    if (provider) {
+      this.provider = provider;
+    } else {
+      this.provider = null;
+    }
 
     // all this cannot be initialized when there is a backend, purely exposed for testing purposes
     this.friendsList = [];
@@ -39,8 +56,8 @@ class User {
       "/api/user/data/" + this.userName.toLowerCase(),
       "GET"
     );
-	console.log(status)
-	console.log(data);
+    console.log(status);
+    console.log(data);
     if (status === 200) {
       this.incomingMoneyRequests = [];
       data.incomingMoneyRequests.forEach(async (request) => {
@@ -94,11 +111,18 @@ class User {
       });
 
       this.friendsList = [];
-	  // create new friend for each friend in data.friends and push it to friendsList
-	  data.friends.forEach(async (friend) => {
-		const f = new Friend(friend.firstName,friend.lastName,friend.userName,friend.walletAddress,friend.profilePicture,friend.walletAddress)
-		this.friendsList.push(f);
-	  });
+      // create new friend for each friend in data.friends and push it to friendsList
+      data.friends.forEach(async (friend) => {
+        const f = new Friend(
+          friend.firstName,
+          friend.lastName,
+          friend.userName,
+          friend.walletAddress,
+          friend.profilePicture,
+          friend.walletAddress
+        );
+        this.friendsList.push(f);
+      });
 
       this.transactions = [];
       data.transactions.forEach((transaction) => {
@@ -114,7 +138,7 @@ class User {
         );
       });
     }
-	return {status:status,newUser:this};
+    return { status: status, newUser: this };
   };
 
   //TODO
