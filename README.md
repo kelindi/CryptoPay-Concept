@@ -1,4 +1,4 @@
-# README    
+# README    Submitting the Final Version on 10-9 by 10pm
 In this project, we have created a platform called CrytoPay for users to send, request, and split money that they maybe owing or are owed.
 The uniqueness of this platform lies in the fact that the medium of monetary exchange is StableCoin, a one-to-one valuation with US Dollars.
 
