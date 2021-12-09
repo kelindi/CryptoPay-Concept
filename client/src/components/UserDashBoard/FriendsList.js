@@ -40,6 +40,11 @@ class FriendsList extends Component {
     };
   }
 
+  deleteFriendRequest(friend) {
+
+
+  }
+
   addFriends = async () => {
     const { status, data } = await cPayRequest("/api/users/all", "get");
     console.log(status, data);
