@@ -8,6 +8,7 @@ import UserDashBoard from "./components/UserDashBoard/UserDashBoard";
 import AdminDashBoard from "./components/AdminDashBoard/AdminDashBoard";
 import detectEthereumProvider from "@metamask/detect-provider";
 import GetWallet from "./components/GetWallet.js";
+import { uuid } from "uuidv4";
 
 class App extends React.Component {
   constructor(props) {
@@ -16,6 +17,11 @@ class App extends React.Component {
       currentUser: null,
       userData: null,
     };
+  }
+
+  updateData = async () => {
+    await this.state.currentUser.updateData();
+    await this.setState({userData: this.state.currentUser});
   }
 
   setCurrentUser = (user) => {
@@ -98,6 +104,7 @@ class App extends React.Component {
                 currentUser={this.state.currentUser}
                 useApi={this.useApi}
                 userData={this.state.userData}
+                updateData = {this.updateData}
               />
             )}
           />

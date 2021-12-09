@@ -1,13 +1,27 @@
 # README    
-In this project, we have created a platform for users to send, request, and split money that they maybe owing or are owed.
+In this project, we have created a platform called CrytoPay for users to send, request, and split money that they maybe owing or are owed.
 The uniqueness of this platform lies in the fact that the medium of monetary exchange is StableCoin, a one-to-one valuation with US Dollars.
 
-Third Party Linraries Used: Tailwind, React
+Third Party Libraries Used: Tailwind, React
+
+Additional Requirements: Metamask Chrome plug-in - a client for generating cryptocurrency wallet addresses and connecting it to CryptoPay
+
+## URL: 
+
 
 # User Functionalities
 ## Account and Login
 Our platform has a login and a registration page to allow users to have a personal account, using which they can send friend requests to other accounts,
 receive friend requests from other accounts, and manage their wallets, and other profile information.
+
+Any User can login to their CryptoPay account by filling in their login credentials. These credentials are then authorized by our code before allowing 
+users access to their dashboard. If they are an admin, they are redirected to the Admin Dashboard otherwise they are redirected to the User Dashboard.
+
+If the user does not have an existing account, they can create a new account by clicking the "Create One!" option in the login page. This redirects the 
+user to the registration page where they can fill in the details to register themselves.
+
+NOTE: If the user does not have the chrome extension "Metamask" installed, they will be redirected to a page requesting them to install "Metamask". They 
+will also need to register themselves and login to "Metamask" before logging in to CryptoPay.
 
 NOTE:
 User Login Credentials: username = "user", password = "user"
@@ -35,13 +49,16 @@ The button generates outgoing requests and displays them on the "User Feed" sect
 
 #### The Split Button
 The "Split" option allows the user to split the money between mulitple users based on percentage they owe the user before sending the money requests to the participating friends.
-The user has an option to add multiple friends to divide the money amongst.
+
+The button generates outgoing requests and displays them on the "User Feed" section
+
 
 ### The User Feed
 The User Feed displays three sections of information for the convenience of the user:
 
 #### Outgoing Friend Requests: 
-The User can see the outgoing friend requests they made along with the option to rescind it. 
+The User can see the outgoing friend requests they made along with the option to rescind it. Each outgoing request comes with the option to cancel the friend request
+which rescinds the friend request.
 
 #### Outgoing and Incoming Money Requests:
 The User can see the outgoing money requests they made with the option to rescind it.
@@ -49,11 +66,35 @@ The Users cans also see any incoming money requests they have with the options t
 
 Recinding/Rejecting requests removes them from the dashboard.
 
+#### Transactions
+The User can see a history of their outgoing transactions in this section of the website. 
+
+The Users can filter the listed transactions by one or more than one criteria by typing in the search value in the search bars under each column.
+Doing so, they will be able to see the filtered transactions. They can search by Destination (username), Amount, Date, TIme and ID (wallet-address). 
+
+#### Notifications
+
 # Admin Functionality
-On the Admin Page an admin can view reports users have made and resolve them internally, and then mark the reports as resolved along with a comment.
+## Admin Dashboard
 
-On the users page the admin can edit a user’s name first name and last name
+### Reports
+This section lists all the reports made by a user against another user, and the reason for the report. 
+An admin can view reports users have made and resolve them internally, and then mark the reports as resolved along with a comment.
 
-On the money requests page admin can delete pending money requests
+This tab also lists all the reports that have already been resolved, when they were resolved and the comment made while resolving it.
 
-On the transactions page admin can view all transactions on the site and view them through filters
+### Users
+This page displays all the users that have registered with CryptoPay with their first and last names, their username, and wallet address.
+The admin functionality to this section comprises of editing any users first name, last name, or their username.
+The admin can also filter the users using one or more parameters including first name, last name,  username and wallet address.
+
+### Money Requests
+This page lists all the pending money requests that have been made from the requestor user to the destination user. It lists the amount, date and a transaction ID.
+The admin can delete any pending money requests by clicking the "delete" button.
+
+### Transactions
+This page lists all the successfull transactions made by origin user to destination user with the amount and transaction id.
+The admin can also filter the s using one or more parameters including origin (username), destination (username), amount, date, time, and transaction id.
+
+
+

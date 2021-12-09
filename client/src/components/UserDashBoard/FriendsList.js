@@ -1,6 +1,7 @@
 import React, { Component, useState } from "react";
 import { uuid } from "uuidv4";
 import MoneyRequest from "../../classes/MoneyRequest";
+import FriendRequest from "../../classes/FriendRequest"
 
 /*
 TODO
@@ -40,6 +41,12 @@ class FriendsList extends Component {
     };
   }
 
+  deleteFriendRequest = async (friend) => {
+    let rIndex = this.props.currentUser.sentFriendRequests.findIndex(req => req.destinationUser === friend);
+    let r = this.props.currentUser.sentFriendRequests[rIndex];
+    await r.deleteRequest()
+    await this.props.updateUserData()
+  }
   addFriends = async () => {
     const { status, data } = await cPayRequest("/api/users/all", "get");
     console.log(status, data);
@@ -229,12 +236,7 @@ class FriendsList extends Component {
                           ) ? (
                             <button
                               className="w-50 mx-1 px-2 py-1 bg-red-500 rounded-3xl text-white"
-                              onClick={() => {
-                                const newFriendRequests =
-                                  global.sentFriendRequests;
-                                newFriendRequests.pop(u);
-                                changeSentFriendRequests(newFriendRequests);
-                              }}
+                              onClick={() => this.deleteFriendRequest(u.userName)}
                             >
                               <span>Cancel Request</span>
                             </button>

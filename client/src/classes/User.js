@@ -16,7 +16,7 @@ class User{
 		this.provider = provider
 
 		// all this cannot be initialized when there is a backend, purely exposed for testing purposes
-		this.friends = []
+		this.friendsList = []
         this.transactions = []
 		this.sentMoneyRequests = []
 		this.incomingMoneyRequests = []
@@ -71,7 +71,7 @@ class User{
 		({status, data} = await cPayRequest('/api/user/'+this.userName+"/friends",'GET'));
 		if(status === 200 && data.length > 0){
 			data.forEach(friend => {
-				this.friends.push(new Friend(friend.firstName,friend.lastName,friend.userName,'/images/pfDefault.png',friend.walletAddress))
+				this.friendsList.push(new Friend(friend.firstName,friend.lastName,friend.userName,'/images/pfDefault.png',friend.walletAddress))
 			});
 		};
 		({status, data} = await cPayRequest('/transactions/'+this.userName,'GET'));

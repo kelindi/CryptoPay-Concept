@@ -26,13 +26,15 @@ class ReportTable extends Component {
       this.setState({ reportToResolve: report })
     );
   }
-  resolveReport() {
+  resolveReport = async () => {
     const newReportsArray = this.state.reports.filter(
       (r) => r !== this.state.reportToResolve
     );
     const newResolvedReports = this.state.resolvedReports;
     this.state.reportToResolve.resolvedComment = this.state.comment.toString();
     newResolvedReports.push(this.state.reportToResolve);
+    console.log(this.state.reportToResolve.resolvedComment)
+    await this.state.reportToResolve.resolveReport();
     this.setState(
       { resolvedReports: newResolvedReports }
     );

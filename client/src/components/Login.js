@@ -122,6 +122,7 @@ class Login extends Component {
       userData.provider
     );
     await user.updateData();
+    await this.props.setCurrentUser(user);
     await this.props.setUserData(user);
   };
 

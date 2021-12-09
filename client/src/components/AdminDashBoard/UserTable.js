@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { uuid } from "uuidv4";
 import User from "../../classes/User";
+import cPayRequest from "../../CryptoPayClient";
 
 class UserTable extends Component {
   constructor(props) {
@@ -95,9 +96,11 @@ class UserTable extends Component {
       .classList.remove("hidden");
   }
 
-  saveEdit(user, event) {
+  saveEdit = async (user, event) => {
     //hide save button
     event.target.classList.add("hidden");
+    let initial_userName = user.userName
+    console.log(initial_userName)
 
     //make all the editable cells uneditable
     let divs = document.querySelectorAll("." + user.userName.toString());
@@ -115,6 +118,13 @@ class UserTable extends Component {
     user.firstName = divs[0].innerHTML;
     user.lastName = divs[1].innerHTML;
     user.userName = divs[2].innerHTML;
+    console.log(user.firstName, user.lastName, user.userName)
+    await cPayRequest('/users/updateAll/'+initial_userName, 'PATCH', {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      userName: user.userName
+    });
+
   }
   newFirstNameChange(event) {
     this.setState({ newFirstName: event.target.value });
@@ -167,13 +177,15 @@ class UserTable extends Component {
     }
   }
 
-  deleteUser() {
+  deleteUser = async() => {
     const newUserArray = this.state.masterUsers.filter(
       (user) => user !== this.state.userToDelete
     );
     this.setState({ masterUsers: newUserArray });
     this.setState({ users: newUserArray });
     this.setState({ showDeleteConfirm: false });
+    console.log(this.state.userToDelete)
+    await cPayRequest('/users/delete/'+this.state.userToDelete.userName, 'DELETE');
   }
 
   showDeleteUser(user) {
@@ -252,7 +264,6 @@ class UserTable extends Component {
                   className="block m-auto border rounded-md"
                 ></input>
               </th>
-              <th className="px-1 py-2 border text-center"> Account Balance</th>
               <th className="px-1 py-2 border text-center ">Edit</th>
               <th className="px-1 py-2 border text-center">Delete User</th>
             </tr>
@@ -323,42 +334,6 @@ class UserTable extends Component {
           </tbody>
         </table>
         <div className="flex">
-          <div className="my-2 mx-auto">
-            <input
-              className={
-                (this.state.noFirstName
-                  ? "border-red-500"
-                  : "boder-black-700") + " border rounded-md mx-1 px-4"
-              }
-              placeholder="First Name"
-              value={this.state.newFirstName}
-              onChange={this.newFirstNameChange}
-            ></input>
-            <input
-              className={
-                (this.state.noLastName ? "border-red-500" : "boder-black-700") +
-                " border rounded-md mx-1 px-4"
-              }
-              placeholder="Last Name"
-              value={this.state.newLastName}
-              onChange={this.newLastNameChange}
-            ></input>
-            <input
-              className={
-                (this.state.noUserName ? "border-red-500" : "boder-black-700") +
-                " border rounded-md mx-1 px-4"
-              }
-              placeholder="Username"
-              value={this.state.newUserName}
-              onChange={this.newUserNameChange}
-            ></input>
-            <button
-              className="bg-green-500 border rounded-2xl px-2 py-1 transform hover:scale-110 transition duration-500 ease-in-out"
-              onClick={() => this.addNewUser()}
-            >
-              Add New User
-            </button>
-          </div>
         </div>
       </div>
     );

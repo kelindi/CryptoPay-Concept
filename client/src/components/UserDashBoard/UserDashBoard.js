@@ -3,7 +3,9 @@ import FriendsList from "./FriendsList";
 import NotificationBar from "./NotificationBar/NotificationBar";
 import UserFeed from "./UserFeed/UserFeed";
 import UserHeader from "./UserHeader/UserHeader";
+import FriendRequest from "../../classes/FriendRequest";
 import { ethers } from "ethers";
+import { uuid } from "uuidv4";
 
 class UserDashBoard extends Component {
   constructor(props) {
@@ -29,15 +31,15 @@ class UserDashBoard extends Component {
   componentDidMount = () => {};
 
   updateUserData = async () => {
-    await this.props.user.updateUserData();
+    await this.props.updateData();
     this.setState({
-      friendsList: this.props.user.friends,
-      incomingFriendRequests: this.props.user.incomingFriendRequests,
-      sentFriendRequests: this.props.user.sentFriendRequests,
-      incomingMoneyRequests: this.props.user.incomingMoneyRequests,
-      sentMoneyRequests: this.props.user.sentMoneyRequests,
-      transactions: this.props.user.transactions,
-      profilePicture: this.props.user.profilePicture,
+      friendsList: this.props.currentUser.friendsList,
+      incomingFriendRequests: this.props.currentUser.incomingFriendRequests,
+      sentFriendRequests: this.props.currentUser.sentFriendRequests,
+      incomingMoneyRequests: this.props.currentUser.incomingMoneyRequests,
+      sentMoneyRequests: this.props.currentUser.sentMoneyRequests,
+      transactions: this.props.currentUser.transactions,
+      profilePicture: this.props.currentUser.profilePicture,
     });
   };
 
@@ -147,11 +149,13 @@ class UserDashBoard extends Component {
         <div className="flex flex-column h-100">
           <div className="w-10/12  h-screen flex-shrink-0 flex-grow-0">
             <NotificationBar
+              key={uuid()}
               changeFriendsList={this.changeFriendsList}
               changeIncomingFriendRequests={this.changeIncomingFriendRequests}
               global={this.state}
             ></NotificationBar>
             <UserHeader
+             key={uuid()}
               changeSentMoneyRequests={this.changeSentMoneyRequests}
               changeUserBalance={this.changeUserBalance}
               global={this.state}
@@ -162,6 +166,7 @@ class UserDashBoard extends Component {
             ></UserHeader>
 
             <UserFeed
+              key={uuid()}
               changeSentFriendRequests={this.changeSentFriendRequests}
               global={this.state}
               changeOutgoingMoneyRequests={this.changeSentMoneyRequests}
@@ -169,16 +174,18 @@ class UserDashBoard extends Component {
               changeUserBalance={this.changeUserBalance}
               changeFriendsList={this.changeFriendsList}
               changeIncomingFriendRequests={this.changeIncomingFriendRequests}
-              currentUser={this.state}
+              currentUser={this.props.currentUser}
             ></UserFeed>
           </div>
           <div className="w-2/12 min-w-min flex-shrink-0 flex-grow-0">
             <FriendsList
+              key={uuid()}
               changeUserBalance={this.changeUserBalance}
               changeSentMoneyRequests={this.changeSentMoneyRequests}
               global={this.state}
               changeSentFriendRequests={this.changeSentFriendRequests}
-              currentUser={this.state}
+              currentUser={this.props.currentUser}
+              updateUserData={this.updateUserData}
             ></FriendsList>
           </div>
         </div>
