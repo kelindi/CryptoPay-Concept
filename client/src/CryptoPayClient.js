@@ -3,7 +3,6 @@
 const cPayRequest = async (route, request, body) => {
    let response;
     if (body == null) {
-      console.log("fetching")
         response = await fetch(route, {
             method: request,
             headers: {

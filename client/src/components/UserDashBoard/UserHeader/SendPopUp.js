@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import cPayRequest from "../../../CryptoPayClient";
  
 class SendPopUp extends Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class SendPopUp extends Component {
             amount: '',
             moneyReceiver: '',
             validAmount: false,
-            currentUser: this.props.currentUser,
+            currentUser: this.props.currentUser.userName,
             userFriends: this.props.friendsList,
             filteredFriends: this.props.friendsList,
             showResults: false,
@@ -17,6 +18,7 @@ class SendPopUp extends Component {
         this.sendMoney = this.sendMoney.bind(this)
         // this.setMoneyReceiver = this.setMoneyReceiver(this)
         // this.setFilteredFriends = this.setFilteredFriends(this)
+        console.log(this.state.currentUser)
     }
 
     minimizePopUp = () => {
@@ -36,7 +38,40 @@ class SendPopUp extends Component {
 
     sendMoney(){
         if(this.state.validAmount && this.state.nameFilled){
-            this.props.updateBalance(this.state.amount)
+            // Trigger a transaction
+            // is currentUser an object or id
+            if (this.props.global.userBalance - this.state.amount >= 0) {
+                // update the balance  (NEEDS TO BE CONNECTED TO METAMASK in USERHEADER?USERDASHBOARD)
+                this.props.updateBalance(this.state.amount)
+
+                let today = new Date();
+                let dd = String(today.getDate()).padStart(2, '0');
+                let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                let yyyy = today.getFullYear();
+
+                let h = today.getHours()
+                let m = today.getMinutes();
+
+                let date = yyyy + '-' + mm + '-' + dd;
+                let time = h + ':' + m;
+                let body = {
+                    originUser: this.state.currentUser,
+                    destinationUser: this.state.moneyReceiver,
+                    amount: this.state.amount,
+                    date: date,
+                    time: time
+                }
+                console.log(JSON.stringify(body))
+                // Add it to database
+                cPayRequest('/transaction', 'post', body)
+
+                // if(status==)
+                // backend call to update transactions
+            } else {
+                alert("Not enough balance!")
+            }
+
+            // minimize the pop up
             this.props.minimizeSend()
         }  
     }

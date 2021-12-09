@@ -33,12 +33,14 @@ class NotificationBar extends Component {
 
   logout = () => {
     this.setState({redirect: true})
+    // maybe change sessions? like reset user in session to undefined?
   }
 
 
   render() {
     if (this.state.redirect) {
-      return <Redirect push to="/" />;
+      alert("Logging out!")
+      // return <Redirect push to="/" />;
     }
     const { global } = this.props;
     return (
