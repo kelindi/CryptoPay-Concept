@@ -202,10 +202,11 @@ class SplitPopUp extends Component {
         // let key = this.state.keys[this.state.numFriends]
         // let friendFields = this.state.friendFields
         return (
-            <div className="flex flex-col bg-white rounded md:w-1/3 w-1/2 h-auto max-h-1/2 border shadow-lg fixed z-100 left-1/4 top-1/3 ">
-                <div className="rounded-t bg-blue-300 text-black">
+            <div className="bg-transparent w-screen h-screen shadow-lg fixed left-0 z-50">
+            <div className="flex flex-col bg-black rounded md:w-1/3 w-1/2 h-auto max-h-1/2 shadow-lg fixed z-100 left-1/4 top-1/3 ">
+                <div className="rounded-t bg-gray-800 ">
                     <div className="relative py-3 px-2 flex">
-                        <span className="font-semibold text-black md:text-base text-sm">Split Money</span> 
+                        <span className="font-semibold text-white md:text-base text-sm">Split Money</span> 
                     </div>
                 </div>
                 <div className="flex flex-col bg-gray-200 md:text-base text-sm border-b p-2 h-1/2 overflow-scroll">
@@ -253,6 +254,8 @@ class SplitPopUp extends Component {
                         onClick={this.minimizePopUp}><b>Cancel</b></button>
                     </div>
                 </div>
+            </div>
+            <div className="bg-black opacity-80 w-full h-full"></div>
             </div>
         );
     }

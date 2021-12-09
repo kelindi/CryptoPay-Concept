@@ -71,10 +71,11 @@ class SendPopUp extends Component {
 
     render() {
         return (
-            <div className="bg-white rounded md:w-1/3 w-1/2 h-1/1 border shadow-lg fixed z-100 left-1/4 top-1/3 ">
-                <div className="rounded-t bg-blue-300 text-black">
+            <div className="bg-transparent w-screen h-screen shadow-lg fixed left-0 z-50">
+            <div className="bg-black rounded md:w-1/3 w-1/2 h-1/1 shadow-lg fixed z-100 left-1/4 top-1/3 ">
+                <div className="rounded-t bg-gray-800">
                     <div className="relative py-3 px-2 flex">
-                        <span className="font-semibold text-black md:text-base text-sm">Send Money</span> 
+                        <span className="font-semibold text-white md:text-base text-sm">Send Money</span> 
                     </div>
                 </div>
                 <div className="bg-gray-200 md:text-base text-sm border-b p-2 h-48">
@@ -115,6 +116,8 @@ class SendPopUp extends Component {
                         onClick={this.minimizePopUp}><b>Cancel</b></button>
                     </div>
                 </div>
+            </div>
+            <div className="bg-black opacity-80 w-full h-full"></div>
             </div>
         );
     }

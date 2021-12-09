@@ -83,10 +83,11 @@ class RequestPopUp extends Component {
     render() {
         const {global, changeSentMoneyRequests} = this.props
         return (
-            <div className="flex flex-col bg-white rounded md:w-1/3 w-1/2 h-auto border shadow-lg fixed z-100 left-1/4 top-1/3 ">
-                <div className="rounded-t bg-blue-300 text-black">
+            <div className="bg-transparent w-screen h-screen shadow-lg fixed left-0 z-50">
+            <div className="flex flex-col bg-black rounded md:w-1/3 w-1/2 h-auto shadow-lg fixed z-100 left-1/4 top-1/3 ">
+                <div className="rounded-t bg-gray-800 ">
                     <div className="relative py-3 px-2 flex">
-                        <span className="font-semibold text-black md:text-base text-sm">Request Money</span>
+                        <span className="font-semibold text-white md:text-base text-sm">Request Money</span>
                         {/* <span className="ml-96" onClick={this.handleClick}>X</span> 
                         make the x into a button, not span */}
                     </div>
@@ -126,6 +127,8 @@ class RequestPopUp extends Component {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="bg-black opacity-80 w-full h-full"></div>
             </div>
         );
     }
