@@ -321,7 +321,22 @@ app.get("/api/user/:userName/friends", authenticate, async (req, res) => {
   }
 });
 
-
+//delete user
+app.delete("/users/delete/:userName", mongoChecker, async (req, res) => {
+  try {
+      await User.findOneAndDelete({
+        userName: req.params.userName.toLowerCase()
+      });
+      res.send("User Deleted");
+  } catch (error) {
+      if (error.name === "CastError") {
+          res.status(404).send("Resource not found");
+      } else {
+          log(error);
+          res.status(500).send("Internal Server Error");
+      }
+  }
+});
 
 //update user walletAddress for given userName
 //request body expect

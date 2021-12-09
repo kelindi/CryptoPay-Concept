@@ -177,13 +177,15 @@ class UserTable extends Component {
     }
   }
 
-  deleteUser() {
+  deleteUser = async() => {
     const newUserArray = this.state.masterUsers.filter(
       (user) => user !== this.state.userToDelete
     );
     this.setState({ masterUsers: newUserArray });
     this.setState({ users: newUserArray });
     this.setState({ showDeleteConfirm: false });
+    console.log(this.state.userToDelete)
+    await cPayRequest('/users/delete/'+this.state.userToDelete.userName, 'DELETE');
   }
 
   showDeleteUser(user) {
@@ -332,7 +334,7 @@ class UserTable extends Component {
           </tbody>
         </table>
         <div className="flex">
-          <div className="my-2 mx-auto">
+          {/* <div className="my-2 mx-auto">
             <input
               className={
                 (this.state.noFirstName
@@ -367,7 +369,7 @@ class UserTable extends Component {
             >
               Add New User
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     );
