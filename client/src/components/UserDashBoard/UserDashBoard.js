@@ -31,12 +31,12 @@ class UserDashBoard extends Component {
     };
   }
   componentDidMount = () => {
-    console.log(this.props)
+    console.log(this.props);
   };
 
   updateUserData = async () => {
     let newUser = await this.state.user.updateData();
-    console.log("hhhh")
+    console.log("hhhh");
     console.log(newUser);
     this.setState({
       user: newUser,
@@ -162,7 +162,7 @@ class UserDashBoard extends Component {
               global={this.state}
             ></NotificationBar>
             <UserHeader
-              key = {this.state}
+              key={this.state}
               changeSentMoneyRequests={this.changeSentMoneyRequests}
               changeUserBalance={this.changeUserBalance}
               global={this.state}
@@ -186,6 +186,7 @@ class UserDashBoard extends Component {
           </div>
           <div className="w-2/12 min-w-min flex-shrink-0 flex-grow-0">
             <FriendsList
+              sendFriendRequest={this.sendFriendRequest}
               updateUserData={this.updateUserData}
               key={this.state}
               user={this.state}

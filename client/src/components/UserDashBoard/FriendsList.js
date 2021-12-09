@@ -54,6 +54,19 @@ class FriendsList extends Component {
     }
     return;
   };
+
+  sendFriendRequest = async (userName) => {
+    let newFr = {
+      originUser: this.props.user.userName,
+      destinationUser: userName,
+      date: new Date(),
+    };
+    const { status, data } =await cPayRequest("/friendRequests","post", newFr);
+    if (status === 200) {
+      await this.props.updateUserData();
+    }
+  };
+
   addFriends = async () => {
     const { status, data } = await cPayRequest("/api/users/all", "get");
     console.log(status, data);
@@ -124,15 +137,18 @@ class FriendsList extends Component {
       showAddFriends: false,
       selectedFriend: null,
       usersFound: [],
-      searchContent: ""
+      searchContent: "",
     });
   };
 
   toggleTab = (state) => {
-    console.log("clicked")
-    this.setState({
-      tab: state
-    },console.log(this.state.tab));
+    console.log("clicked");
+    this.setState(
+      {
+        tab: state,
+      },
+      console.log(this.state.tab)
+    );
   };
 
   render() {
@@ -269,12 +285,7 @@ class FriendsList extends Component {
                               className="w-50 mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white"
                               onClick={() => {
                                 // change global sentFriend list
-                                const newFriendRequests =
-                                  global.sentFriendRequests;
-
-                                newFriendRequests.push(u);
-
-                                changeSentFriendRequests(newFriendRequests);
+                                this.sendFriendRequest(u.userName);
                               }}
                             >
                               <span> Send Friend Request </span>
@@ -303,13 +314,40 @@ class FriendsList extends Component {
         <div className="fixed w-2/12 h-full">
           <div className="w-full h-full relative">
             <div className="font-bold flex flex-row h-10 items-center justify-center bg-gray-800">
-              <div className = "rounded-lg text-gray-800 bg-gray-700 flex flex-row">
-              
-                <button onClick = {() => {this.toggleTab(false)}} className={"px-4 " + (this.state.tab ? "text-warm-gray-400" : "bg-warm-gray-400 rounded-md")}>Friends</button>
-                <button onClick = {() => {this.toggleTab(true)}} className={"px-4 " +(this.state.tab ? "bg-warm-gray-400 rounded-md" : "text-warm-gray-400")}>Pending</button>
+              <div className="rounded-lg text-gray-800 bg-gray-700 flex flex-row">
+                <button
+                  onClick={() => {
+                    this.toggleTab(false);
+                  }}
+                  className={
+                    "px-4 " +
+                    (this.state.tab
+                      ? "text-warm-gray-400"
+                      : "bg-warm-gray-400 rounded-md")
+                  }
+                >
+                  Friends
+                </button>
+                <button
+                  onClick={() => {
+                    this.toggleTab(true);
+                  }}
+                  className={
+                    "px-4 " +
+                    (this.state.tab
+                      ? "bg-warm-gray-400 rounded-md"
+                      : "text-warm-gray-400")
+                  }
+                >
+                  Pending
+                </button>
               </div>
             </div>
-            <div className={"bg-gray-900 h-full "+(this.state.tab ? "hidden" : null)}>
+            <div
+              className={
+                "bg-gray-900 h-full " + (this.state.tab ? "hidden" : null)
+              }
+            >
               {this.props.user.friendsList.map((friend) => (
                 // list all friends
                 <div
@@ -329,23 +367,53 @@ class FriendsList extends Component {
                   </p>
                 </div>
               ))}
-              
             </div>
-            <div className = {"bg-gray-900 h-full "+(this.state.tab ? null : "hidden")}>
+            <div
+              className={
+                "bg-gray-900 h-full " + (this.state.tab ? null : "hidden")
+              }
+            >
               {this.props.user.sentFriendRequests.map((request) => (
-                <div></div>
+                <div
+                  key={uuid()}
+                  className="flex items-center px-4 py-3 hover:bg-warm-gray-400 hover:text-gray-900 text-gray-300 rounded-md relative"
+                >
+                  <img
+                    className="h-8 w-8 rounded-full object-cover mx-1"
+                    src={
+                      "https://avatars.dicebear.com/api/bottts/" +
+                      request.destinationUser +
+                      ".png"
+                    }
+                  />
+                  <p className="text-sm mx-2">
+                    <span className="font-bold block">
+                      {request.destinationUser}
+                    </span>
+                    <span>{request.destinationFirstName}</span>{" "}
+                    <span>{request.destinationLastName}</span>
+                  </p>
+                  <div className="ml-auto text-xs">
+                    <button
+                      onClick={() => console.log()}
+                      className="mx-1 px-3 py-1 bg-red-500 rounded-3xl text-white shadow-lg"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
               ))}
             </div>
             <div className="absolute bottom-5 w-full flex justify-center items-center">
-                <button
-                  className="bg-warm-gray-400 rounded-3xl block text-gray-800 mx-auto px-5 py-2 hover:bg-warm-gray-500 hover:text-gray-300"
-                  onClick={() => {
-                    this.addFriends();
-                  }}
-                >
-                  Add Friend
-                </button>
-              </div>
+              <button
+                className="bg-warm-gray-400 rounded-3xl block text-gray-800 mx-auto px-5 py-2 hover:bg-warm-gray-500 hover:text-gray-300"
+                onClick={() => {
+                  this.addFriends();
+                }}
+              >
+                Add Friend
+              </button>
+            </div>
           </div>
         </div>
       </div>
