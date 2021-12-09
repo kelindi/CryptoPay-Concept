@@ -20,7 +20,7 @@ const cPayRequest = async (route, request, body) => {
               Accept: "application/json, text/plain, */*",
               "Content-Type": "application/json",
             },
-            body: body,
+            body: JSON.stringify(body),
           });
     }
     const status = response.status;

@@ -1,4 +1,5 @@
 import { uuid } from "uuidv4"
+import cPayRequest from "../CryptoPayClient";
 
 class Report {
 	constructor(submitter, reportedUser,reason,date,time, id) {
@@ -11,6 +12,14 @@ class Report {
         this.resolvedComment = ''
 
 	}
+
+	resolveReport = () => {
+		console.log(this.resolvedComment)
+		cPayRequest(/reports/ + this.id, "PATCH", {
+			comment: this.resolvedComment
+		});
+		return 1;
+	  };
 }
 
 export default Report
