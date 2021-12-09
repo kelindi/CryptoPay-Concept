@@ -79,8 +79,9 @@ class Register extends Component {
         password.length >= 8
       )
     ) {
-      this.setState({ invalidPassword: true });
       shouldReturn = true;
+      this.setState({ invalidPassword: true });
+      
     }
 
     //check if password and repassword are the same
@@ -106,7 +107,8 @@ class Register extends Component {
       }
 
     if (shouldReturn) {
-      return;
+      console.log("should return");
+      return
     }
 
     let newUser = {
