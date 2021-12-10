@@ -53,7 +53,7 @@ class User {
 
   updateData = async () => {
     const { status, data } = await cPayRequest(
-      "/api/user/data/" + this.userName.toLowerCase(),
+      "/api/user/data/" + this.userName.toString(),
       "GET"
     );
     console.log(status);

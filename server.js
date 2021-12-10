@@ -412,7 +412,7 @@ app.delete("/users/delete/:userName", mongoChecker, async (req, res) => {
 // {
 //     walletAddress: <walletAddress>
 // }
-app.patch(
+app.post(
   "/users/updateWalletAddress/:userName",
   mongoChecker,
   async (req, res) => {

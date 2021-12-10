@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 import { uuid } from "uuidv4";
 import { Redirect } from "react-router";
 import { hexValue } from "@ethersproject/bytes";
+import cPayRequest from "../../CryptoPayClient";
 
 class UserDashBoard extends Component {
   constructor(props) {
@@ -49,6 +50,10 @@ class UserDashBoard extends Component {
     let provider = new ethers.providers.Web3Provider(window.ethereum);
     let signer = provider.getSigner();
     let wallet = await signer.getAddress();
+    let body = {
+      walletAddress: wallet,
+    }
+    await cPayRequest("/users/updateWalletAddress/"+this.state.user.userName.toString(),"post",body);
     let userBalance = await provider.getBalance(wallet);
     userBalance = ethers.utils.formatEther(userBalance);
     this.setState({
