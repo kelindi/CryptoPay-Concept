@@ -149,6 +149,7 @@ class UserHeader extends Component {
         </div>
         {this.state.sendOpen ? (
           <SendPopUp
+            sendMoney={this.props.sendMoney}
             currentUser={this.state.currentUser}
             friendsList={this.props.global.friendsList}
             updateBalance={this.changeBalance}

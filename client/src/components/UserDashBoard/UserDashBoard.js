@@ -98,7 +98,7 @@ class UserDashBoard extends Component {
     }
     try {
     ethers.utils.getAddress(address);
-    const tx = await this.user.signer.sendTransaction({
+    const tx = await this.state.signer.sendTransaction({
       to: address,
       value: ethers.utils.parseEther(amount),
     })

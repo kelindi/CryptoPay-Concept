@@ -39,9 +39,12 @@ class SendPopUp extends Component {
         if(this.state.validAmount && this.state.nameFilled){
             // Trigger a transaction
             // is currentUser an object or id
-            if (this.props.global.userBalance - this.state.amount >= 0) {
+            // if (this.props.global.userBalance - this.state.amount >= 0) {
                 // update the balance  (NEEDS TO BE CONNECTED TO METAMASK in USERHEADER?USERDASHBOARD)
-                this.props.updateBalance(this.state.amount)
+                // this.props.updateBalance(this.state.amount)
+                let {status, data} = await cPayRequest('/api/user/'+ this.state.currentUser +'/friends', 'get');
+                let rWalletAddress = data.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver.toString())))[0].walletAddress
+                this.props.sendMoney(rWalletAddress, this.state.amount)
 
                 let today = new Date();
                 let dd = String(today.getDate()).padStart(2, '0');
@@ -51,8 +54,6 @@ class SendPopUp extends Component {
                 let h = String(today.getHours())
                 let m = String(today.getMinutes()).padStart(2, '0');
 
-                let {status, data} = await cPayRequest('/api/user/'+ this.state.currentUser +'/friends', 'get');
-                let rWalletAddress = data.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver.toString())))[0].walletAddress
                 // where does ayush need this wallet address? updateBalance?
                 let date = yyyy + '-' + mm + '-' + dd;
                 let time = h + ':' + m;
@@ -69,9 +70,9 @@ class SendPopUp extends Component {
 
                 // if(status==)
                 // backend call to update transactions
-            } else {
-                alert("Not enough balance!")
-            }
+            // } else {
+            //     alert("Not enough balance!")
+            // }
 
             // minimize the pop up
             this.props.minimizeSend()
