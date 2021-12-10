@@ -7,6 +7,8 @@ import FriendRequest from "../../classes/FriendRequest";
 import { ethers } from "ethers";
 import { uuid } from "uuidv4";
 import { Redirect } from "react-router";
+import { hexValue } from "@ethersproject/bytes";
+import cPayRequest from "../../CryptoPayClient";
 
 class UserDashBoard extends Component {
   constructor(props) {
@@ -48,6 +50,10 @@ class UserDashBoard extends Component {
     let provider = new ethers.providers.Web3Provider(window.ethereum);
     let signer = provider.getSigner();
     let wallet = await signer.getAddress();
+    let body = {
+      walletAddress: wallet,
+    }
+    await cPayRequest("/users/updateWalletAddress/"+this.state.user.userName.toString(),"post",body);
     let userBalance = await provider.getBalance(wallet);
     userBalance = ethers.utils.formatEther(userBalance);
     this.setState({
@@ -89,6 +95,25 @@ class UserDashBoard extends Component {
     });
     this.setUserData();
   };
+
+  sendMoney = async (address,amount) => {
+    if(!window.ethereum){
+      alert("Please install a crypto wallet to use this feature");
+      return;
+    }
+    try {
+    ethers.utils.getAddress(address);
+    const tx = await this.state.signer.sendTransaction({
+      to: address,
+      value: ethers.utils.parseEther(amount),
+    })
+  }
+  catch(err){
+    console.log(err);
+    // hange errors and display messages accordingly
+
+  }
+}
 
   setUserData = async () => {
     let firstName = "firstName";
@@ -201,6 +226,7 @@ class UserDashBoard extends Component {
               currentUser={this.state}
               useApi={this.props.useApi}
               userData={this.props.userData}
+              sendMoney={this.sendMoney}
             ></UserHeader>
 
             <UserFeed
@@ -221,6 +247,7 @@ class UserDashBoard extends Component {
               updateUserData={this.updateUserData}
               key={this.state}
               user={this.state}
+              sendMoney={this.sendMoney}
             ></FriendsList>
           </div>
         </div>

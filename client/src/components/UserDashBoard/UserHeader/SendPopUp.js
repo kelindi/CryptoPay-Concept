@@ -15,7 +15,6 @@ class SendPopUp extends Component {
             nameFilled: false,
         }
         this.amountValidation = this.amountValidation.bind(this)
-        this.sendMoney = this.sendMoney.bind(this)
         // this.setMoneyReceiver = this.setMoneyReceiver(this)
         // this.setFilteredFriends = this.setFilteredFriends(this)
         console.log(this.state.currentUser)
@@ -36,22 +35,26 @@ class SendPopUp extends Component {
         }
     }
 
-    sendMoney(){
+    sendMoney = async () => {
         if(this.state.validAmount && this.state.nameFilled){
             // Trigger a transaction
             // is currentUser an object or id
             if (this.props.global.userBalance - this.state.amount >= 0) {
                 // update the balance  (NEEDS TO BE CONNECTED TO METAMASK in USERHEADER?USERDASHBOARD)
-                this.props.updateBalance(this.state.amount)
+                // this.props.updateBalance(this.state.amount)
+                let {status, data} = await cPayRequest('/api/user/'+ this.state.currentUser +'/friends', 'get');
+                let rWalletAddress = data.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver.toString())))[0].walletAddress
+                this.props.sendMoney(rWalletAddress, this.state.amount)
 
                 let today = new Date();
                 let dd = String(today.getDate()).padStart(2, '0');
                 let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 let yyyy = today.getFullYear();
 
-                let h = today.getHours()
-                let m = today.getMinutes();
+                let h = String(today.getHours())
+                let m = String(today.getMinutes()).padStart(2, '0');
 
+                // where does ayush need this wallet address? updateBalance?
                 let date = yyyy + '-' + mm + '-' + dd;
                 let time = h + ':' + m;
                 let body = {

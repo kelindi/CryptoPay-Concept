@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Transaction from "../../../classes/Transaction";
 import MoneyRequest from "../../../classes/MoneyRequest";
+import cPayRequest from "../../../CryptoPayClient";
  
 class RequestPopUp extends Component {
     constructor(props){
@@ -9,7 +10,7 @@ class RequestPopUp extends Component {
             amount: '',
             requestReceiver: '',
             validAmount: false,
-            currentUser: this.props.currentUser,
+            currentUser: this.props.currentUser.userName,
             userFriends: this.props.global.friendsList,
             filteredFriends: this.props.global.friendsList,
             sentRequests: this.props.global.sentMoneyRequests,
@@ -17,7 +18,6 @@ class RequestPopUp extends Component {
             nameFilled: false,
         }
         this.amountValidation = this.amountValidation.bind(this)
-        this.sendRequest = this.sendRequest.bind(this)
     }
 
     minimizePopUp = () => {
@@ -57,22 +57,47 @@ class RequestPopUp extends Component {
             this.setState({nameFilled: true}))))
     } 
 
-    sendRequest(){
+    sendRequest = async () => {
         if(this.state.validAmount && this.state.nameFilled){
-            const requesteeList = this.props.global.friendsList.filter(friend => {
-                return friend.userName === this.state.requestReceiver
-            }) // what does this do?
-            const requestee = requesteeList[0]
-            const newReqList = this.props.global.sentMoneyRequests
-            // CHANGE this to JSON body not a request
-            const newReq = new MoneyRequest(this.state.currentUser, requestee, this.state.amount, "10-01-2021" )
-            newReqList.push(newReq)
-            this.setState({
-                sentRequests: newReqList
-            })
-            this.props.changeSentMoneyRequests(newReqList)
-            this.props.minimizeSend()
+            // const requesteeList = this.props.global.friendsList.filter(friend => {
+            //     return friend.userName === this.state.requestReceiver
+            // }) // what does this do?
+            // const requestee = requesteeList[0]
+            // const newReqList = this.props.global.sentMoneyRequests
+            // // CHANGE this to JSON body not a request
+            // const newReq = new MoneyRequest(this.state.currentUser, requestee, this.state.amount, "10-01-2021" )
+            // newReqList.push(newReq)
+            // this.setState({
+            //     sentRequests: newReqList
+            // })
+            // this.props.changeSentMoneyRequests(newReqList)
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            let yyyy = String(today.getFullYear());
+
+            let h = String(today.getHours())
+            let m = String(today.getMinutes()).padStart(2, '0');
+
+            let date = yyyy + '/' + mm + '/' + dd;
+            console.log(date)
+            let time = h + ':' + m;
+            // find wallet address of reciever
+            let {status, data} = await cPayRequest('/api/user/'+ this.state.currentUser +'/friends', 'get');
+            let rWalletAddress = data.filter(friends => (friends.userName.toString().includes(this.state.requestReceiver.toString())))[0].walletAddress
+
+            let body = {
+                originUser: this.state.currentUser,
+                destinationUser: this.state.requestReceiver,
+                destinationWallet: rWalletAddress,
+                amount: this.state.amount,
+                date: date
+            }
+            console.log(JSON.stringify(body))
+            cPayRequest('/moneyRequests', 'post', body);
+            console.log("done")
         } 
+        this.props.minimizeSend()
         // Add cases where not valid amount/username and display error on screen
     }
 

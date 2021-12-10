@@ -46,6 +46,7 @@ class ReportTable extends Component {
     return (
       <div className="font-mono">
         {this.state.showReportPopup ? (
+          <div className="bg-transparent w-screen h-screen shadow-lg fixed left-0 z-50">
           <div className="absolute z-100 bg-black shadow-lg border w-2/6 h-auto mx-auto left-0 right-0 top-1/4 rounded-lg bg-opacity-90 text-white">
             <div className="relative px-4 backdrop-filter my-4">
               <div className="text-center backdrop-filter ">
@@ -72,6 +73,8 @@ class ReportTable extends Component {
                 </button>
               </div>
             </div>
+          </div>
+          <div className="bg-black opacity-80 w-full h-full"></div>
           </div>
         ) : null}
         <div className="border text-center text-3xl py-4">REPORTS</div>

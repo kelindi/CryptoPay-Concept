@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import cPayRequest from "../../../../CryptoPayClient";
 
 class OutgoingMoneyRequest extends Component{
     constructor(props){
@@ -6,9 +7,13 @@ class OutgoingMoneyRequest extends Component{
     }
 
     handleRescind = (request) => {
+        console.log(request)
         const newRequests = this.props.global.sentMoneyRequests.filter(r => {
             return r !== request
         })
+        // deleting outgoing money request from database
+        cPayRequest('/moneyRequests/' + request.id, 'delete')
+
         this.setState({
             incomingRequests: newRequests
         })

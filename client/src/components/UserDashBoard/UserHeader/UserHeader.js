@@ -149,6 +149,7 @@ class UserHeader extends Component {
         </div>
         {this.state.sendOpen ? (
           <SendPopUp
+            sendMoney={this.props.sendMoney}
             currentUser={this.state.currentUser}
             friendsList={this.props.global.friendsList}
             updateBalance={this.changeBalance}
@@ -160,6 +161,7 @@ class UserHeader extends Component {
         ) : null}
         {this.state.requestOpen ? (
           <RequestPopUp
+            currentUser={this.state.currentUser}
             toggle={this.reqPop}
             friendsList={this.props.global.friendsList}
             minimizeSend={this.reqPopOff}
@@ -171,6 +173,7 @@ class UserHeader extends Component {
         ) : null}
         {this.state.splitOpen ? (
           <SplitPopUp
+            sendMoney={this.props.sendMoney}
             currentUser={this.state.currentUser}
             friendsList={this.props.global.friendsList}
             //   updateBalance={this.changeBalance}
