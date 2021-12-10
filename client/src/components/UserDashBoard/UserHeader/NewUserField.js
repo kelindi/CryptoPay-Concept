@@ -7,7 +7,7 @@ class NewUserField extends Component {
         this.state = {
             showResults: false,
             filteredFriends:this.props.global.friendsList,
-            key: props.key,
+            key: this.props.uid,
             moneyReceiver: this.props.moneyReceiver,
             userFriends: this.props.global.friendsList,
         }
@@ -21,14 +21,14 @@ class NewUserField extends Component {
     }
 
     setFilteredFriends = (key) => {
-        console.log("yo")
+        // console.log("yo")
         if(this.state.moneyReceiver[key] === '') {
             this.setState(({showResults: false}),this.setState({filteredFriends: []}))
             
         }
         else{
-            console.log(this.state.moneyReceiver[key])
-            console.log(this.state.userFriends[0].userName.toString().includes(this.state.moneyReceiver[key].toString()))
+            // console.log(this.state.moneyReceiver[key])
+            // console.log(this.state.userFriends[0].userName.toString().includes(this.state.moneyReceiver[key].toString()))
             this.setState({filteredFriends: this.state.userFriends.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver[key].toString())))}, this.setState({showResults: true}))
         }
         // friends.userName.toString().includes(this.state.requestReceiver.toString())
@@ -37,8 +37,9 @@ class NewUserField extends Component {
     render(){
         console.log("New field rendering")
         const {global, key, friendFields, moneyReceiver, pasteOption, percentValidation} = this.props;
-        console.log(this.props)
-        console.log(this.props.global.friendsList)
+        // console.log(this.props)
+        // console.log(this.props.global.friendsList)
+        console.log(this.state.key)
         return (
             <div id="friend" className='h-1/3 mb-2 flex flex-row'>
                 <div>

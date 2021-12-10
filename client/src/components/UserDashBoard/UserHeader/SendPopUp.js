@@ -15,7 +15,6 @@ class SendPopUp extends Component {
             nameFilled: false,
         }
         this.amountValidation = this.amountValidation.bind(this)
-        this.sendMoney = this.sendMoney.bind(this)
         // this.setMoneyReceiver = this.setMoneyReceiver(this)
         // this.setFilteredFriends = this.setFilteredFriends(this)
         console.log(this.state.currentUser)
@@ -36,7 +35,7 @@ class SendPopUp extends Component {
         }
     }
 
-    sendMoney(){
+    sendMoney = async () => {
         if(this.state.validAmount && this.state.nameFilled){
             // Trigger a transaction
             // is currentUser an object or id
@@ -52,6 +51,9 @@ class SendPopUp extends Component {
                 let h = String(today.getHours())
                 let m = String(today.getMinutes()).padStart(2, '0');
 
+                let {status, data} = await cPayRequest('/api/user/'+ this.state.currentUser +'/friends', 'get');
+                let rWalletAddress = data.filter(friends => (friends.userName.toString().includes(this.state.moneyReceiver.toString())))[0].walletAddress
+                // where does ayush need this wallet address? updateBalance?
                 let date = yyyy + '-' + mm + '-' + dd;
                 let time = h + ':' + m;
                 let body = {

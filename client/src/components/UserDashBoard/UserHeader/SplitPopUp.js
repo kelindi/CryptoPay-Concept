@@ -35,7 +35,7 @@ class SplitPopUp extends Component {
     };
 
     pasteOption = (key, event) => {
-        // console.log(event.target.value)
+        console.log(key)
         // this.setState((this.setState({filteredFriends: []}, this.setState({nameFilled: true}, this.setMoneyReceiver(key, event)))),  this.setShowResult(key, false))
         // Update money reciever
         let receiverList = this.state.moneyReceiver
@@ -88,10 +88,12 @@ class SplitPopUp extends Component {
     }
 
     percentValidation = (key, event) => {
+        console.log(key)
         const percent = event.target.value
         let percentVal = +percent
         console.log(percentVal)
         let p = this.state.percentages
+        console.log(p)
         if(!isNaN(percentVal)) {
             p[key] = percentVal
         } else {
@@ -144,11 +146,15 @@ class SplitPopUp extends Component {
         const numFriends = this.state.numFriends
         // console.log(numFriends)
 
+        const percentages = this.state.percentages
+        percentages[key] = 0
+
         const friendFields = this.state.friendFields
+        console.log(key)
         friendFields[key] = (
             <NewUserField
                 global={this.props.global}
-                key={this.state.keys[this.state.numFriends]}
+                uid={key}
                 moneyReceiver={this.state.moneyReceiver}
                 pasteOption={this.pasteOption}
                 percentValidation={this.percentValidation}
@@ -160,7 +166,8 @@ class SplitPopUp extends Component {
             keys: keys,
             numFriends:this.state.numFriends+1,
             filteredFriends: filteredFriends,
-            friendFields: friendFields
+            friendFields: friendFields,
+            percentages: percentages
         })
     }
 
