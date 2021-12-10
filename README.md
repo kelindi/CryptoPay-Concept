@@ -6,7 +6,7 @@ Third Party Libraries Used: Tailwind, React
 
 Additional Requirements: Metamask Chrome plug-in - a client for generating cryptocurrency wallet addresses and connecting it to CryptoPay
 
-## URL: 
+## URL:  https://crypt0pay.herokuapp.com/
 
 
 # User Functionalities
@@ -18,9 +18,11 @@ Any User can login to their CryptoPay account by filling in their login credenti
 users access to their dashboard. If they are an admin, they are redirected to the Admin Dashboard otherwise they are redirected to the User Dashboard.
 
 If the user does not have an existing account, they can create a new account by clicking the "Create One!" option in the login page. This redirects the 
-user to the registration page where they can fill in the details to register themselves.
+user to the registration page where they can fill in the details to register themselves. One feature that we have implemeted is that we require the user to
+have a strong password with specific type of characters a must. In case they don't have that in their password, the page lets them know exactly what they 
+are missing in the password.
 
-NOTE: If the user does not have the chrome extension "Metamask" installed, they will be redirected to a page requesting them to install "Metamask". They 
+NOTE: If the user does not have the chrome extension "Metamask" installed, they will be redirected to a page with a link requesting them to install "Metamask". They 
 will also need to register themselves and login to "Metamask" before logging in to CryptoPay.
 
 NOTE:
@@ -45,12 +47,13 @@ The button also deducts (and reflects on the dashboard) the amount sent to the f
 The "Request" button allows the user to enter the username of the person they are requesting money from along with the amount.
 It has to be noted that the user can only request money from their friends. If they wish to request from others, they need to befriend them on the application first.
 
-The button generates outgoing requests and displays them on the "User Feed" section (explained later).
+The button generates outgoing requests and displays them on the "User Feed" section (explained later) upojn page refresh.
 
 #### The Split Button
-The "Split" option allows the user to split the money between mulitple users based on percentage they owe the user before sending the money requests to the participating friends.
+The "Split" option allows the user to split the money between mulitple users based on percentage. The User can use the "+" button to add more friends.
+Thhe user also has an option to choose if they want to "Request" for money or "Send" money to the users entered. 
 
-The button generates outgoing requests and displays them on the "User Feed" section
+The button generates outgoing requests and displays them on the "User Feed" section upon page refresh.
 
 
 ### The User Feed
@@ -73,6 +76,10 @@ The Users can filter the listed transactions by one or more than one criteria by
 Doing so, they will be able to see the filtered transactions. They can search by Destination (username), Amount, Date, TIme and ID (wallet-address). 
 
 #### Notifications
+The notification icon at the top of the screen, when clicked, displays all the incoming friend requests that the user has. The user can accept or reject the friend requests.
+
+#### LogOut 
+The Log out button next to the notifications button allows the user to end their current session and log out of their account.
 
 # Admin Functionality
 ## Admin Dashboard
