@@ -173,6 +173,7 @@ class UserHeader extends Component {
         ) : null}
         {this.state.splitOpen ? (
           <SplitPopUp
+            sendMoney={this.props.sendMoney}
             currentUser={this.state.currentUser}
             friendsList={this.props.global.friendsList}
             //   updateBalance={this.changeBalance}

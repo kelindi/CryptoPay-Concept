@@ -39,7 +39,7 @@ class SendPopUp extends Component {
         if(this.state.validAmount && this.state.nameFilled){
             // Trigger a transaction
             // is currentUser an object or id
-            // if (this.props.global.userBalance - this.state.amount >= 0) {
+            if (this.props.global.userBalance - this.state.amount >= 0) {
                 // update the balance  (NEEDS TO BE CONNECTED TO METAMASK in USERHEADER?USERDASHBOARD)
                 // this.props.updateBalance(this.state.amount)
                 let {status, data} = await cPayRequest('/api/user/'+ this.state.currentUser +'/friends', 'get');
@@ -70,9 +70,9 @@ class SendPopUp extends Component {
 
                 // if(status==)
                 // backend call to update transactions
-            // } else {
-            //     alert("Not enough balance!")
-            // }
+            } else {
+                alert("Not enough balance!")
+            }
 
             // minimize the pop up
             this.props.minimizeSend()

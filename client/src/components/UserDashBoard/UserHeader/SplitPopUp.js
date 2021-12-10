@@ -140,6 +140,7 @@ class SplitPopUp extends Component {
                     let m = String(today.getMinutes()).padStart(2, '0');
                     // reciever's waller address
                     let rWalletAddress = data.filter(friends => (friends.userName.toString().includes(Object.values(this.state.moneyReceiver)[i].toString())))[0].walletAddress
+                    this.props.sendMoney(rWalletAddress, this.state.amount)
                     // where does ayush need this wallet address? updateBalance?
                     let date = yyyy + '-' + mm + '-' + dd;
                     let time = h + ':' + m;
