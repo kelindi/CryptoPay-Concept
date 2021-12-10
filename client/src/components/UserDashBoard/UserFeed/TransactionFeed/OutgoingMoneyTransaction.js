@@ -6,9 +6,12 @@ class OutgoingMoneyRequest extends Component{
     }
 
     handleRescind = (request) => {
+        console.log(request)
         const newRequests = this.props.global.sentMoneyRequests.filter(r => {
             return r !== request
         })
+        // deleting outgoing money request from database
+        // first get all money requests, then extract the id of the request
         this.setState({
             incomingRequests: newRequests
         })
