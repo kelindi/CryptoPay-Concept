@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { uuid } from "uuidv4";
 import NewUserField from './NewUserField';
+import cPayRequest from "../../../CryptoPayClient";
  
 class SplitPopUp extends Component {
     constructor(props) {
@@ -10,7 +11,7 @@ class SplitPopUp extends Component {
             moneyReceiver: {},
             percentages: {},
             validAmount: false,
-            currentUser: this.props.currentUser,
+            currentUser: this.props.currentUser.userName,
             userFriends: this.props.friendsList,
             filteredFriends: this.props.friendsList,
             showResults: false,
@@ -58,7 +59,8 @@ class SplitPopUp extends Component {
         // this.setState({filteredFriends: fFriends})
     } 
 
-    splitMoney = () => {
+    sendMoney = async () => {
+        // copy this function for request as well
         let validPercent = false
         let percentages =  Object.values(this.state.percentages)
         let sum = percentages.reduce((a, b) => a + b, 0)
@@ -69,7 +71,49 @@ class SplitPopUp extends Component {
         console.log(this.state.validAmount)
         console.log(validPercent)
         if(this.state.validAmount && this.state.nameFilled && validPercent){
-            this.props.updateBalance(this.state.amount*(100-sum)/100) //CHANGE THIS LATER TO SPLIT AMOUNT
+            // this.props.updateBalance(this.state.amount*(100-sum)/100) //CHANGE THIS LATER TO SPLIT AMOUNT
+            if (this.props.global.userBalance - this.state.amount >= 0) {
+                // update the balance  (NEEDS TO BE CONNECTED TO METAMASK in USERHEADER?USERDASHBOARD)
+                this.props.updateBalance(this.state.amount)
+                // find user friends
+                let {status, data} = await cPayRequest('/api/user/'+ this.state.currentUser +'/friends', 'get');
+
+                // generate send requests for all parties
+                for(let i=0; i<percentages.length; i++) {
+                    // amounts[i]*percentages[i]/100
+                    console.log(this.state.amount*percentages[i]/100)
+
+                    let today = new Date();
+                    let dd = String(today.getDate()).padStart(2, '0');
+                    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    let yyyy = today.getFullYear();
+
+                    let h = String(today.getHours())
+                    let m = String(today.getMinutes()).padStart(2, '0');
+                    // reciever's waller address
+                    let rWalletAddress = data.filter(friends => (friends.userName.toString().includes(Object.values(this.state.moneyReceiver)[i].toString())))[0].walletAddress
+                    // where does ayush need this wallet address? updateBalance?
+                    let date = yyyy + '-' + mm + '-' + dd;
+                    let time = h + ':' + m;
+                    let body = {
+                        originUser: this.state.currentUser,
+                        destinationUser: Object.values(this.state.moneyReceiver)[i],
+                        amount: this.state.amount,
+                        date: date,
+                        time: time
+                    }
+                    console.log(JSON.stringify(body))
+                    // Add it to database
+                    cPayRequest('/transaction', 'post', body)
+                }
+
+                
+
+                // if(status==)
+                // backend call to update transactions
+            } else {
+                alert("Not enough balance!")
+            }
             // request money from users
             for(let i=0; i<percentages.length; i++) {
                 // amounts[i]*percentages[i]/100
@@ -83,6 +127,13 @@ class SplitPopUp extends Component {
     amountValidation = (event) => {
         const amount = event.target.value
         if(!isNaN(+amount)) {
+            // if(amount > 0) {
+            //     this.setState({amount: amount}, this.setState({validAmount: true}))
+            // }
+            // else {
+            //     this.setState({amount: 0},
+            //         {validAmount: false})
+            // }
             this.setState({amount: amount}, this.setState({validAmount: true}))
         }
     }
@@ -100,19 +151,6 @@ class SplitPopUp extends Component {
             p[key] = 0
         }
         this.setState({percentages: p})
-    }
-
-    setMoneyReceiver = (key, event)=> {
-        // if(event.target.value === ''){
-        //     this.setState({moneyReceiver:event.target.value},this.setState({filteredFriends:[]}))
-        //     return
-        // }    
-        // let receiverList = this.state.moneyReceiver
-        // receiverList[key] = event.target.value
-        // this.setState({moneyReceiver: receiverList}, this.setFilteredFriends(key))   
-        // console.log(event.target.value)
-        // console.log(receiverList)
-        console.log("yo")
     }
 
     setShowResult = (key, val)=> {
@@ -150,7 +188,6 @@ class SplitPopUp extends Component {
         percentages[key] = 0
 
         const friendFields = this.state.friendFields
-        console.log(key)
         friendFields[key] = (
             <NewUserField
                 global={this.props.global}
@@ -255,7 +292,9 @@ class SplitPopUp extends Component {
                     </div>
                     <div className='w-1/1 mt-2 text-right'>
                         <button className='bg-green-500 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
-                        onClick={this.splitMoney}><b>Send</b></button>
+                        onClick={this.sendMoney}><b>Send</b></button>
+                        <button className='ml-1 bg-green-500 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
+                        onClick={this.sendMoney}><b>Request</b></button>
                         {/* This will trigger multiple backend calls which will reflect changes in transaction history, and user dashboard */}
                         <button className='ml-1 bg-red-500 hover:bg-red-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                         onClick={this.minimizePopUp}><b>Cancel</b></button>
