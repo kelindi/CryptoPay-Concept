@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AcceptMoneyReq from "./AcceptMoneyReq";
+import cPayRequest from "../../../../CryptoPayClient";
 import { async } from "q";
 
 class IncomingMoneyRequest extends Component {
@@ -30,6 +31,7 @@ class IncomingMoneyRequest extends Component {
     const newRequests = this.props.global.incomingMoneyRequests.filter((r) => {
       return r !== request;
     });
+    cPayRequest('/moneyRequests/' + request.id, 'delete')
     const newBalance = this.props.global.userBalance - amount;
     this.setState(
       {
