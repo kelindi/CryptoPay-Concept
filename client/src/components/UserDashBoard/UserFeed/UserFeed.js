@@ -129,6 +129,7 @@ class UserFeed extends Component {
                     key={uuid()}
                     request={request}
                     user={this.state.user}
+                    updateUser = {this.props.updateUser}
                     global={this.props.currentUser}
                     balance={this.props.currentUser.currentAccountBalance}
                     changeIncomingMoneyRequests={
@@ -152,7 +153,8 @@ class UserFeed extends Component {
                 <OutgoingMoneyRequest
                   key={uuid()}
                   request={request}
-                  global={this.props.global}
+                  global={this.props.currentUser}
+                  updateUser = {this.props.updateUser}
                   changeOutgoingMoneyRequests={
                     this.props.changeOutgoingMoneyRequests
                   }
