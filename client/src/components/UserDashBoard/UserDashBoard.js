@@ -66,7 +66,7 @@ class UserDashBoard extends Component {
 
   updateUserData = async () => {
     let {status,newUser} = await this.state.user.updateData();
-    let userBalance = await this.provider.getBalance(wallet);
+    let userBalance = await this.state.provider.getBalance(this.state.wallet);
     userBalance = ethers.utils.formatEther(userBalance);
     if(status ===200){
     this.setState({
