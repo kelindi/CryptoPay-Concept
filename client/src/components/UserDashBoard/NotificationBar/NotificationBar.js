@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { uuid } from "uuidv4";
 import Loading from "../../Loading";
 import FriendRequest from "../UserFeed/FriendRequest";
+import { logout } from "../../../CheckSession";
 
 class NotificationBar extends Component {
   constructor(props) {
@@ -34,12 +35,14 @@ class NotificationBar extends Component {
 
   logout = () => {
     this.setState({ redirect: true });
+    logout(this)
   };
 
   render() {
     if (this.state.redirect) {
-      alert("Logging out!")
-      // return <Redirect push to="/" />;
+      return (
+        <div className = "h-100vh w-1000px bg-blue-50 z-100"> You have been logged out, please refresh to log in</div>
+      )
     }
     const { global } = this.props;
     return (

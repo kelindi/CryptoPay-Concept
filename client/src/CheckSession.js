@@ -2,6 +2,22 @@ import { Redirect } from "react-router";
 import User from "./classes/User";
 import { ethers } from "ethers";
 import Admin from "./classes/Admin";
+
+export const logout = (app) => {
+    //const url = `https://crypt0pay.herokuapp.com/users/logout`
+    const url = `http://localhost:5000/users/logout`
+
+    fetch(url)
+        .then(res => {
+            app.setState({
+                currentUser: null
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
 export const checkSession = async (app) => {
     //const url = `https://crypt0pay.herokuapp.com/users/check-session`
     const url = `http://localhost:5000/users/check-session`
