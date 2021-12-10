@@ -79,14 +79,10 @@ class FriendsList extends Component {
     }
   };
 
-  handleSend = () => {
+  handleSend = async() => {
     //backend call to add money into the reciever's account
-    const newBalance = this.state.balance - this.state.amount;
-    console.log(newBalance);
-    this.setState({
-      balance: newBalance,
-    });
-    this.props.changeUserBalance(newBalance);
+    await this.props.sendMoney(this.state.selectedFriend.walletAddress.toString(), this.state.amount);
+    this.props.updateUserDate();
   };
 
   isUserNameFriend = (userName) => {

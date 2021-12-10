@@ -27,32 +27,16 @@ class IncomingMoneyRequest extends Component {
     });
   };
 
-  handleAccept = (amount, request) => {
-    const newRequests = this.props.global.incomingMoneyRequests.filter((r) => {
-      return r !== request;
-    });
-    cPayRequest('/moneyRequests/' + request.id, 'delete')
-    const newBalance = this.props.global.userBalance - amount;
-    this.setState(
-      {
-        balance: newBalance,
-      },
-      this.setState({
-        incomingRequests: newRequests,
-      })
-    );
-    this.props.changeIncomingMoneyRequests(newRequests);
-    this.props.changeUserBalance(newBalance);
+  handleAccept = async (amount, request) => {
+    await this.props.sendMoney(request.destinationWallet, parseFloat(amount))
+    await request.deleteRequest();
+    this.props.updateUser()
+    
   };
 
-  handleReject = (request) => {
-    const newRequests = this.props.global.incomingMoneyRequests.filter((r) => {
-      return r !== request;
-    });
-    this.setState({
-      incomingRequests: newRequests,
-    });
-    this.props.changeIncomingMoneyRequests(newRequests);
+  handleReject = async (request) => {
+    await request.deleteRequest()
+        this.props.updateUser()
   };
   // changeBalance(amount) {
   //     this.setState({balance: this.state.balance-amount})

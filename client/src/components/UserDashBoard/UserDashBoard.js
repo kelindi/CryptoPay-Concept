@@ -236,6 +236,7 @@ class UserDashBoard extends Component {
 
             <UserFeed
               key={this.state}
+              sendMoney={this.sendMoney}
               changeSentFriendRequests={this.changeSentFriendRequests}
               global={this.state}
               changeOutgoingMoneyRequests={this.changeSentMoneyRequests}
@@ -253,6 +254,7 @@ class UserDashBoard extends Component {
               updateUserData={this.updateUserData}
               key={this.state}
               user={this.state}
+              sendMoney={this.sendMoney}
               sendMoney={this.sendMoney}
             ></FriendsList>
           </div>

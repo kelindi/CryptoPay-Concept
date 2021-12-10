@@ -7,17 +7,9 @@ class OutgoingMoneyRequest extends Component{
     }
 
     handleRescind = async (request) => {
-        console.log(request)
-        const newRequests = this.props.global.sentMoneyRequests.filter(r => {
-            return r !== request
-        })
         // deleting outgoing money request from database
         await request.deleteRequest()
-
-        this.setState({
-            incomingRequests: newRequests
-        })
-        this.props.changeOutgoingMoneyRequests(newRequests)
+        this.props.updateUser()
     }
     
     render(){

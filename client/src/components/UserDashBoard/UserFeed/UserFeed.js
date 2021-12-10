@@ -127,6 +127,7 @@ class UserFeed extends Component {
                 this.props.currentUser.incomingMoneyRequests.map((request) => (
                   <IncomingMoneyRequest
                     key={uuid()}
+                    sendMoney={this.props.sendMoney}
                     request={request}
                     user={this.state.user}
                     updateUser = {this.props.updateUser}
