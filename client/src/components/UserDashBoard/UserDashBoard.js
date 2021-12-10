@@ -66,6 +66,8 @@ class UserDashBoard extends Component {
 
   updateUserData = async () => {
     let {status,newUser} = await this.state.user.updateData();
+    let userBalance = await this.provider.getBalance(wallet);
+    userBalance = ethers.utils.formatEther(userBalance);
     if(status ===200){
     this.setState({
       user: newUser,
@@ -76,6 +78,7 @@ class UserDashBoard extends Component {
       sentMoneyRequests: newUser.sentMoneyRequests,
       transactions: newUser.transactions,
       profilePicture: newUser.profilePicture,
+      userBalance: userBalance,
     });
   }
   };
@@ -113,6 +116,7 @@ class UserDashBoard extends Component {
     // hange errors and display messages accordingly
 
   }
+  this.updateUserData();
 }
 
   setUserData = async () => {
@@ -212,6 +216,7 @@ class UserDashBoard extends Component {
           <div className="w-10/12  h-screen flex-shrink-0 flex-grow-0">
             <NotificationBar
               key={this.state}
+              updateUser = {this.updateUserData}
               changeFriendsList={this.changeFriendsList}
               changeIncomingFriendRequests={this.changeIncomingFriendRequests}
               global={this.state}

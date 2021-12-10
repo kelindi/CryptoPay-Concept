@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { uuid } from "uuidv4";
+import cPayRequest from "../../../CryptoPayClient";
 import Loading from "../../Loading";
 import FriendRequest from "../UserFeed/FriendRequest";
 
@@ -13,23 +14,19 @@ class NotificationBar extends Component {
     };
   }
 
-  acceptRequest = (friend) => {
-    const newIncomingFriendRequests =
-      this.props.global.incomingFriendRequests.filter(
-        (request) => request !== friend
-      );
-    const newFriendsList = this.props.global.friendsList;
-    newFriendsList.push(friend);
-    this.props.changeIncomingFriendRequests(newIncomingFriendRequests);
-    this.props.changeFriendsList(newFriendsList);
+  acceptRequest = async (request) => {
+    let body = {
+      friendUserName: request.originUser,
+    }
+    await cPayRequest("/users/addFriend/"+this.props.user.userName.toString(),'post',body);
+    await request.deleteRequest()
+    this.props.updateUser();
   };
 
-  deleteRequest = (requestToRemove) => {
-    const newIncomingFriendRequests =
-      this.props.global.incomingFriendRequests.filter(
-        (request) => request !== requestToRemove
-      );
-    this.props.changeIncomingFriendRequests(newIncomingFriendRequests);
+  deleteRequest = async (request) => {
+    await request.deleteRequest()
+    this.props.updateUser();
+
   };
 
   logout = () => {
