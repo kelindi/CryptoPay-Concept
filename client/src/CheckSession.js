@@ -1,6 +1,7 @@
 import { Redirect } from "react-router";
 import User from "./classes/User";
 import { ethers } from "ethers";
+import Admin from "./classes/Admin";
 export const checkSession = async (app) => {
     //const url = `https://crypt0pay.herokuapp.com/users/check-session`
     const url = `http://localhost:5000/users/check-session`
@@ -10,8 +11,16 @@ export const checkSession = async (app) => {
           let json = await res.json();
           console.log(json)
           if (json && json.userName) {
-              let user = new User (json.firstName, json.lastName, json.userName)
-              app.setState({ currentUser: user})
+              if(json.isAdmin === false){
+                let user = new User (json.firstName, json.lastName, json.userName)
+                app.setState({ currentUser: user})
+              }
+              else{
+                let admin = new Admin (json.firstName, json.lastName)
+                app.setState({ currentUser:admin })
+                console.log(app.state.currentUser)
+              }
+              
           }
         }
       }

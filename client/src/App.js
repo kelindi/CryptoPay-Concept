@@ -22,8 +22,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentUser: null,
-      userData: null,
-      redirect: false
+      userData: null
     };
   }
   
@@ -105,12 +104,29 @@ class App extends React.Component {
 
   render() {
     const browserHistory = createBrowserHistory();
+    console.log(this.state.currentUser)
+    if (this.state.currentUser === null){}else{console.log(this.state.currentUser.constructor === Admin)}
     return (
       <BrowserRouter history={browserHistory}>
         <Switch>
         <Route
-            exact path={["/", "/login", "/userDashBoard"] /* any of these URLs are accepted. */ }
+            exact path={["/", "/login", "/userDashBoard", "/adminDashBoard", "/adminDashBoard/moneyRequests"] /* any of these URLs are accepted. */ }
             render={ () => (
+                // <div className="app">
+                //     { /* Different componenets rendered depending on if someone is logged in. */}
+                //     {!this.state.currentUser ? <Login
+                //     connectWallet={this.connectWallet}
+                //     setCurrentUser={this.setCurrentUser}
+                //     useApi={this.useApi}
+                //     setUserData={this.setUserData}
+                //   /> : <UserDashBoard
+                //   currentUser={this.state.currentUser}
+                //   useApi={this.useApi}
+                //   userData={this.state.currentUser}
+                //   updateData = {this.updateData}
+                //   connectWallet={this.connectWallet}
+                // />}
+                // </div>        
                 <div className="app">
                     { /* Different componenets rendered depending on if someone is logged in. */}
                     {!this.state.currentUser ? <Login
@@ -118,14 +134,17 @@ class App extends React.Component {
                     setCurrentUser={this.setCurrentUser}
                     useApi={this.useApi}
                     setUserData={this.setUserData}
-                  /> : <UserDashBoard
-                  currentUser={this.state.currentUser}
-                  useApi={this.useApi}
-                  userData={this.state.currentUser}
-                  updateData = {this.updateData}
-                  connectWallet={this.connectWallet}
-                />}
-                </div>                   // ... spread operator - provides all of the props in the props object
+                    />: this.state.currentUser.constructor === Admin ? <AdminDashBoard
+                    currentUser={this.state.currentUser}
+                    /> : <UserDashBoard
+                    currentUser={this.state.currentUser}
+                    useApi={this.useApi}
+                    userData={this.state.currentUser}
+                    updateData = {this.updateData}
+                    connectWallet={this.connectWallet}
+                    />}
+                </div>      
+                         
                 
             )}
         />

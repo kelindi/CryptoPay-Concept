@@ -81,6 +81,7 @@ class Login extends Component {
 
     await admin.updateAdminData();
     console.log(admin)
+    await this.props.setCurrentUser(admin);
     await this.props.setUserData(admin);
   };
 
@@ -113,12 +114,14 @@ class Login extends Component {
   render() {
     // if this.state.redirect is true, redirect to this path
     if (this.state.redirectUser) {
+      console.log("going to user")
       return <Redirect push to="/userDashBoard" />;
     }
     if(this.props.sessionStatus === true){
       return <Redirect push to="/userDashBoard" />;
     }
       if (this.state.redirectAdmin) {
+      console.log("going to admin")
       return <Redirect push to="/adminDashBoard" />;
     }
     return (

@@ -197,6 +197,7 @@ class UserTable extends Component {
   }
 
   render() {
+    console.log(this.state.users)
     return (
       <div className="font-mono">
         {this.state.showDeleteConfirm ? (
@@ -271,6 +272,7 @@ class UserTable extends Component {
 
           <tbody>
             {this.state.users.map((user) => {
+              if(user.userName !== "admin"){
               return (
                 <tr key={user.userName.toString()}>
                   <td className="px-0.5 py-1 border text-center">
@@ -295,7 +297,7 @@ class UserTable extends Component {
                     </div>
                   </td>
                   <td className="px-0.5 py-1 border text-center">
-                    {user.walletAddress.toString()}
+                    {user.walletAddress}
                   </td>
                   <td className="px-0.5 py-1 border text-center mx-2">
                     <button
@@ -330,6 +332,7 @@ class UserTable extends Component {
                   </td>
                 </tr>
               );
+            }
             })}
           </tbody>
         </table>
