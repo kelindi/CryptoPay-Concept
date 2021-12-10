@@ -59,6 +59,54 @@ class SplitPopUp extends Component {
         // this.setState({filteredFriends: fFriends})
     } 
 
+    requestMoney = async () => {
+        let validPercent = false
+        let percentages =  Object.values(this.state.percentages)
+        let sum = percentages.reduce((a, b) => a + b, 0)
+        console.log(percentages)
+        if(sum <= 100 && Object.values(this.state.percentages).length == Object.values(this.state.friendFields).length) {     
+            validPercent = true
+        }
+        // console.log(this.state.validAmount)
+        // console.log(validPercent)
+        if(this.state.validAmount && this.state.nameFilled && validPercent){
+            // get user friends
+            let {status, data} = await cPayRequest('/api/user/'+ this.state.currentUser +'/friends', 'get');
+            
+            for(let i=0; i<percentages.length; i++) {
+                let today = new Date();
+                let dd = String(today.getDate()).padStart(2, '0');
+                let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                let yyyy = String(today.getFullYear());
+
+                let h = String(today.getHours())
+                let m = String(today.getMinutes()).padStart(2, '0');
+
+                let date = yyyy + '/' + mm + '/' + dd;
+                console.log(date)
+                let time = h + ':' + m;
+
+                // find wallet address of reciever
+                let rWalletAddress = data.filter(friends => (friends.userName.toString().includes(Object.values(this.state.moneyReceiver)[i].toString())))[0].walletAddress
+
+                let body = {
+                    originUser: this.state.currentUser,
+                    destinationUser: Object.values(this.state.moneyReceiver)[i],
+                    destinationWallet: rWalletAddress,
+                    amount: this.state.amount*percentages[i]/100,
+                    date: date
+                }
+                console.log(JSON.stringify(body))
+                cPayRequest('/moneyRequests', 'post', body);
+                console.log("done")
+            }
+        }
+        else {
+            alert("Invalid entries")
+        }
+        this.minimizePopUp() 
+    }
+
     sendMoney = async () => {
         // copy this function for request as well
         let validPercent = false
@@ -68,8 +116,8 @@ class SplitPopUp extends Component {
         if(sum <= 100 && Object.values(this.state.percentages).length == Object.values(this.state.friendFields).length) {     
             validPercent = true
         }
-        console.log(this.state.validAmount)
-        console.log(validPercent)
+        // console.log(this.state.validAmount)
+        // console.log(validPercent)
         if(this.state.validAmount && this.state.nameFilled && validPercent){
             // this.props.updateBalance(this.state.amount*(100-sum)/100) //CHANGE THIS LATER TO SPLIT AMOUNT
             if (this.props.global.userBalance - this.state.amount >= 0) {
@@ -98,7 +146,7 @@ class SplitPopUp extends Component {
                     let body = {
                         originUser: this.state.currentUser,
                         destinationUser: Object.values(this.state.moneyReceiver)[i],
-                        amount: this.state.amount,
+                        amount: this.state.amount*percentages[i]/100,
                         date: date,
                         time: time
                     }
@@ -115,13 +163,15 @@ class SplitPopUp extends Component {
                 alert("Not enough balance!")
             }
             // request money from users
-            for(let i=0; i<percentages.length; i++) {
-                // amounts[i]*percentages[i]/100
-                console.log(this.state.amount*percentages[i]/100)
-            }
-
-            this.minimizePopUp()
-        }  
+            // for(let i=0; i<percentages.length; i++) {
+            //     // amounts[i]*percentages[i]/100
+            //     console.log(this.state.amount*percentages[i]/100)
+            // }
+        } 
+        else {
+            alert("Invalid entries")
+        }
+        this.minimizePopUp() 
     }
 
     amountValidation = (event) => {
@@ -294,7 +344,7 @@ class SplitPopUp extends Component {
                         <button className='bg-green-500 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                         onClick={this.sendMoney}><b>Send</b></button>
                         <button className='ml-1 bg-green-500 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
-                        onClick={this.sendMoney}><b>Request</b></button>
+                        onClick={this.requestMoney}><b>Request</b></button>
                         {/* This will trigger multiple backend calls which will reflect changes in transaction history, and user dashboard */}
                         <button className='ml-1 bg-red-500 hover:bg-red-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
                         onClick={this.minimizePopUp}><b>Cancel</b></button>
