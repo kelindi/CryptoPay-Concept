@@ -202,6 +202,7 @@ app.post("/api/register", mongoChecker, async (req, res) => {
       lastName: req.body.lastName,
       userName: req.body.userName.toLowerCase(),
       password: req.body.password,
+      walletAddress: "none"
     });
     
     try {
@@ -547,7 +548,7 @@ app.patch(
 // {
 //     "friendUserName": <userName>
 // }
-app.patch("/users/addFriend/:userName", mongoChecker, async (req, res) => {
+app.post("/users/addFriend/:userName", mongoChecker, async (req, res) => {
   try {
     const user = await User.findOne({
       userName: req.params.userName.toLowerCase(),
@@ -559,6 +560,13 @@ app.patch("/users/addFriend/:userName", mongoChecker, async (req, res) => {
     //add friendUserName objectId to friends array
     user.friends.push(friendUser._id);
     await user.save();
+    //find userName by friendUser._id
+    const friend = await User.findOne({
+      _id: friendUser._id,
+    });
+    friend.friends.push(user._id);
+    await friend.save();
+
     res.send(user);
   } catch (error) {
     if (error.name === "CastError") {
