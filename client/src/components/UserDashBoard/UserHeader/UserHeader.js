@@ -102,7 +102,7 @@ class UserHeader extends Component {
         <div className="w-48 h-48 flex-shrink-0 bg-red">
           <img
             className="shadow-2xl rounded-full h-2/3 w-2/3 m-4 p-4 hover:opacity-50"
-            src={this.state.pf} 
+            src={this.props.global.profilePicture}
             alt="Profile Photo"
             onMouseEnter={()=> this.setIsShown(true)}
             onMouseLeave={()=> this.setIsShown(false)}

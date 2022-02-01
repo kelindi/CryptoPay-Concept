@@ -122,73 +122,14 @@ app.use(
       expires: new Date(Date.now() + 3600000),
       httpOnly: true,
     },
-    // store the sessions on the database in production
-    // store: env === 'production' ? MongoStore.create({
-    //                                         mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/StudentAPI'
-    //                          }) : null
   })
 );
 
-// // A route to login and create a session
-// app.post("/users/login", (req, res) => {
-//     const email = req.body.email;
-//     const password = req.body.password;
-
-//     // log(email, password);
-//     // Use the static method on the User model to find a user
-//     // by their email and password
-//     User.findByEmailPassword(email, password)
-//         .then(user => {
-//             // Add the user's id to the session.
-//             // We can check later if this exists to ensure we are logged in.
-//             req.session.user = user._id;
-//             req.session.email = user.email; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
-//             res.send({ currentUser: user.email });
-//         })
-//         .catch(error => {
-//             res.status(400).send()
-//         });
-// });
-
-// // A route to logout a user
-// app.get("/users/logout", (req, res) => {
-//     // Remove the session
-//     req.session.destroy(error => {
-//         if (error) {
-//             res.status(500).send(error);
-//         } else {
-//             res.send()
-//         }
-//     });
-// });
-
-// // A route to check if a user is logged in on the session
-// app.get("/users/check-session", (req, res) => {
-//     if (env !== 'production' && USE_TEST_USER) { // test user on development environment.
-//         req.session.user = TEST_USER_ID;
-//         req.session.email = TEST_USER_EMAIL;
-//         res.send({ currentUser: TEST_USER_EMAIL })
-//         return;
-//     }
-
-//     if (req.session.user) {
-//         res.send({ currentUser: req.session.email });
-//     } else {
-//         res.status(401).send();
-//     }
-// });
 
 /*********************************************************/
 
 /*** API Routes below ************************************/
-// Register New User
-// expects a POST request with a JSON body with the following fields:
-// {
-//     firstName: <firstName>,
-//     lastName: <lastName>,
-//     userName: <userName>,
-//     password: <password>,
-// }
+
 
 app.post("/api/register", mongoChecker, async (req, res) => {
   log(req.body);

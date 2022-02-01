@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ethers } from "ethers";
 import User from "../classes/User";
 import { async } from "q";
+import {withRouter} from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -48,15 +49,15 @@ class Login extends Component {
         if (data.isAdmin) {
           // await this.props.setCurrentUser(data.currentUser);
           await this.setUpAdminData();
-          this.setState({ redirectAdmin: true });
+          // this.setState({ redirectAdmin: true });
+          this.props.history.push("/adminDashBoard");
           return;
         }
 
-        // await this.props.setCurrentUser(data.currentUser);
+        await this.props.setCurrentUser(data.currentUser);
         await this.setUpUserData();
 
-        this.setState({ redirectUser: true });
-
+        // this.setState({ redirectUser: true });
         return;
       }
     }
@@ -109,6 +110,7 @@ class Login extends Component {
     await user.updateData();
     await this.props.setCurrentUser(user);
     await this.props.setUserData(user);
+    this.props.history.push("/userDashBoard");
   };
 
   render() {
@@ -204,4 +206,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

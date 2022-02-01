@@ -56,8 +56,6 @@ class User {
       "/api/user/data/" + this.userName.toString(),
       "GET"
     );
-    console.log(status);
-    console.log(data);
     if (status === 200) {
       this.incomingMoneyRequests = [];
       data.incomingMoneyRequests.forEach(async (request) => {

@@ -79,9 +79,12 @@ class FriendsList extends Component {
     }
   };
 
-  handleSend = async() => {
+  handleSend = async () => {
     //backend call to add money into the reciever's account
-    await this.props.sendMoney(this.state.selectedFriend.walletAddress.toString(), this.state.amount);
+    await this.props.sendMoney(
+      this.state.selectedFriend.walletAddress.toString(),
+      this.state.amount
+    );
     this.props.updateUserDate();
   };
 
@@ -313,6 +316,7 @@ class FriendsList extends Component {
               className="bg-black opacity-80 w-full h-full"
               onClick={this.closeFriendPopUp}
             ></div>
+            <div className="w-full h-28"></div>
           </div>
         ) : null}
 
@@ -350,7 +354,8 @@ class FriendsList extends Component {
             </div>
             <div
               className={
-                "bg-gray-900 h-full " + (this.state.tab ? "hidden" : null)
+                "bg-gray-900 h-full overflow-scroll " +
+                (this.state.tab ? "hidden" : null)
               }
             >
               {this.props.user.friendsList === null ? (
@@ -402,13 +407,16 @@ class FriendsList extends Component {
                   </div>
                 ))
               )}
+              <div className="w-full h-28"></div>
             </div>
             <div
               className={
-                "bg-gray-900 h-full " + (this.state.tab ? null : "hidden")
+                "bg-gray-900 h-full overflow-scroll " +
+                (this.state.tab ? null : "hidden")
               }
             >
-              {this.props.user.sentFriendRequests === null ?                 <button
+              {this.props.user.sentFriendRequests === null ? (
+                <button
                   type="button"
                   class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-indigo-500 hover:bg-indigo-400 transition ease-in-out duration-150 cursor-not-allowed"
                   disabled=""
@@ -434,37 +442,39 @@ class FriendsList extends Component {
                     ></path>
                   </svg>
                   Processing...
-                </button> : (
-              this.props.user.sentFriendRequests.map((request) => (
-                <div
-                  key={uuid()}
-                  className="flex items-center px-4 py-3 hover:bg-warm-gray-400 hover:text-gray-900 text-gray-300 rounded-md relative"
-                >
-                  <img
-                    className="h-8 w-8 rounded-full object-cover mx-1"
-                    src={
-                      "https://avatars.dicebear.com/api/bottts/" +
-                      request.destinationUser +
-                      ".png"
-                    }
-                  />
-                  <p className="text-sm mx-2">
-                    <span className="font-bold block">
-                      {request.destinationUser}
-                    </span>
-                    <span>{request.destinationFirstName}</span>{" "}
-                    <span>{request.destinationLastName}</span>
-                  </p>
-                  <div className="ml-auto text-xs">
-                    <button
-                      onClick={() => console.log()}
-                      className="mx-1 px-3 py-1 bg-red-500 rounded-3xl text-white shadow-lg"
-                    >
-                      Cancel
-                    </button>
+                </button>
+              ) : (
+                this.props.user.sentFriendRequests.map((request) => (
+                  <div
+                    key={uuid()}
+                    className="flex items-center px-4 py-3 hover:bg-warm-gray-400 hover:text-gray-900 text-gray-300 rounded-md relative"
+                  >
+                    <img
+                      className="h-8 w-8 rounded-full object-cover mx-1"
+                      src={
+                        "https://avatars.dicebear.com/api/bottts/" +
+                        request.destinationUser +
+                        ".png"
+                      }
+                    />
+                    <p className="text-sm mx-2">
+                      <span className="font-bold block">
+                        {request.destinationUser}
+                      </span>
+                      <span>{request.destinationFirstName}</span>{" "}
+                      <span>{request.destinationLastName}</span>
+                    </p>
+                    <div className="ml-auto text-xs">
+                      <button
+                        onClick={() => console.log()}
+                        className="mx-1 px-3 py-1 bg-red-500 rounded-3xl text-white shadow-lg"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )))}
+                ))
+              )}
             </div>
             <div className="absolute bottom-5 w-full flex justify-center items-center">
               <button
