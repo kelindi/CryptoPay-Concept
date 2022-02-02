@@ -12,6 +12,9 @@ module.exports = {
         "gray":colors.gray,
         "true-gray":colors.trueGray,
         "warm-gray":colors.warmGray,
+        "custom":{
+          "100":"#FFFBF8",
+        }
       },
       keyframes: {
         "small-slow-ping": {

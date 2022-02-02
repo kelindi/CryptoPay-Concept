@@ -90,7 +90,7 @@ class UserHeader extends Component {
     // const { changeSentMoneyRequests } = this.props; // what does this do?
 
     return (
-      <div className="flex flex-row h-1/5 bg-white mt-2 mb-2 rounded-xl shadow-2xl">
+      <div className="flex flex-row h-52 bg-custom-100 mt-2 rounded-xl shadow-2xl mx-4">
         {/* 1) placeholder profile photo which can be modified by user
                     2) Display Name
                     3) Display Account Balance 
@@ -101,7 +101,7 @@ class UserHeader extends Component {
         {/* <img className='UserProfilePhoto' src={this.state.pF} alt="Profile Photo"/> */}
         <div className="w-48 h-48 flex-shrink-0 bg-red">
           <img
-            className="shadow-2xl rounded-full h-2/3 w-2/3 m-4 p-4 hover:opacity-50"
+            className="shadow-2xl rounded-full h-2/3 w-2/3 m-4 p-4"
             src={this.props.global.profilePicture}
             alt="Profile Photo"
             onMouseEnter={()=> this.setIsShown(true)}
@@ -124,33 +124,33 @@ class UserHeader extends Component {
           </div>
         </div>
 
-        <div className="ml-auto px-10 my-1 text-white">
+        <div className="ml-auto px-10 my-1 text-white flex-col flex items-center justify-center">
           {/* Buttons */}
           <button
-            className="w-24 h-10 my-1 bg-blue-500 hover:bg-green-500 rounded-3xl shadow-lg"
+            className="w-24 h-10 bg-blue-500 hover:bg-green-500 rounded-3xl shadow-xl"
             onClick={this.sendPopOn}
           >
             Send
           </button>
           <br></br>
           <button
-            className="w-24 h-10 my-1 bg-blue-500 rounded-3xl shadow-lg hover:bg-green-500"
+            className="w-24 h-10 bg-blue-500 rounded-3xl shadow-xl hover:bg-green-500"
             onClick={this.reqPop}
           >
             Request
           </button>
           <br></br>
-          <button
+          {/* <button
             className="w-24 h-10 my-1 bg-blue-500 rounded-3xl shadow-lg hover:bg-green-500"
             onClick={this.splitPopOn}
           >
             Split
-          </button>
+          </button> */}
         </div>
         {this.state.sendOpen ? (
           <SendPopUp
             sendMoney={this.props.sendMoney}
-            currentUser={this.state.currentUser}
+            currentUser={this.props.currentUser}
             friendsList={this.props.global.friendsList}
             updateBalance={this.changeBalance}
             minimizeSend={this.sendPopOff}

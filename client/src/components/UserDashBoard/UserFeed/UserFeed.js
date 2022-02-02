@@ -114,13 +114,13 @@ class UserFeed extends Component {
       changeUserBalance,
     } = this.props;
     return (
-      <div className="relative h-full flex flex-col">
-        <div className="bg-white rounded-xl w-auto bg-color m-4 flex flex-row shadow-2xl">
-          <div className="overflow-y-auto rounded-xl my-4 mx-2 w-full">
-            <div className="font-sans text-black text-xl font-light tracking-widest text-center ">
+      <div className="flex flex-col h-52 pb-4">
+        <div className="bg-custom-100 rounded-xl w-auto bg-color mx-4 flex flex-row shadow-2xl flex-none h-full">
+          <div className="rounded-xl my-1 mx-2 w-full">
+            <div className="font-sans text-black text-lg font-light tracking-widest text-center">
               INCOMING MONEY REQUESTS
             </div>
-            <div className="bg-white rorounded-xl">
+            <div className="overflow-y-auto h-3/4">
               {this.props.currentUser.incomingMoneyRequests === null ? (
                 <Loading></Loading>
               ) : (
@@ -130,7 +130,7 @@ class UserFeed extends Component {
                     sendMoney={this.props.sendMoney}
                     request={request}
                     user={this.state.user}
-                    updateUser = {this.props.updateUser}
+                    updateUser={this.props.updateUser}
                     global={this.props.currentUser}
                     balance={this.props.currentUser.currentAccountBalance}
                     changeIncomingMoneyRequests={
@@ -142,35 +142,32 @@ class UserFeed extends Component {
               )}
             </div>
           </div>
-
-          <div className=" overflow-y-auto rounded-xl my-4 mx-2 w-full">
-            <div className="font-sans text-black text-xl font-light tracking-widest text-center">
+          <div className="rounded-xl my-1 mx-2 w-full">
+            <div className="font-sans text-black text-lg font-light tracking-widest text-center">
               OUTGOING MONEY REQUESTS
             </div>
-            {this.props.currentUser.sentMoneyRequests === null ? (
-              <Loading></Loading>
-            ) : (
-              this.props.currentUser.sentMoneyRequests.map((request) => (
-                <OutgoingMoneyRequest
-                  key={uuid()}
-                  request={request}
-                  global={this.props.currentUser}
-                  updateUser = {this.props.updateUser}
-                  changeOutgoingMoneyRequests={
-                    this.props.changeOutgoingMoneyRequests
-                  }
-                />
-              ))
-            )}
+            <div className="overflow-y-auto h-3/4">
+              {this.props.currentUser.sentMoneyRequests === null ? (
+                <Loading></Loading>
+              ) : (
+                this.props.currentUser.sentMoneyRequests.map((request) => (
+                  <OutgoingMoneyRequest
+                    key={uuid()}
+                    request={request}
+                    global={this.props.currentUser}
+                    updateUser={this.props.updateUser}
+                    changeOutgoingMoneyRequests={ 
+                      this.props.changeOutgoingMoneyRequests
+                    }
+                  />
+                  
+                  
+                ))
+              )}
+            </div>
           </div>
-          {/* div for rest of the feed */}
-        </div>
 
-        <div className="bg-white rounded-xl shadow-2xl h-52 overflow-auto">
-        <div className="text-center text-3xl py-4">TRANSACTIONS</div>
-          <UserTransactionTable
-            user={this.props.currentUser}
-          ></UserTransactionTable>
+          {/* div for rest of the feed */}
         </div>
       </div>
     );

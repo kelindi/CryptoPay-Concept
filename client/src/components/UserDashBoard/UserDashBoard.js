@@ -10,6 +10,7 @@ import { Redirect } from "react-router";
 import { hexValue } from "@ethersproject/bytes";
 import cPayRequest from "../../CryptoPayClient";
 import { withRouter } from "react-router-dom";
+import UserTransactionTable from "./UserFeed/UserTransactions";
 class UserDashBoard extends Component {
   constructor(props) {
     super(props);
@@ -37,33 +38,40 @@ class UserDashBoard extends Component {
     };
   }
   componentDidMount = () => {
-    this.setUpWallet();
     if (this.props.currentUser !== null) {
-      this.setState({
-        user: this.props.currentUser,
-        userName: this.props.currentUser.userName,
-        firstName: this.props.currentUser.firstName,
-        lastName: this.props.currentUser.lastName,
-        friendsList: this.props.currentUser.friendsList,
-        profilePicture: this.props.currentUser.profilePicture},this.updateUserData)
-    }
-    else {
-      
-        this.setState({dataIsEmpty: true})
+      this.setUpWallet();
+      this.setState(
+        {
+          user: this.props.currentUser,
+          userName: this.props.currentUser.userName,
+          firstName: this.props.currentUser.firstName,
+          lastName: this.props.currentUser.lastName,
+          friendsList: this.props.currentUser.friendsList,
+          profilePicture: this.props.currentUser.profilePicture,
+        },
+        this.updateUserData
+      );
+    } else {
+      this.setState({ dataIsEmpty: true });
     }
   };
   componentDidUpdate = () => {
     if (this.props.currentUser !== null && this.state.dataIsEmpty === true) {
-      this.setState({
-        user: this.props.currentUser,
-        userName: this.props.currentUser.userName,
-        firstName: this.props.currentUser.firstName,
-        lastName: this.props.currentUser.lastName,
-        friendsList: this.props.currentUser.friendsList,
-        profilePicture: this.props.currentUser.profilePicture,
-        dataIsEmpty: false},this.updateUserData);
+      this.setUpWallet()
+      this.setState(
+        {
+          user: this.props.currentUser,
+          userName: this.props.currentUser.userName,
+          firstName: this.props.currentUser.firstName,
+          lastName: this.props.currentUser.lastName,
+          friendsList: this.props.currentUser.friendsList,
+          profilePicture: this.props.currentUser.profilePicture,
+          dataIsEmpty: false,
+        },
+        this.updateUserData
+      );
     }
-  }
+  };
 
   setUpWallet = async () => {
     const isWallet = await this.props.connectWallet();
@@ -77,8 +85,12 @@ class UserDashBoard extends Component {
     let wallet = await signer.getAddress();
     let body = {
       walletAddress: wallet,
-    }
-    await cPayRequest("/users/updateWalletAddress/"+this.state.user.userName.toString(),"post",body);
+    };
+    await cPayRequest(
+      "/users/updateWalletAddress/" + this.state.user.userName.toString(),
+      "post",
+      body
+    );
     let userBalance = await provider.getBalance(wallet);
     userBalance = ethers.utils.formatEther(userBalance);
     this.setState({
@@ -90,26 +102,25 @@ class UserDashBoard extends Component {
   };
 
   updateUserData = async () => {
-    let {status,newUser} = await this.state.user.updateData();
-    if (this.state.provider===null){
+    let { status, newUser } = await this.state.user.updateData();
+    if (this.state.provider === null) {
       alert("Please connect to a wallet and reload the page");
     }
     let userBalance = await this.state.provider.getBalance(this.state.wallet);
-    console.log(userBalance)
     userBalance = ethers.utils.formatEther(userBalance);
-    if(status ===200){
-    this.setState({
-      user: newUser,
-      friendsList: newUser.friendsList,
-      incomingFriendRequests: newUser.incomingFriendRequests,
-      sentFriendRequests: newUser.sentFriendRequests,
-      incomingMoneyRequests: newUser.incomingMoneyRequests,
-      sentMoneyRequests: newUser.sentMoneyRequests,
-      transactions: newUser.transactions,
-      profilePicture: newUser.profilePicture,
-      userBalance: userBalance,
-    });
-  }
+    if (status === 200) {
+      this.setState({
+        user: newUser,
+        friendsList: newUser.friendsList,
+        incomingFriendRequests: newUser.incomingFriendRequests,
+        sentFriendRequests: newUser.sentFriendRequests,
+        incomingMoneyRequests: newUser.incomingMoneyRequests,
+        sentMoneyRequests: newUser.sentMoneyRequests,
+        transactions: newUser.transactions,
+        profilePicture: newUser.profilePicture,
+        userBalance: userBalance,
+      });
+    }
   };
 
   setUpWeb3 = async () => {
@@ -128,25 +139,24 @@ class UserDashBoard extends Component {
     this.setUserData();
   };
 
-  sendMoney = async (address,amount) => {
-    if(!window.ethereum){
+  sendMoney = async (address, amount) => {
+    if (!window.ethereum) {
       alert("Please install a crypto wallet to use this feature");
       return;
     }
     try {
-    ethers.utils.getAddress(address);
-    const tx = await this.state.signer.sendTransaction({
-      to: address,
-      value: ethers.utils.parseEther(amount),
-    })
-  }
-  catch(err){
-    console.log(err);
-    // hange errors and display messages accordingly
-
-  }
-  this.updateUserData();
-}
+      ethers.utils.getAddress(address);
+      const tx = await this.state.signer.sendTransaction({
+        to: address,
+        value: ethers.utils.parseEther(amount),
+      });
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false
+    }
+    this.updateUserData();
+  };
 
   setUserData = async () => {
     let firstName = "firstName";
@@ -242,44 +252,57 @@ class UserDashBoard extends Component {
     return (
       <div className="font-serif bg-gray-900">
         <div className="flex flex-column h-100">
-          <div className="w-10/12 h-screen flex-shrink-0 flex-grow-0"> 
-            <div className="fixed w-10/12">
-              <NotificationBar
-                key={this.state}
-                updateUser = {this.updateUserData}
-                changeFriendsList={this.changeFriendsList}
-                changeIncomingFriendRequests={this.changeIncomingFriendRequests}
-                global={this.state}
-                user = {this.state}
-              ></NotificationBar>
-              <UserHeader
-              key={this.state}
-              changeSentMoneyRequests={this.changeSentMoneyRequests}
-              changeUserBalance={this.changeUserBalance}
-              global={this.state}
-              // backend={this.props.backend}
-              currentUser={this.state}
-              useApi={this.props.useApi}
-              userData={this.props.userData}
-              sendMoney={this.sendMoney}
-            ></UserHeader>
-            <UserFeed
-                key={this.state}
-                sendMoney={this.sendMoney}
-                changeSentFriendRequests={this.changeSentFriendRequests}
-                global={this.state}
-                changeOutgoingMoneyRequests={this.changeSentMoneyRequests}
-                changeIncomingMoneyRequests={this.changeIncomingMoneyRequests}
-                changeUserBalance={this.changeUserBalance}
-                changeFriendsList={this.changeFriendsList}
-                changeIncomingFriendRequests={this.changeIncomingFriendRequests}
-                currentUser={this.state}
-                updateUser = {this.updateUserData}
-              >
-              </UserFeed>
+          <div className="w-10/12 h-screen flex-shrink-0">
+            <div className="fixed flex flex-col w-10/12">
+            <NotificationBar
+                  key={this.state}
+                  updateUser={this.updateUserData}
+                  changeFriendsList={this.changeFriendsList}
+                  changeIncomingFriendRequests={
+                    this.changeIncomingFriendRequests
+                  }
+                  global={this.state}
+                  user={this.state}
+                  history={this.props.history}
+                ></NotificationBar>
+              <div className="h-54">
+                <UserHeader
+                  key={this.state}
+                  changeSentMoneyRequests={this.changeSentMoneyRequests}
+                  changeUserBalance={this.changeUserBalance}
+                  global={this.state}
+                  // backend={this.props.backend}
+                  currentUser={this.state}
+                  useApi={this.props.useApi}
+                  userData={this.props.userData}
+                  sendMoney={this.sendMoney}
+                ></UserHeader>
+              </div>
+              <div className="flex flex-col mt-4 h-52">
+                <UserFeed
+                  key={this.state}
+                  sendMoney={this.sendMoney}
+                  changeSentFriendRequests={this.changeSentFriendRequests}
+                  global={this.state}
+                  changeOutgoingMoneyRequests={this.changeSentMoneyRequests}
+                  changeIncomingMoneyRequests={this.changeIncomingMoneyRequests}
+                  changeUserBalance={this.changeUserBalance}
+                  changeFriendsList={this.changeFriendsList}
+                  changeIncomingFriendRequests={
+                    this.changeIncomingFriendRequests
+                  }
+                  currentUser={this.state}
+                  updateUser={this.updateUserData}
+                ></UserFeed>
+              </div>
+              <UserTransactionTable user={this.state}>
+                  
+              </UserTransactionTable>
+              {/* <div className="bg-custom-100 h-3  rounded-b-xl mx-4"></div> */}
             </div>
+            
           </div>
-          <div className="w-2/12 min-w-min flex-shrink-0 flex-grow-0">
+          <div className="w-2/12  min-w-min flex-shrink-0 flex-grow-0">
             <FriendsList
               changeSentFriendRequests={this.changeSentFriendRequests}
               updateUserData={this.updateUserData}

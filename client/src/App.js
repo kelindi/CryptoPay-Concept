@@ -25,6 +25,7 @@ class App extends React.Component {
     this.state = {
       currentUser: null,
       userData: null,
+      history: browserHistory,
     };
   }
 
@@ -104,7 +105,6 @@ class App extends React.Component {
   };
 
   render() {
-    console.log(this.state.currentUser);
     return (
       <Router history={browserHistory}>
         <Route
@@ -140,6 +140,7 @@ class App extends React.Component {
                 userData={this.state.currentUser}
                 updateData={this.updateData}
                 connectWallet={this.connectWallet}
+                history={browserHistory}
               />
             </div>
           )}

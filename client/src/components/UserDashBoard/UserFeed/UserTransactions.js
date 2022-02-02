@@ -92,13 +92,16 @@ class UserTransactionTable extends Component {
 
   render() {
     return (
-      <div className="font-sans font-light shadow-2xl static">
-        
-        
+      <div className="bg-custom-100 font-sans font-light rounded-xl transactionTable flex flex-col ml-4 mr-4 px-2 pb-2">
+        <div className="text-center text-3xl py-4 flex flex-none flex-col">TRANSACTIONS</div>
+        {this.props.user.transactions === null ? (
+          <Loading />
+        ):(
+        <div className="flex flex-col flex-grow overflow-y-auto">
         <table className="table-auto w-full">
-          <thead className = "sticky bg-white top-0 z-10">
+          <thead className = "sticky bg-custom-100 top-0 z-10">
             <tr>
-              <th className="px-4 py-2 border text-center">
+              <th className="px-4 py-2 border text-center sticky top-0">
                 Destination
                 <input
                   value={this.filterDestination}
@@ -106,7 +109,7 @@ class UserTransactionTable extends Component {
                   className="block self-center border rounded-md m-auto"
                 ></input>
               </th>
-              <th className="px-4 py-2 border text-center">
+              <th className="px-4 py-2 border text-center sticky top-0">
                 Amount
                 <input
                   value={this.filterAmount}
@@ -114,7 +117,7 @@ class UserTransactionTable extends Component {
                   className="block self-center border rounded-md m-auto"
                 ></input>
               </th>
-              <th className="px-4 py-2 border text-center">
+              <th className="px-4 py-2 border text-center sticky top-0">
                 Date
                 <input
                   value={this.filterDate}
@@ -122,7 +125,7 @@ class UserTransactionTable extends Component {
                   className="block self-center border rounded-md m-auto"
                 ></input>
               </th>
-              <th className="px-4 py-2 border text-center">
+              <th className="px-4 py-2 border text-center sticky top-0">
                 Time
                 <input
                   value={this.filterTime}
@@ -130,7 +133,7 @@ class UserTransactionTable extends Component {
                   className="block self-center border rounded-md m-auto"
                 ></input>
               </th>
-              <th className="px-4 py-2 border text-center">
+              <th className="px-4 py-2 border text-center sticky top-0">
                 ID
                 <input
                   value={this.filterID}
@@ -141,9 +144,7 @@ class UserTransactionTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.user.transactions === null ? (
-              <Loading></Loading>
-            ) : (
+            { 
             this.state.transactions.map((transaction) => {
               return (
                 <tr className = "border"key={transaction.id}>
@@ -164,11 +165,12 @@ class UserTransactionTable extends Component {
                   </td>
                 </tr>
               );
-            }))}
+            })}
           </tbody>
         </table>
-
-        
+        </div>
+        )
+          }
       </div>
     );
   }

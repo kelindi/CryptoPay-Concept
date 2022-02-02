@@ -23,13 +23,17 @@ export const checkSession = async (app) => {
     const url = `http://localhost:5000/users/check-session`
     try{
         let res = await fetch(url);
-        if (res.status === 200){
+        if (res.status === 401) {
+          console.log(app)
+          app.state.history.push("/login");
+        }
+        else if (res.status === 200){
           let json = await res.json();
-          console.log(json)
           if (json && json.userName) {
               if(json.isAdmin === false){
                 let user = new User (json.firstName, json.lastName, json.userName)
                 app.setState({ currentUser: user})
+                app.state.history.push("/userDashBoard");
               }
               else{
                 let admin = new Admin (json.firstName, json.lastName)
@@ -42,6 +46,7 @@ export const checkSession = async (app) => {
       }
       catch(error){
         console.log(error)
+
       }
     // fetch(url)
     // .then(res => {

@@ -31,8 +31,8 @@ class NotificationBar extends Component {
   };
 
   logout = () => {
-    this.setState({ redirect: true });
     logout(this)
+    this.props.history.push("/login");
   };
 
   render() {

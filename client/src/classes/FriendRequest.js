@@ -25,7 +25,6 @@ class FriendRequest {
   // My code 
   getIncomingFirstLastName = async() => {
     let {status, data} = await cPayRequest("/api/user/"+this.originUser,'GET');
-    console.log(data)
 		if(status === 200){
 			this.originFirstName = data.firstName
       this.originLastName = data.lastName

@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+.transactionTable {
+  height: calc(100vh - 32.5rem);
+}
 
 .App-logo {
   height: 40vmin;
