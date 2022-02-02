@@ -97,7 +97,7 @@ class UserTransactionTable extends Component {
         {this.props.user.transactions === null ? (
           <Loading />
         ):(
-        <div className="flex flex-col flex-grow overflow-y-auto">
+        <div className="flex flex-col flex-grow overflow-x-hidden overflow-y-auto">
         <table className="table-auto w-full">
           <thead className = "sticky bg-custom-100 top-0 z-10">
             <tr>
