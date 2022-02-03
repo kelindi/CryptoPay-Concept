@@ -115,11 +115,11 @@ class User {
           friend.firstName,
           friend.lastName,
           friend.userName,
-          friend.walletAddress,
-          friend.profilePicture,
+          friend.pf,
           friend.walletAddress
         );
         this.friendsList.push(f);
+        
       });
 
       this.transactions = [];

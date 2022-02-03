@@ -28,15 +28,14 @@ class IncomingMoneyRequest extends Component {
   };
 
   handleAccept = async (amount, request) => {
-    await this.props.sendMoney(request.destinationWallet, parseFloat(amount))
+    await this.props.sendMoney(request.destinationWallet, parseFloat(amount));
     await request.deleteRequest();
-    this.props.updateUser()
-    
+    this.props.updateUser();
   };
 
   handleReject = async (request) => {
-    await request.deleteRequest()
-        this.props.updateUser()
+    await request.deleteRequest();
+    this.props.updateUser();
   };
   // changeBalance(amount) {
   //     this.setState({balance: this.state.balance-amount})
@@ -62,39 +61,46 @@ class IncomingMoneyRequest extends Component {
     } = this.props;
 
     return (
-        <div className="h-12 flex items-center px-4 py-3 border-b bg-gray-100 rounded-xl shadow-md my-2">
-          <p className="text-gray-600 text-sm mx-2">
-            <span className="font-bold block">
-            <strong className = "uppercase">({request.originUser}) </strong>
-            <span className = "font-light text-sm ">{request.incomingFirstName}</span>{" "}
-            <span className = "font-light text-sm ">{request.incomingLastName}</span>
-            </span>
-            
-            <div className="px-1 float-left font-light">
-              <strong>Amount:</strong>{request.amount}{" "}
+      <div className="h-14 flex items-center px-4 py-3 bg-gray-800 rounded-xl my-2">
+        <img
+          className="h-10"
+          src={
+            "https://avatars.dicebear.com/api/bottts/" +
+            request.originUser +
+            ".png"
+          }
+        ></img>
+        <p className="text-custom-100 text-sm mx-2 w-28">
+          <span className="font-bold block">
+            <strong className="uppercase">{request.originUser} </strong>
+          </span>
+          <div>
+          <div className="font-light text-xs">
+              <b className=''>Sent:</b> {request.date.slice(0, 10)}{" "}
+          </div>
+          </div>
+        </p>
+        <div className="px-1 float-left font-light text-lg flex flex-row text-center w-16 h-full items-center">
+            <img class="h-full w-5 mx-2 inline" alt="ETH" src="https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg" size="24"></img>
+              {request.amount}
             </div>
-            <div className="px-1 font-light float-right">
-              {" "}
-              Sent on {request.date.slice(0, 10)}{" "}
-            </div>
-          </p>
-          <div className="ml-auto text-xs">
-            <button
-              className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white shadow-lg"
-              onClick={this.sendPopOn}
-            >
-              Accept
-            </button>
-            <button
-              className="mx-1 px-2 py-1 bg-red-500 rounded-3xl text-white shadow-lg"
-              onClick={() => this.handleReject(request)}
-            >
-              Reject
-            </button>
+        <div className="ml-auto text-xs">
+          <button
+            className="bg-warm-gray-400 hover:bg-warm-gray-500 text-gray-800 hover:text-custom-100 font-light py-1 px-5 rounded-full mr-2"
+            onClick={this.sendPopOn}
+          >
+            Accept
+          </button>
+          <button
+            className="ml-1 bg-black hover:bg-gray-700 text-gray-300 font-light py-1 px-5 rounded-full"
+            onClick={() => this.handleReject(request)}
+          >
+            Reject
+          </button>
         </div>
         {this.state.sendOpen ? (
           <AcceptMoneyReq
-            className = "rounded-xl"
+            className="rounded-xl"
             request={request}
             user={user}
             acceptRequest={this.handleAccept}

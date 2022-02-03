@@ -115,9 +115,9 @@ class UserFeed extends Component {
     } = this.props;
     return (
       <div className="flex flex-col h-52 pb-4">
-        <div className="bg-custom-100 rounded-xl w-auto bg-color mx-4 flex flex-row shadow-2xl flex-none h-full">
+        <div className="bg-gray-900 text-custom-100 rounded-xl w-auto bg-color mx-4 flex flex-row shadow-2xl flex-none h-full">
           <div className="rounded-xl my-1 mx-2 w-full">
-            <div className="font-sans text-black text-lg font-light tracking-widest text-center">
+            <div className="font-sans text-lg font-light tracking-widest text-center">
               INCOMING MONEY REQUESTS
             </div>
             <div className="overflow-y-auto h-3/4">
@@ -143,7 +143,7 @@ class UserFeed extends Component {
             </div>
           </div>
           <div className="rounded-xl my-1 mx-2 w-full">
-            <div className="font-sans text-black text-lg font-light tracking-widest text-center">
+            <div className="font-sans text-lg font-light tracking-widest text-center">
               OUTGOING MONEY REQUESTS
             </div>
             <div className="overflow-y-auto h-3/4">

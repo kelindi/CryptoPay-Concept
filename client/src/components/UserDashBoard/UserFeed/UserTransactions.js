@@ -92,75 +92,75 @@ class UserTransactionTable extends Component {
 
   render() {
     return (
-      <div className="bg-custom-100 font-sans font-light rounded-xl transactionTable flex flex-col ml-4 mr-4 px-2 pb-2">
+      <div className="bg-gray-900 text-custom-100 font-sans font-light rounded-xl transactionTable flex flex-col ml-4 mr-4 px-2 pb-2 shadow-l">
         <div className="text-center text-3xl py-4 flex flex-none flex-col">TRANSACTIONS</div>
         {this.props.user.transactions === null ? (
           <Loading />
         ):(
         <div className="flex flex-col flex-grow overflow-x-hidden overflow-y-auto">
-        <table className="table-auto w-full">
-          <thead className = "sticky bg-custom-100 top-0 z-10">
+        <table className="table-auto w-full border-gray-50">
+          <thead className = "sticky bg-gray-900 top-0">
             <tr>
-              <th className="px-4 py-2 border text-center sticky top-0">
+              <th className="px-4 py-2 text-center sticky top-0">
                 Destination
                 <input
                   value={this.filterDestination}
                   onChange={this.filterDestinationChange}
-                  className="block self-center border rounded-md m-auto"
+                  className="block self-center rounded-md m-auto bg-gray-800 outline-none"
                 ></input>
               </th>
-              <th className="px-4 py-2 border text-center sticky top-0">
+              <th className="px-2 py-2 text-center sticky top-0">
                 Amount
                 <input
                   value={this.filterAmount}
                   onChange={this.filterAmountChange}
-                  className="block self-center border rounded-md m-auto"
+                  className="block self-center rounded-md m-auto bg-gray-800 outline-none"
                 ></input>
               </th>
-              <th className="px-4 py-2 border text-center sticky top-0">
+              <th className="px-4 py-2 text-center sticky top-0">
                 Date
                 <input
                   value={this.filterDate}
                   onChange={this.filterDateChange}
-                  className="block self-center border rounded-md m-auto"
+                  className="block self-center rounded-md m-auto bg-gray-800 outline-none"
                 ></input>
               </th>
-              <th className="px-4 py-2 border text-center sticky top-0">
+              <th className="px-4 py-2 text-center sticky top-0">
                 Time
                 <input
                   value={this.filterTime}
                   onChange={this.filterTimeChange}
-                  className="block self-center border rounded-md m-auto"
+                  className="block self-center rounded-md m-auto bg-gray-800 outline-none"
                 ></input>
               </th>
-              <th className="px-4 py-2 border text-center sticky top-0">
+              <th className="px-4 py-2 text-center sticky top-0">
                 ID
                 <input
                   value={this.filterID}
                   onChange={this.filterIDChange}
-                  className="block self-center border rounded-md m-auto"
+                  className="block self-center rounded-md m-auto bg-gray-800 outline-none"
                 ></input>
               </th>
             </tr>
           </thead>
           <tbody>
             { 
-            this.state.transactions.map((transaction) => {
+            this.props.user.transactions.map((transaction) => {
               return (
-                <tr className = "border"key={transaction.id}>
-                  <td className="border px-4 py-2 text-center">
+                <tr key={transaction.id}>
+                  <td className="px-4 py-1 m-2 text-center">
                     {transaction.destinationUser}
                   </td>
-                  <td className="border px-4 py-2 text-center">
+                  <td className=" px-2 py-1 text-center">
                     {transaction.amount.toString()}
                   </td>
-                  <td className="border px-4 py-2 text-center">
+                  <td className=" px-4 py-1 text-center">
                     {transaction.date.slice(0, 10).toString()}
                   </td>
-                  <td className="border px-4 py-2 text-center">
+                  <td className=" px-4 py-1 text-center">
                     {transaction.time}
                   </td>
-                  <td className="border px-4 py-2 text-center">
+                  <td className=" px-4 py-1 text-center">
                     {transaction.id.toString()}
                   </td>
                 </tr>

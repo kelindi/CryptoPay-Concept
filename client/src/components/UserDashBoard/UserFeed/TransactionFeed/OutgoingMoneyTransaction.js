@@ -14,29 +14,30 @@ class OutgoingMoneyRequest extends Component{
     
     render(){
         const {request, changeOutgoingMoneyRequests, global} = this.props
-
+        
         return(
-        <div className="h-12 flex items-center px-4 py-3 border-b bg-gray-100 rounded-xl shadow-md my-2">
-          <p className="text-gray-600 text-sm mx-2">
+        <div className="h-14 flex items-center px-4 py-3 bg-gray-800 rounded-xl my-2">
+          <img className='h-10' src={"https://avatars.dicebear.com/api/bottts/" + request.destinationUser + ".png"}></img>
+          <p className="text-custom-100 text-sm mx-2 w-28">
             <span className="font-bold block">
-            <strong className = "uppercase">({request.destinationUser}) </strong>
-            <span className = "font-light text-sm ">{request.outgoingFirstName}</span>{" "}
-            <span className = "font-light text-sm ">{request.outgoingLastName}</span> {/* Try adding server calls for this later */}
+            <strong className = "uppercase">{request.destinationUser}</strong>
             </span>
-            
-            <div className="px-1 float-left font-light">
-              <strong>Amount:</strong>{request.amount}{" "}
+            <div>
+            <div className="font-light text-xs">
+              <b className=''>Sent:</b> {request.date.slice(0, 10)}{" "}
             </div>
-            <div className="px-1 font-light float-right">
-              {" "}
-              Sent on {request.date.slice(0, 10)}{" "}
             </div>
           </p>
+          
+          <div className="px-1 float-left font-light text-lg flex flex-row text-center w-16 h-full items-center">
+            <img class="h-full w-5 mx-2 inline" alt="ETH" src="https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg" size="24"></img>
+              {request.amount}
+            </div>
           <div className="ml-auto text-xs">
             <button
-              className="mx-1 px-2 py-1 bg-red-500 rounded-3xl text-white shadow-lg"
+              className="ml-1 bg-black hover:bg-gray-700 text-gray-300 font-light py-1 px-5 rounded-full"
               onClick={() => this.handleRescind(request)}>
-              Rescind
+              Cancel
             </button>
             </div>
         </div>

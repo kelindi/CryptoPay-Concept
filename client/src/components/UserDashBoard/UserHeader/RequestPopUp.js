@@ -2,161 +2,223 @@ import React, { Component } from "react";
 import Transaction from "../../../classes/Transaction";
 import MoneyRequest from "../../../classes/MoneyRequest";
 import cPayRequest from "../../../CryptoPayClient";
- 
+
 class RequestPopUp extends Component {
-    constructor(props){
-        super(props);
-        this.state ={
-            amount: '',
-            requestReceiver: '',
-            validAmount: false,
-            currentUser: this.props.currentUser.userName,
-            userFriends: this.props.global.friendsList,
-            filteredFriends: this.props.global.friendsList,
-            sentRequests: this.props.global.sentMoneyRequests,
-            showResults: false,
-            nameFilled: false,
-        }
-        this.amountValidation = this.amountValidation.bind(this)
-    }
-
-    minimizePopUp = () => {
-        this.props.minimizeSend();
-       };
-   
-    maxmizePopUp = () => {
-        this.props.maximizeSend();
+  constructor(props) {
+    super(props);
+    this.state = {
+      amount: "",
+      moneyReceiver: "",
+      validAmount: false,
+      currentUser: this.props.currentUser.userName,
+      filteredFriends: this.props.friendsList,
+      showResults: false,
+      nameFilled: false,
     };
+    this.amountValidation = this.amountValidation.bind(this);
+    // this.setMoneyReceiver = this.setMoneyReceiver(this)
+    // this.setFilteredFriends = this.setFilteredFriends(this)
+  }
 
-    setRequestReceiver = (event)=> {
-        this.setState({requestReceiver: event.target.value}, this.setFilteredFriends)   
+  sendRequest = async () => {
+    if (this.state.validAmount && this.state.nameFilled) {
+      let today = new Date();
+      let dd = String(today.getDate()).padStart(2, "0");
+      let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+      let yyyy = String(today.getFullYear());
+      let h = String(today.getHours());
+      let m = String(today.getMinutes()).padStart(2, "0");
+      let date = yyyy + "/" + mm + "/" + dd;
+      let time = h + ":" + m;
+      // find wallet address of reciever
+      let { status, data } = await cPayRequest(
+        "/api/user/" + this.props.global.userName + "/friends",
+        "get"
+      );
+      let rWalletAddress = data.filter((friends) =>
+        friends.userName
+          .toString()
+          .includes(this.state.moneyReceiver.toString())
+      )[0].walletAddress;
+
+      let body = {
+        originUser: this.props.global.userName,
+        destinationUser: this.state.moneyReceiver,
+        destinationWallet: rWalletAddress,
+        amount: this.state.amount,
+        date: date,
+      };
+      console.log(JSON.stringify(body));
+      cPayRequest("/moneyRequests", "post", body);
+      console.log("done");
     }
+    this.props.updateData()
+    this.props.minimizeSend();
+    // Add cases where not valid amount/username and display error on screen
+  };
 
-    setFilteredFriends = () => {
-        
-        if(this.state.requestReceiver === '') {
-            this.setState(({showResults: false}),this.setState({filteredFriends: []}))
-            
-        }
-        else{
-            this.setState({filteredFriends: this.state.userFriends.filter(friends => (friends.userName.toString().includes(this.state.requestReceiver.toString())))}, this.setState({showResults: true}))
-        }
-        
+  minimizePopUp = () => {
+    this.props.minimizeSend();
+  };
+
+  maxmizePopUp = () => {
+    this.props.maximizeSend();
+  };
+
+  amountValidation(event) {
+    const amount = event.target.value;
+    if (!isNaN(+amount)) {
+      this.setState({ amount: amount }, this.setState({ validAmount: true }));
     }
+  }
 
-    amountValidation(event){
-        const amount = event.target.value
-        if(!isNaN(+amount)) {
-            this.setState({amount: amount}, this.setState({validAmount: true}))
-        }
+  setMoneyReceiver = (event) => {
+    console.log(this.props.friendsList[0]);
+    if (
+      this.props.global.friendsList.filter(
+        (friend) => friend.userName === event.target.value
+      ).length > 0
+    ) {
+      this.setState(
+        { moneyReceiver: event.target.value, nameFilled: true },
+        this.setFilteredFriends
+      );
+    } else {
+      this.setState(
+        { moneyReceiver: event.target.value, nameFilled: false },
+        this.setFilteredFriends
+      );
     }
+  };
 
-    pasteOption = (event) => {
-        console.log(event.target.value)
-        this.setState(({showResults: false}), this.setState({filteredFriends: []}, this.setState({requestReceiver: event.target.value},
-            this.setState({nameFilled: true}))))
-    } 
-
-    sendRequest = async () => {
-        if(this.state.validAmount && this.state.nameFilled){
-            // const requesteeList = this.props.global.friendsList.filter(friend => {
-            //     return friend.userName === this.state.requestReceiver
-            // }) // what does this do?
-            // const requestee = requesteeList[0]
-            // const newReqList = this.props.global.sentMoneyRequests
-            // // CHANGE this to JSON body not a request
-            // const newReq = new MoneyRequest(this.state.currentUser, requestee, this.state.amount, "10-01-2021" )
-            // newReqList.push(newReq)
-            // this.setState({
-            //     sentRequests: newReqList
-            // })
-            // this.props.changeSentMoneyRequests(newReqList)
-            let today = new Date();
-            let dd = String(today.getDate()).padStart(2, '0');
-            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            let yyyy = String(today.getFullYear());
-
-            let h = String(today.getHours())
-            let m = String(today.getMinutes()).padStart(2, '0');
-
-            let date = yyyy + '/' + mm + '/' + dd;
-            console.log(date)
-            let time = h + ':' + m;
-            // find wallet address of reciever
-            let {status, data} = await cPayRequest('/api/user/'+ this.state.currentUser +'/friends', 'get');
-            let rWalletAddress = data.filter(friends => (friends.userName.toString().includes(this.state.requestReceiver.toString())))[0].walletAddress
-
-            let body = {
-                originUser: this.state.currentUser,
-                destinationUser: this.state.requestReceiver,
-                destinationWallet: rWalletAddress,
-                amount: this.state.amount,
-                date: date
-            }
-            console.log(JSON.stringify(body))
-            cPayRequest('/moneyRequests', 'post', body);
-            console.log("done")
-        } 
-        this.props.minimizeSend()
-        // Add cases where not valid amount/username and display error on screen
+  setFilteredFriends = () => {
+    if (this.state.moneyReceiver === "") {
+      this.setState(
+        { showResults: false },
+        this.setState({ filteredFriends: [] })
+      );
+    } else {
+      this.setState(
+        {
+          filteredFriends: this.props.global.friendsList.filter((friends) =>
+            friends.userName
+              .toString()
+              .includes(this.state.moneyReceiver.toString())
+          ),
+        },
+        this.setState({ showResults: true })
+      );
     }
+  };
 
-    handleClick = () => {
-     this.props.toggle();
-    };
+  pasteOption = (friend) => {
+    this.setState({
+      showResults: !this.state.showResults,
+      filteredFriends: [],
+      moneyReceiver: friend.userName,
+      nameFilled: true,
+    });
+  };
 
-    render() {
-        const {global, changeSentMoneyRequests} = this.props
-        return (
-            <div className="bg-transparent w-screen h-screen shadow-lg fixed left-0 z-50">
-            <div className="flex flex-col bg-black rounded md:w-1/3 w-1/2 h-auto shadow-lg fixed z-100 left-1/4 top-1/3 ">
-                <div className="rounded-t bg-gray-800 ">
-                    <div className="relative py-3 px-2 flex">
-                        <span className="font-semibold text-white md:text-base text-sm">Request Money</span>
-                        {/* <span className="ml-96" onClick={this.handleClick}>X</span> 
-                        make the x into a button, not span */}
+  render() {
+    return (
+        <div className="bg-transparent w-screen h-screen shadow-lg fixed top-0 left-0 z-50">
+        <div className="bg-gray-800 shadow-lg fixed z-100 left-1/3 top-1/4 rounded-xl">
+          <div className="">
+            <div className="relative py-1 px-2 flex flex-row text-center items-center justify-center">
+              <span className="font-medium tracking-wide text-custom-100 text-2xl">
+                Request
+              </span>
+            </div>
+          </div>
+          <div className="bg-gray-900 md:text-base text-sm p-2 h-48 rounded-b-xl">
+            <div className="">
+              <div className="flex text-center h-32">
+                <div className="inline h-1/3 mx-2 my-2">
+                  <input
+                    className={
+                      "bg-gray-800 text-gray-200 w-48 pl-2 py-1 outline-none z-75 shadow-xl " +
+                      (this.state.showResults && this.state.filteredFriends.length > 0 ? "rounded-t-md" : "rounded-md")
+                    }
+                    value={this.state.moneyReceiver}
+                    onClick={() =>
+                      this.setState({ showResults: !this.state.showResults })
+                    }
+                    onChange={this.setMoneyReceiver}
+                    placeholder="User"
+                  />
+                  {this.state.showResults && this.state.filteredFriends.length > 0 ? (
+                    <div className="relative">
+                      <div className="w-48 max-h-32 opacity-100 bg-gray-800 text-warm-gray-300 absolute z-75 rounded-b-md overflow-y-auto">
+                        <ul className="flex flex-col text-left">
+                          {this.state.filteredFriends.map((friend) => {
+                            return (
+                              <li
+                                className="hover:bg-warm-gray-300 hover:text-gray-800"
+                                onClick={() => this.pasteOption(friend)}
+                              >
+                                <img
+                                  class="h-8 w-8 rounded-full object-cover mx-1 inline"
+                                  src={friend.profilePicture}
+                                ></img>
+
+                                <button value={friend.userName}>
+                                  {friend.userName}
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                      <div
+                        className="w-screen h-screen top-0 left-0 fixed"
+                        onClick={() =>
+                          this.setState({
+                            showResults: !this.state.showResults,
+                          })
+                        }
+                      ></div>
                     </div>
-                    <div className="bg-gray-200 md:text-base text-sm border-b p-2 h-48">
-                        <div className='h-2/3'>
-                            <div className='h-1/3 mt-2'>
-                                Friend:
-                                <input className="ml-8 w-44 pl-2" value={this.state.requestReceiver} onChange={this.setRequestReceiver} placeholder="Friend"/>
-                                {this.state.showResults ? (
-                                    <div className='ml-20 w-44 pl-1 opacity-100 bg-white absolute'>
-                                        <ul className=''>
-                                        {this.state.filteredFriends.map((friend) =>
-                                        {
-                                            return (
-                                                <li><button onClick={this.pasteOption} value={friend.userName}>{friend.userName}</button></li>
-                                            )
-                                        })}
-                                    </ul>
-                                    </div>
-
-                                ) : null}
-                            </div>
-                            <div className='h-1/3'>
-                                <form>
-                                    <label>
-                                        Amount:
-                                        <input className="ml-5 w-44 pl-2" type="text"  value={this.state.amount} onChange={this.amountValidation} placeholder="Amount"/>
-                                    </label>                
-                                </form>
-                            </div>
-                        </div>
-                        <div className='w-1/1 mt-2 text-right'>
-                            <button className='bg-green-500 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
-                            onClick={this.sendRequest}>Request</button>
-                            <button className='ml-1 bg-red-500 hover:bg-red-300 text-black font-bold py-2 px-4 rounded-xl hover:border-blue rounded' 
-                            onClick={this.minimizePopUp}><b>Cancel</b></button>
-                        </div>
-                    </div>
+                  ) : null}
+                  {/* {this.state.searchOn ? <FriendFinder displayHTML={this.state.displayHTML}/>:null} */}
                 </div>
+
+                <div className="inline h-1/3 mx-2 my-2">
+                  <form>
+                    <label>
+                    <img className = "h-full w-4 inline"alt="ETH" src="https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg" size="24"/>
+                      <input
+                        className="bg-gray-800 text-gray-200 w-32 pl-2 py-1 outline-none rounded-md shadow-lg ml-2"
+                        type="text"
+                        value={this.state.amount}
+                        onChange={this.amountValidation}
+                        placeholder="amount"
+                      />
+                    </label>
+                  </form>
+                </div>
+              </div>
             </div>
-            <div className="bg-black opacity-80 w-full h-full"></div>
+            <div className="w-1/1 mt-2 text-right">
+              <button
+                className="bg-warm-gray-400 hover:bg-warm-gray-500 text-gray-800 hover:text-custom-100 font-light py-1 px-5 rounded-full"
+                onClick={this.sendRequest}
+              >
+                <b>Request</b>
+              </button>
+              <button
+                className="ml-1 bg-black hover:bg-gray-700 text-gray-300 font-light py-1 px-5 rounded-full"
+                onClick={this.minimizePopUp}
+              >
+                <b>Cancel</b>
+              </button>
             </div>
-        );
-    }
+          </div>
+        </div>
+        <div className="bg-black opacity-80 w-full h-full" onClick={this.minimizePopUp}></div>
+      </div>
+    );
+  }
 }
- 
+
 export default RequestPopUp;

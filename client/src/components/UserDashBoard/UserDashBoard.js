@@ -252,8 +252,8 @@ class UserDashBoard extends Component {
     return (
       <div className="font-serif bg-gray-900">
         <div className="flex flex-column h-100">
-          <div className="w-10/12 h-screen flex-shrink-0">
-            <div className="fixed flex flex-col w-10/12">
+          <div className="w-10/12 h-screen flex-shrink-0 bg-gray-800">
+            <div className="fixed flex flex-col w-10/12 rounded-tr-sm">
             <NotificationBar
                   key={this.state}
                   updateUser={this.updateUserData}
@@ -265,7 +265,7 @@ class UserDashBoard extends Component {
                   user={this.state}
                   history={this.props.history}
                 ></NotificationBar>
-              <div className="h-54">
+              <div className="h-54 rounded-tr-md">
                 <UserHeader
                   key={this.state}
                   changeSentMoneyRequests={this.changeSentMoneyRequests}
@@ -276,6 +276,7 @@ class UserDashBoard extends Component {
                   useApi={this.props.useApi}
                   userData={this.props.userData}
                   sendMoney={this.sendMoney}
+                  updateData= {this.updateUserData}
                 ></UserHeader>
               </div>
               <div className="flex flex-col mt-4 h-52">
@@ -308,7 +309,6 @@ class UserDashBoard extends Component {
               updateUserData={this.updateUserData}
               key={this.state}
               user={this.state}
-              sendMoney={this.sendMoney}
               sendMoney={this.sendMoney}
             ></FriendsList>
           </div>

@@ -90,18 +90,10 @@ class UserHeader extends Component {
     // const { changeSentMoneyRequests } = this.props; // what does this do?
 
     return (
-      <div className="flex flex-row h-52 bg-custom-100 mt-2 rounded-xl shadow-2xl mx-4">
-        {/* 1) placeholder profile photo which can be modified by user
-                    2) Display Name
-                    3) Display Account Balance 
-                    4) 3 buttons:
-                        - Send
-                        - Request
-                        - Split*/}
-        {/* <img className='UserProfilePhoto' src={this.state.pF} alt="Profile Photo"/> */}
+      <div className="flex flex-row h-52 bg-gray-900 mt-2 rounded-xl shadow-2xl mx-4 text-custom-100">
         <div className="w-48 h-48 flex-shrink-0 bg-red">
           <img
-            className="shadow-2xl rounded-full h-2/3 w-2/3 m-4 p-4"
+            className="shadow-2xl rounded-full h-2/3 w-2/3 m-4 p-4 bg-custom-100"
             src={this.props.global.profilePicture}
             alt="Profile Photo"
             onMouseEnter={()=> this.setIsShown(true)}
@@ -119,22 +111,22 @@ class UserHeader extends Component {
             {this.props.global.firstName} {this.props.global.lastName}
           </div>
           <div className="py-2 text-xl">
-            <b>Balance:</b>
-            {this.props.global.userBalance}
+          <img class="h-full w-8 mr-2 inline" alt="ETH" src="https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg" size="24"></img>
+            {parseFloat(this.props.global.userBalance).toFixed(4)}
           </div>
         </div>
 
-        <div className="ml-auto px-10 my-1 text-white flex-col flex items-center justify-center">
+        <div className="ml-auto px-10 my-1 text-gray-900 flex-col flex items-center justify-center">
           {/* Buttons */}
           <button
-            className="w-24 h-10 bg-blue-500 hover:bg-green-500 rounded-3xl shadow-xl"
+            className="w-24 h-10 bg-warm-gray-400 hover:bg-warm-gray-500 hover:text-custom-100 rounded-3xl shadow-xl"
             onClick={this.sendPopOn}
           >
             Send
           </button>
           <br></br>
           <button
-            className="w-24 h-10 bg-blue-500 rounded-3xl shadow-xl hover:bg-green-500"
+            className="w-24 h-10 bg-warm-gray-400 rounded-3xl shadow-xl hover:bg-warm-gray-500 hover:text-custom-100"
             onClick={this.reqPop}
           >
             Request
@@ -157,6 +149,7 @@ class UserHeader extends Component {
             maximizeSend={this.sendPopOn}
             global={this.props.global}
             useApi={this.props.useApi}
+            updateUserdata={this.props.updateUserdata}
           />
         ) : null}
         {this.state.requestOpen ? (
@@ -169,6 +162,7 @@ class UserHeader extends Component {
             changeSentMoneyRequests={this.props.changeSentMoneyRequests}
             global={this.props.global}
             useApi={this.props.useApi}
+            updateData={this.props.updateData}
           />
         ) : null}
         {this.state.splitOpen ? (

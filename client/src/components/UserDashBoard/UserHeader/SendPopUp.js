@@ -75,6 +75,7 @@ class SendPopUp extends Component {
           console.log(JSON.stringify(body));
           // Add it to database
           cPayRequest("/transaction", "post", body);
+          this.props.updateUserData()
         } else {
           alert("Transaction failed");
         }
@@ -142,20 +143,19 @@ class SendPopUp extends Component {
   };
 
   render() {
-    console.log(this.props.friendsList);
     return (
       <div className="bg-transparent w-screen h-screen shadow-lg fixed top-0 left-0 z-50">
-        <div className="bg-custom-100 shadow-lg fixed z-100 left-1/3 top-1/4 rounded-xl">
+        <div className="bg-gray-800 shadow-lg fixed z-100 left-1/3 top-1/4 rounded-xl">
           <div className="">
-            <div className="relative py-1 px-2 flex flex-row text-center items-center justify-center border-b">
-              <span className="font-medium tracking-wide text-gray-900 text-2xl">
+            <div className="relative py-1 px-2 flex flex-row text-center items-center justify-center">
+              <span className="font-medium tracking-wide text-custom-100 text-2xl">
                 Send
               </span>
             </div>
           </div>
-          <div className="bg-custom-100 md:text-base text-sm border-b p-2 h-48 rounded-b-xl">
+          <div className="bg-gray-900 md:text-base text-sm p-2 h-48 rounded-b-xl">
             <div className="">
-              <div className="flex text-center h-32 border-b">
+              <div className="flex text-center h-32">
                 <div className="inline h-1/3 mx-2 my-2">
                   <input
                     className={
@@ -223,13 +223,13 @@ class SendPopUp extends Component {
             </div>
             <div className="w-1/1 mt-2 text-right">
               <button
-                className="bg-blue-500 hover:bg-blue-600 text-white font-light py-1 px-5 rounded-full hover:border-blue"
+                className="bg-warm-gray-400 hover:bg-warm-gray-500 text-gray-800 hover:text-custom-100 font-light py-1 px-5 rounded-full"
                 onClick={this.sendMoney}
               >
                 <b>Send</b>
               </button>
               <button
-                className="ml-1 bg-gray-200 hover:bg-gray-300 text-black font-light py-1 px-5 rounded-full hover:border-blue"
+                className="ml-1 bg-black hover:bg-gray-700 text-gray-300 font-light py-1 px-5 rounded-full"
                 onClick={this.minimizePopUp}
               >
                 <b>Cancel</b>

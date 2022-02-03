@@ -18,33 +18,31 @@ class NotificationBar extends Component {
   acceptRequest = async (request) => {
     let body = {
       friendUserName: request.originUser,
-    }
-    await cPayRequest("/users/addFriend/"+this.props.user.userName.toString(),'post',body);
-    await request.deleteRequest()
+    };
+    await cPayRequest(
+      "/users/addFriend/" + this.props.user.userName.toString(),
+      "post",
+      body
+    );
+    await request.deleteRequest();
     this.props.updateUser();
   };
 
   deleteRequest = async (request) => {
-    await request.deleteRequest()
+    await request.deleteRequest();
     this.props.updateUser();
-
   };
 
   logout = () => {
-    logout(this)
+    logout(this);
     this.props.history.push("/login");
   };
 
   render() {
-    if (this.state.redirect) {
-      return (
-        <div className = "h-100vh w-1000px bg-blue-50 z-100"> You have been logged out, please refresh to log in</div>
-      )
-    }
     const { global } = this.props;
     return (
       <div className="font-sans">
-        <div className="bg-gray-800 h-10 py-2 relative">
+        <div className="bg-gray-900 h-10 py-2 relative">
           <div className="ml-auto relative">
             <div className="text-gray-300 float-left ml-6 text-lg">
               CryptoPay
@@ -85,56 +83,63 @@ class NotificationBar extends Component {
                     : "hidden")
                 }
               >
-                {this.props.user.incomingFriendRequests === null ? (0) :
-                this.props.user.incomingFriendRequests.length}
+                {this.props.user.incomingFriendRequests === null
+                  ? 0
+                  : this.props.user.incomingFriendRequests.length}
               </span>
-              <div className="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20 w-96">
-                {this.props.user.incomingFriendRequests === null ? ( <div> </div>
+              <div className="fixed mt-2 bg-gray-700 text-custom-100 rounded-md shadow-lg overflow-hidden w-96 z-100">
+                {this.props.user.incomingFriendRequests === null ? (
+                  <div> </div>
                 ) : this.state.showIncomingFriendRequests &&
                   this.props.user.incomingFriendRequests.length > 0 ? (
-                  <div className="py-2">
-
+                  <div>
+                  <div className="py-2 z-100">
                     {this.props.user.incomingFriendRequests.map((requestor) => (
-                      
-                      <div className="flex items-center px-4 py-3 border-b mx-2 bg-gray-100 rounded-xl shadow-lg my-1.5">
-                        <img
-                          className="h-8 w-8 rounded-full object-cover mx-1"
-                          src={
-                            "https://avatars.dicebear.com/api/bottts/" +
-                            requestor.originUser +
-                            ".png"
-                          }
-                        />
-                        <p className="text-gray-600 text-sm mx-2">
-                          <span className="font-bold block">
-                            {requestor.originUser}
-                          </span>
-                          <span className="font-light text-sm ">
-                            {requestor.originFirstName}
-                          </span>{" "}
-                          <span className="font-light text-sm ">
-                            {requestor.originLastName}
-                          </span>
-                        </p>
-                        
-                        <div className="ml-auto text-xs">
-                          <button
-                            onClick={() => this.acceptRequest(requestor)}
-                            className="mx-1 px-2 py-1 bg-blue-500 rounded-3xl text-white shadow-lg"
-                          >
-                            Confirm
-                          </button>
-                          <button
-                            onClick={() => this.deleteRequest(requestor)}
-                            className="mx-1 px-2 py-1 bg-gray-200 rounded-3xl shadow-lg"
-                          >
-                            Delete
-                          </button>
+                      <div>
+                        <div className="flex items-center px-4 py-3 mx-2 bg-gray-800 rounded-xl shadow-lg my-1.5">
+                          <img
+                            className="h-8 w-8 rounded-full object-cover mx-1"
+                            src={
+                              "https://avatars.dicebear.com/api/bottts/" +
+                              requestor.originUser +
+                              ".png"
+                            }
+                          />
+                          <p className="text-sm mx-2">
+                            <span className="font-bold block">
+                              {requestor.originUser}
+                            </span>
+                            <span className="font-light text-sm ">
+                              {requestor.originFirstName}
+                            </span>{" "}
+                            <span className="font-light text-sm ">
+                              {requestor.originLastName}
+                            </span>
+                          </p>
+
+                          <div className="ml-auto text-xs">
+                            <button
+                              onClick={() => this.acceptRequest(requestor)}
+                              className="bg-warm-gray-400 hover:bg-warm-gray-500 text-gray-800 hover:text-custom-100 font-light py-1 px-5 rounded-full"
+                            >
+                              Confirm
+                            </button>
+                            <button
+                              onClick={() => this.deleteRequest(requestor)}
+                              className="ml-1 bg-black hover:bg-gray-700 text-gray-300 font-light py-1 px-5 rounded-full"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
+                  <div className="top-0 left-0 w-screen h-screen z-50 bg-red-500"></div>
+                  </div>
                 ) : null}
+                
+                
               </div>
             </div>
           </div>
