@@ -6,12 +6,12 @@ import { async } from "q";
 class IncomingMoneyRequest extends Component {
   constructor(props) {
     super(props);
+    this.ref = React.createRef();
     this.state = {
-      // balance: this.props.request.destinationUser.currentAccountBalance,
-      // incomingRequests: this.props.request.destinationUser.requests
       incomingRequests: this.props.user.requests,
       balance: this.props.global.userBalance,
       user: this.props.user,
+      invisible: false,
     };
   }
 
@@ -28,27 +28,27 @@ class IncomingMoneyRequest extends Component {
   };
 
   handleAccept = async (amount, request) => {
-    await this.props.sendMoney(request.destinationWallet, parseFloat(amount));
+    if (parseFloat(amount) > this.props.balance) {
+      alert("You don't have enough funds");
+      this.sendPopOff();
+      return;
+    }
+    let sendStatus = await this.props.sendMoney(request.destinationWallet, amount.toString());
+    if (!sendStatus) {
+      alert("transaction failed");
+      this.sendPopOff();
+      return
+    }
     await request.deleteRequest();
     this.props.updateUser();
   };
 
   handleReject = async (request) => {
+    this.setState({invisible: true});
     await request.deleteRequest();
     this.props.updateUser();
   };
-  // changeBalance(amount) {
-  //     this.setState({balance: this.state.balance-amount})
-  // }
-
-  /*
-        On accept, 
-            set state for curr accepted req
-            Set state for showing pop up
-            set state for show popup to off
-        On cancel,
-            set state for show popup to off
-    */
+  
 
   render() {
     const {
@@ -61,7 +61,7 @@ class IncomingMoneyRequest extends Component {
     } = this.props;
 
     return (
-      <div className="h-14 flex items-center px-4 py-3 bg-gray-800 rounded-xl my-2">
+      <div className={"h-14 flex items-center px-4 py-3 bg-gray-800 rounded-xl my-2 "+ (this.state.invisible ? "hidden" : "")}>
         <img
           className="h-10"
           src={

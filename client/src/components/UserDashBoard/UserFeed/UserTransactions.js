@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { uuid } from "uuidv4";
 import Loading from "../../Loading";
 
 class UserTransactionTable extends Component {
@@ -39,10 +40,10 @@ class UserTransactionTable extends Component {
 
   filter() {
     if (this.props.user.transactions === null) {
+      console.log("waiting for transactions");
       return
     }
-    let masterTransactions = this.props.user.transactions
-    const filteredTransactions = masterTransactions.filter(
+    const filteredTransactions = this.props.user.transactions.filter(
       (t) =>
         t.originUser ===
           this.props.user.userName &&
@@ -59,8 +60,7 @@ class UserTransactionTable extends Component {
         (t.id.toString().includes(this.state.filterID.toString()) ||
           this.state.filterID === "")
     );
-    this.setState({ transactions: filteredTransactions }, () =>
-      console.log(this.state.transactions)
+    this.setState({ transactions: filteredTransactions }
     );
   }
 
@@ -95,7 +95,68 @@ class UserTransactionTable extends Component {
       <div className="bg-gray-900 text-custom-100 font-sans font-light rounded-xl transactionTable flex flex-col ml-4 mr-4 px-2 pb-2 shadow-l">
         <div className="text-center text-3xl py-4 flex flex-none flex-col">TRANSACTIONS</div>
         {this.props.user.transactions === null ? (
-          <Loading />
+          <div className="flex flex-col flex-grow overflow-x-hidden overflow-y-auto">
+          <table className="table-auto w-full border-gray-50">
+            <thead className = "sticky bg-gray-900 top-0">
+              <tr>
+                <th className="px-4 py-2 text-center sticky top-0">
+                  Destination
+                  <input
+                    className="block self-center rounded-md m-auto bg-gray-800 outline-none"
+                  ></input>
+                </th>
+                <th className="px-2 py-2 text-center sticky top-0">
+                  Amount
+                  <input
+                    className="block self-center rounded-md m-auto bg-gray-800 outline-none"
+                  ></input>
+                </th>
+                <th className="px-4 py-2 text-center sticky top-0">
+                  Date
+                  <input
+                    className="block self-center rounded-md m-auto bg-gray-800 outline-none"
+                  ></input>
+                </th>
+                <th className="px-4 py-2 text-center sticky top-0">
+                  Time
+                  <input
+                    className="block self-center rounded-md m-auto bg-gray-800 outline-none"
+                  ></input>
+                </th>
+                <th className="px-4 py-2 text-center sticky top-0">
+                  ID
+                  <input
+                    className="block self-center rounded-md m-auto bg-gray-800 outline-none"
+                  ></input>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="animate-pulse">
+              { 
+              Array.from({ length: 30 }).map((transaction) => {
+                return (
+                  <tr className="text-gray-800" key={uuid()}>
+                    <td className="px-4 py-1 m-2 text-center">
+                      <span className="bg-gray-800 text-gray-800 rounded-md">username</span>
+                    </td>
+                    <td className=" px-2 py-1 text-center ">
+                      <span className="bg-gray-800 text-gray-800 rounded-md">0.0000001</span>
+                    </td>
+                    <td className=" px-4 py-1 text-center ">
+                    <span className="bg-gray-800 text-gray-800 rounded-md">10-10-2020</span>
+                    </td>
+                    <td className=" px-4 py-1 text-center ">
+                    <span className="bg-gray-800 text-gray-800 rounded-md">18:00</span>
+                    </td>
+                    <td className=" px-4 py-1 text-center ">
+                    <span className="bg-gray-800 text-gray-800 rounded-md">61b13b58a7e1efa1c1f9835b</span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          </div>
         ):(
         <div className="flex flex-col flex-grow overflow-x-hidden overflow-y-auto">
         <table className="table-auto w-full border-gray-50">
@@ -106,7 +167,7 @@ class UserTransactionTable extends Component {
                 <input
                   value={this.filterDestination}
                   onChange={this.filterDestinationChange}
-                  className="block self-center rounded-md m-auto bg-gray-800 outline-none"
+                  className="block self-center rounded-md f m-auto bg-gray-800 outline-none"
                 ></input>
               </th>
               <th className="px-2 py-2 text-center sticky top-0">
@@ -145,7 +206,7 @@ class UserTransactionTable extends Component {
           </thead>
           <tbody>
             { 
-            this.props.user.transactions.map((transaction) => {
+            this.state.transactions.reverse().map((transaction) => {
               return (
                 <tr key={transaction.id}>
                   <td className="px-4 py-1 m-2 text-center">

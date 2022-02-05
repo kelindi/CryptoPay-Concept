@@ -142,7 +142,7 @@ class UserDashBoard extends Component {
   sendMoney = async (address, amount) => {
     if (!window.ethereum) {
       alert("Please install a crypto wallet to use this feature");
-      return;
+      return false;
     }
     try {
       ethers.utils.getAddress(address);
@@ -310,6 +310,7 @@ class UserDashBoard extends Component {
               key={this.state}
               user={this.state}
               sendMoney={this.sendMoney}
+              
             ></FriendsList>
           </div>
         </div>

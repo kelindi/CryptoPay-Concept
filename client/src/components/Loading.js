@@ -3,36 +3,82 @@ import React from 'react';
 class Loading extends React.Component {
     render() {
         return (
-          <div className='flex-row flex justify-center items-center'>
-            <div
-            type="button"
-            class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-black transition ease-in-out duration-150 cursor-not-allowed"
-            disabled=""
-          >
-            <span className='mx-3'>Loading</span>
-            <svg
-              class="animate-spin -ml-1 mr-3 h-5 w-5 text-black"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
+          <div>
+            <div className="loading">
+                  <div
+                    className={
+                      "h-14 flex items-center px-4 py-3 bg-gray-800 rounded-xl my-2 animate-pulse"
+                    }
+                  >
+                    <div
+                      className="h-10 w-10 rounded-full bg-gray-900"
+                    ></div>
+                    <p className="text-gray-900  text-sm mx-2 w-28">
+                      <span className="font-bold block bg-gray-900 rounded-md">
+                        <strong className="uppercase">
+                          username{" "}
+                        </strong>
+                      </span>
+                      <div>
+                        <div className="font-light text-xs rounded-md">
+                          <b className="bg-gray-900 text-gray-900 rounded-md">Sent:10-02-2020{" "}</b>
+                        </div>
+                      </div>
+                    </p>
+                    <div className="px-1 float-left font-light  text-gray-900 text-lg flex flex-row text-center w-16 h-full items-center">
+                      <div
+                        className="h-full bg-gray-900 w-5 mx-2 inline rounded-md"
+                        size="24"
+                      ></div>
+                      <span className="rounded-md bg-gray-900">
+                        0.00001
+                      </span>
+                    </div>
+                    <div className="ml-auto text-xs">
+                      
+                    </div>
+                  </div>
+          </div>
+          <div className="loading">
+                  <div
+                    className={
+                      "h-14 flex items-center px-4 py-3 bg-gray-800 rounded-xl my-2 animate-pulse"
+                      
+                    }
+                  >
+                    <div
+                      className="h-10 w-10 rounded-full bg-gray-900"
+                    ></div>
+                    <p className="text-gray-900  text-sm mx-2 w-28">
+                      <span className="font-bold block bg-gray-900 rounded-md">
+                        <strong className="uppercase">
+                          username{" "}
+                        </strong>
+                      </span>
+                      <div>
+                        <div className="font-light text-xs rounded-md">
+                          <b className="bg-gray-900 text-gray-900 rounded-md">Sent:10-02-2020{" "}</b>
+                        </div>
+                      </div>
+                    </p>
+                    <div className="px-1 float-left font-light  text-gray-900 text-lg flex flex-row text-center w-16 h-full items-center">
+                      <div
+                        className="h-full bg-gray-900 w-5 mx-2 inline rounded-md"
+                        size="24"
+                      ></div>
+                      <span className="rounded-md bg-gray-900">
+                        0.00001
+                      </span>
+                    </div>
+                    <div className="ml-auto text-xs">
+                      
+                    </div>
+                  </div>
           </div>
           </div>
         );
+          
+          
     }
     }
 

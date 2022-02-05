@@ -87,7 +87,7 @@ class NotificationBar extends Component {
                   ? 0
                   : this.props.user.incomingFriendRequests.length}
               </span>
-              <div className="fixed mt-2 bg-gray-700 text-custom-100 rounded-md shadow-lg overflow-hidden w-96 z-100">
+              <div className="absolute right-0 bg-gray-700 text-custom-100 rounded-md shadow-lg overflow-hidden w-96 z-100">
                 {this.props.user.incomingFriendRequests === null ? (
                   <div> </div>
                 ) : this.state.showIncomingFriendRequests &&
@@ -135,7 +135,7 @@ class NotificationBar extends Component {
                       </div>
                     ))}
                   </div>
-                  <div className="top-0 left-0 w-screen h-screen z-50 bg-red-500"></div>
+                  {/* <div className="right-0 top-0 left-0 w-screen h-screen z-50 bg-red-500"></div> */}
                   </div>
                 ) : null}
                 

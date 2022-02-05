@@ -132,7 +132,7 @@ class UserFeed extends Component {
                     user={this.state.user}
                     updateUser={this.props.updateUser}
                     global={this.props.currentUser}
-                    balance={this.props.currentUser.currentAccountBalance}
+                    balance={this.props.currentUser.userBalance}
                     changeIncomingMoneyRequests={
                       this.props.changeIncomingMoneyRequests
                     }
@@ -156,12 +156,10 @@ class UserFeed extends Component {
                     request={request}
                     global={this.props.currentUser}
                     updateUser={this.props.updateUser}
-                    changeOutgoingMoneyRequests={ 
+                    changeOutgoingMoneyRequests={
                       this.props.changeOutgoingMoneyRequests
                     }
                   />
-                  
-                  
                 ))
               )}
             </div>

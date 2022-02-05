@@ -22,9 +22,7 @@ class Login extends Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
-  componentDidMount() {
-    this.handleLogin()
-  }
+  
   handleUsernameChange(event) {
     this.setState({ userName: event.target.value });
   }
@@ -34,17 +32,13 @@ class Login extends Component {
   }
 
   handleLogin = async (event) => {
-    // event.preventDefault();
+    event.preventDefault();
 
-    // let login = {
-    //   userName: this.state.userName.toLowerCase(),
-    //   password: this.state.password,
-    // };
+    let login = {
+      userName: this.state.userName.toLowerCase(),
+      password: this.state.password,
+    };
 
-    let login  = {
-      userName:"user",
-      password:"user",
-    }
 
     const { status, data } = await this.props.useApi(
       "post",

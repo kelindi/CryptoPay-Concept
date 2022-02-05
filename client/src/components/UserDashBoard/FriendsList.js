@@ -23,6 +23,7 @@ class FriendsList extends Component {
   }
 
   deleteFriendRequest = async (request) => {
+    console.log(request)
     const { status, data } = await cPayRequest(
       "/friendRequests/"+request.id,
       "delete"
@@ -302,13 +303,14 @@ class FriendsList extends Component {
                       ) ? (
                         //   only friends not in friendlist have "Send Friend Request" Button
                         <div className="ml-auto ">
-                          {this.props.user.sentFriendRequests.some(
+                          {this.props.user.sentFriendRequests.find(
                             (request) => request.destinationUser === u.userName
                           ) ? (
                             <button
                               className="w-50 mx-1 px-3 py-1 bg-black hover:bg-gray-900 rounded-3xl text-custom-100"
                               onClick={() =>
-                                this.deleteFriendRequest(u.userName)
+                                this.deleteFriendRequest(this.props.user.sentFriendRequests.filter(
+                                  (request) => {return request.destinationUser === u.userName})[0])
                               }
                             >
                               <span>Cancel</span>
@@ -389,33 +391,28 @@ class FriendsList extends Component {
               }
             >
               {this.props.user.friendsList === null ? (
-                <button
-                  type="button"
-                  class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-indigo-500 hover:bg-indigo-400 transition ease-in-out duration-150 cursor-not-allowed"
-                  disabled=""
-                >
-                  <svg
-                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
+                Array.from({ length: 30 }).map((n) => (
+                  // list all friends
+                  <div>
+                  <div
+                    key={n}
+                    className="flex items-center px-3 py-2 h-16 bg-gray-900 rounded-md m-2 animate-pulse"
                   >
-                    <circle
-                      class="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      stroke-width="4"
-                    ></circle>
-                    <path
-                      class="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  Processing...
-                </button>
+                    <div
+                      className="h-8 w-8 rounded-full object-cover mx-1 bg-gray-800"
+                    />
+
+                    <p className="text-sm mx-2 text-gray-800">
+                      <span className="font-bold block bg-gray-800 rounded-md">Username</span>
+                      <span className="bg-gray-800 rounded-md">firstname</span>{" "}
+                      <span className="bg-gray-800 rounded-md">lastname</span>
+                    </p>
+                      
+                   
+                  </div>
+                  </div>
+                ))
+               
               ) : (
                 this.props.user.friendsList.map((friend) => (
                   // list all friends
@@ -446,33 +443,28 @@ class FriendsList extends Component {
               }
             >
               {this.props.user.sentFriendRequests === null ? (
-                <button
-                  type="button"
-                  class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-indigo-500 hover:bg-indigo-400 transition ease-in-out duration-150 cursor-not-allowed"
-                  disabled=""
-                >
-                  <svg
-                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
+                Array.from({ length: 30 }).map((n) => (
+                  // list all friends
+                  <div>
+                  <div
+                    key={n}
+                    className="flex items-center px-3 py-2 h-16 bg-gray-900 rounded-md m-2 animate-pulse"
                   >
-                    <circle
-                      class="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      stroke-width="4"
-                    ></circle>
-                    <path
-                      class="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  Processing...
-                </button>
+                    <div
+                      className="h-8 w-8 rounded-full object-cover mx-1 bg-gray-800"
+                    />
+
+                    <p className="text-sm mx-2 text-gray-800">
+                      <span className="font-bold block bg-gray-800 rounded-md">Username</span>
+                      <span className="bg-gray-800 rounded-md">firstname</span>{" "}
+                      <span className="bg-gray-800 rounded-md">lastname</span>
+                    </p>
+                      
+                   
+                  </div>
+                  </div>
+                ))
+                
               ) : (
                 this.props.user.sentFriendRequests.map((request) => (
                   <div
