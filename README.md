@@ -1,55 +1,11 @@
-# README    
+
+# CryptoPay
+![App Screenshot](https://i.imgur.com/Z8XnpR6.png)
 
 
-## URL:  https://crypt0pay.herokuapp.com/
+CryptoPay is a proof of concept  of a "venmo" like platform powered by web3. Users can currently make friends, send and receive money requests, and complete transactions with a metamask wallet.
 
-
-# User Functionalities
-## Account and Login
-Our platform has a login and a registration page to allow users to have a personal account, using which they can send friend requests to other accounts,
-receive friend requests from other accounts, and manage their wallets, and other profile information.
-
-Any User can login to their CryptoPay account by filling in their login credentials. These credentials are then authorized by our code before allowing 
-users access to their dashboard. If they are an admin, they are redirected to the Admin Dashboard otherwise they are redirected to the User Dashboard.
-
-If the user does not have an existing account, they can create a new account by clicking the "Create One!" option in the login page. This redirects the 
-user to the registration page where they can fill in the details to register themselves. One feature that we have implemeted is that we require the user to
-have a strong password with specific type of characters a must. In case they don't have that in their password, the page lets them know exactly what they 
-are missing in the password.
-
-NOTE: If the user does not have the chrome extension "Metamask" installed, they will be redirected to a page with a link requesting them to install "Metamask". They 
-will also need to register themselves and login to "Metamask" before logging in to CryptoPay.
-
-NOTE:
-User Login Credentials: username = "user", password = "user"
-Admin Login Credentials: username = "admin", password = "admin"
-
-## The User Dashboard
-Each user has a dedicated dashboard with the following sections:
-### The User Header:
-The User Header has the profile photo of the user, their information and three key functionalility buttons:
-- The "Send" Button
-- The "Request" Button
-- The "Split" Button
-
-#### The Send Button
-The "Send" button allows the user to enter the username of the person they are sending money to along with the amount.
-It has to be noted that that the user can only send money to their friends. If they wish to send money to others, they need to befriend them first on the application.
-
-The button also deducts (and reflects on the dashboard) the amount sent to the friend from the user's account balance.
-
-#### The Request Button
-The "Request" button allows the user to enter the username of the person they are requesting money from along with the amount.
-It has to be noted that the user can only request money from their friends. If they wish to request from others, they need to befriend them on the application first.
-
-The button generates outgoing requests and displays them on the "User Feed" section (explained later) upojn page refresh.
-
-#### The Split Button
-The "Split" option allows the user to split the money between mulitple users based on percentage. The User can use the "+" button to add more friends.
-Thhe user also has an option to choose if they want to "Request" for money or "Send" money to the users entered. 
-
-The button generates outgoing requests and displays them on the "User Feed" section upon page refresh.
-
+## User Functionality
 
 ### The User Feed
 The User Feed displays three sections of information for the convenience of the user:
@@ -76,27 +32,41 @@ The notification icon at the top of the screen, when clicked, displays all the i
 #### LogOut 
 The Log out button next to the notifications button allows the user to end their current session and log out of their account.
 
-# Admin Functionality
-## Admin Dashboard
 
-### Reports
-This section lists all the reports made by a user against another user, and the reason for the report. 
-An admin can view reports users have made and resolve them internally, and then mark the reports as resolved along with a comment.
+## Stack
 
-This tab also lists all the reports that have already been resolved, when they were resolved and the comment made while resolving it.
+**Client**
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Web3.js](https://img.shields.io/badge/web3.js-F16822?style=for-the-badge&logo=web3.js&logoColor=white)
+**Server**
+![Node](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 
-### Users
-This page displays all the users that have registered with CryptoPay with their first and last names, their username, and wallet address.
-The admin functionality to this section comprises of editing any users first name, last name, or their username.
-The admin can also filter the users using one or more parameters including first name, last name,  username and wallet address.
 
-### Money Requests
-This page lists all the pending money requests that have been made from the requestor user to the destination user. It lists the amount, date and a transaction ID.
-The admin can delete any pending money requests by clicking the "delete" button.
+## Getting started
 
-### Transactions
-This page lists all the successfull transactions made by origin user to destination user with the amount and transaction id.
-The admin can also filter the s using one or more parameters including origin (username), destination (username), amount, date, time, and transaction id.
+Install metamask and connect it to a test network (ie. Ropsten, Goerli)
+
+Install Dependencies
+```bash
+npm run start
+```
+Start the project 
+```bash
+npm run dev
+```
+## [Demo](https://crypt0pay.herokuapp.com/)
+Note: Application runs better on localhost (data loads quicker)
+
+
+
+
+
+
+
+
 
 
 
