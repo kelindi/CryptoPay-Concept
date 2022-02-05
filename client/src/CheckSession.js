@@ -5,7 +5,7 @@ import Admin from "./classes/Admin";
 
 export const logout = (app) => {
     const url = `https://crypt0pay.herokuapp.com/users/logout`
-    //const url = `http://localhost:5000/users/logout`
+    const url = `http://localhost:5000/users/logout`
 
     fetch(url)
         .then(res => {
@@ -20,7 +20,7 @@ export const logout = (app) => {
 
 export const checkSession = async (app) => {
     const url = `https://crypt0pay.herokuapp.com/users/check-session`
-    //const url = `http://localhost:5000/users/check-session`
+    const url = `http://localhost:5000/users/check-session`
     try{
         let res = await fetch(url);
         if (res.status === 401) {
